@@ -1,0 +1,331 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>分享收徒</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <style>
+        header {
+            width: 36rem;
+            height: 15rem;
+            background-image: url('../image/user/29.png');
+            background-size: 36rem 15rem;
+        }
+
+        section>div>p,
+        .myInvitation>div>p {
+            width: .5rem;
+            height: 1.5rem;
+            border-radius: 3px;
+            background: #FF4841;
+            margin-right: .5rem;
+            display: inline-block;
+        }
+
+        .how,
+        .rule,
+        .myInvitation {
+            width: 34rem;
+            margin: 1.5rem auto;
+            color: #333;
+            font-size: 1.5rem;
+        }
+
+        .method,
+        .method>div,
+        section>div,
+        .myInvitation,
+        .myInvitation>div,
+        .invit_num,
+        .invit_num>div {
+            display: flex;
+            align-items: center;
+        }
+
+        .method {
+            width: 34rem;
+            margin: auto;
+            justify-content: space-around;
+        }
+
+        .method>div {
+            flex-direction: column;
+        }
+
+        .method>div>img {
+            width: 4.5rem;
+        }
+
+        .method>div>span {
+            font-size: 1.2rem;
+            color: #333;
+            margin-top: 1rem;
+        }
+
+        .myInvitation {
+            justify-content: space-between;
+        }
+
+        .myInvitation>img {
+            width: 1.1rem;
+            height: 1.6rem;
+        }
+
+        .invit_num {
+            width: 34rem;
+            height: 10rem;
+            margin: auto;
+            margin-top: -0.8rem;
+            background-image: url('../image/user/35.png');
+            background-size: 34rem 10rem;
+        }
+
+        .invit_num>div {
+            width: 50%;
+            font-size: 1.5rem;
+            color: #fff;
+            flex-direction: column;
+        }
+
+        .invit_num>div>span {
+            margin: .5rem 0;
+        }
+
+        .invit_num>div>span:first-child {
+            font-size: 1.9rem;
+            font-weight: bold;
+        }
+
+        .foot {
+            width: 34rem;
+            margin: auto;
+            margin-top: -0.8rem;
+            font-size: 1.3rem;
+            color: #999;
+            text-align: justify;
+        }
+
+        .scroll-msg {
+            display: flex;
+            align-items: center;
+            width: 34rem;
+            margin: 1rem auto 0;
+            background: #f2f2f2;
+            border-radius: 6px;
+            box-sizing: border-box;
+            padding-left: 1rem;
+        }
+
+        .scroll-msg>img {
+            width: 1.9rem;
+            height: 1.8rem;
+        }
+
+        .scroll-msg>div {
+            margin-left: 1rem;
+            font-size: 1.3rem;
+            color: #FF4841;
+            height: 3rem;
+            line-height: 3rem;
+            overflow: hidden;
+            box-sizing: border-box;
+            padding-top: .1rem;
+        }
+
+        .scroll-msg>div>p>span {
+            /*display: block;
+            height: 3rem;
+            line-height: 3.2rem;*/
+        }
+
+        .scroll_active {
+            transition: all .3s
+        }
+
+        footer {
+            width: 36rem;
+            height: 100%;
+            position: absolute;
+            z-index: 999;
+            top: 0;
+            left: 0;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            background: rgba(0, 0, 0, 0);
+            opacity: 0.1;
+            transition: all .2s;
+            display: none;
+        }
+
+        .active {
+            display: flex;
+        }
+
+        .active_ {
+            background: rgba(0, 0, 0, .7);
+            opacity: 1;
+        }
+
+        #code {
+            width: 28rem;
+            height: 46rem;
+        }
+
+        #code+img {
+            width: 3.5rem;
+            margin-top: 2rem;
+        }
+
+        [v-cloack] {
+            display: none
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloack>
+        <header tapmode onclick="openCode()">
+        </header>
+        <section>
+            <div class="how">
+                <p></p>
+                <span>怎么邀请好友</span>
+            </div>
+            <div class="method">
+                <div tapmode onclick="openCode()">
+                    <img src="../image/user/30.png" alt="">
+                    <span>生成二维码分享</span>
+                </div>
+                <div>
+                    <img src="../image/user/31.png" alt="">
+                    <span>好友扫码进入</span>
+                </div>
+                <div>
+                    <img src="../image/user/32.png" alt="">
+                    <span>做任务得佣金</span>
+                </div>
+            </div>
+            <div class="scroll-msg">
+                <img src="../image/user/33.png" alt="">
+                <div class="scroll-div">
+                    <div>
+                        <p v-for="(item,index) of textList">
+                            <!-- <span>用户ID:{{item.user_id}}</span> -->
+                            <span>{{item.notes}}</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="myInvitation" tapmode onclick="_openWin('myteam')">
+                <div>
+                    <p></p>
+                    <span>我的邀请</span>
+                </div>
+                <img src="../image/user/25.png" alt="">
+            </div>
+            <div class="invit_num">
+                <div>
+                    <span id="todayteamsum">0</span>
+                    <span>新增</span>
+                </div>
+                <div>
+                    <span id="teamSum">0</span>
+                    <span>团队</span>
+                </div>
+            </div>
+            <div class="rule">
+                <p></p>
+                <span>规则说明</span>
+            </div>
+            <p class="foot">
+
+            </p>
+        </section>
+        <footer id="mask" v-show="showimg">
+            <img src="" alt="" id="code">
+            <img src="../image/main/28.png" alt="" tapmode onclick="close_()">
+        </footer>
+    </div>
+
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/app.js"></script>
+<script type="text/javascript" src="../script/fastclick.js"></script>
+<script type="text/javascript" src="../script/vue.min.js"></script>
+<script type="text/javascript" src="../script/md5.min.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+        window.FastClick && FastClick.attach(document.body);
+        vm = new Vue({
+            el: '#app',
+            data: {
+                textList: [],
+                showimg: false
+            }
+        })
+        text_slide() //公告上下轮播
+        fnInitData()
+    }
+
+    function fnInitData() {
+        var config = $api.getStorage('config');
+        var rules = config.task_setting.rules
+        $api.html($api.dom('.foot'), rules);
+
+        _ajax('api/index/taskMoneyLog', function(ret) {
+            // alert(JSON.stringify(ret))
+            if (ret.errCode == 1) {
+                vm.textList = ret.data.data
+                vm.textList.push(ret.data.data[0])
+            }
+        })
+        _ajax('api/user/teamSum', function(ret) {
+            //console.log(JSON.stringify(ret))
+            if (ret.errCode == 1) {
+                $api.html($api.byId('teamSum'), ret.data[0]);
+            }
+        })
+        _ajax('api/user/todayteamsum', function(ret) {
+            //console.log(JSON.stringify(ret))
+            if (ret.errCode == 1) {
+                $api.html($api.byId('todayteamsum'), ret.data[0]);
+            }
+        })
+    }
+
+    function openCode() {
+        UILoading();
+        _ajax('api/user/poster', function(ret) {
+            // console.log(JSON.stringify(ret))
+            if (ret.errCode == 1) {
+                $api.attr($api.byId('code'), 'src', ret.data);
+            }
+            setTimeout(function() {
+                vm.showimg = true;
+                $api.addCls($api.byId('mask'), 'active');
+                api.execScript({
+                    name: 'share',
+                    script: 'mask();'
+                });
+                $api.addCls($api.byId('mask'), 'active_');
+                UILoading_Close();
+            }, 1500)
+        })
+    }
+
+    function close_() {
+        $api.removeCls($api.byId('mask'), 'active');
+        api.execScript({
+            name: 'share',
+            script: 'mask_();'
+        });
+        $api.removeCls($api.byId('mask'), 'active_');
+    }
+</script>
+
+</html>

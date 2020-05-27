@@ -1,0 +1,199 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>消息类型列表</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <style>
+      body,html{
+        background: #f2f2f2;
+      }
+      ul{
+        width: 34rem;
+        margin: auto;
+
+      }
+      li .mid{
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 1.5rem;
+        color: #333;
+        height: 2.5rem;
+        padding-bottom: 5px;
+        border-bottom: 1px solid #f2f2f2;
+      }
+      li>div>span:last-child{
+        font-size: 1.3rem;
+        color: #999;
+      }
+      li{
+        box-sizing: border-box;
+        padding: 1rem;
+        background: #fff;
+        border-radius: 8px;
+        margin-top: 1rem;
+      }
+      li>p{
+        font-size: 1.4rem;
+        color: #666;
+        margin-top: 8px;
+      }
+      .active{
+
+        background: #FF435B !important;
+      }
+      li>div:first-child{
+        width: .6rem;
+        height: .6rem;
+        border-radius: 50%;
+        background: #fff;
+      }
+      li .mid .biaoji{
+        color: #FF8870;
+        font-size: 1.1rem;
+        width: 6rem;
+      }
+      li .mid .biaoji_{
+        width: 6rem;
+      }
+      footer{
+        display: none;
+      }
+      [v-cloak]{
+        display: none;
+      }
+    </style>
+</head>
+
+<body>
+  <div id="app" v-cloak>
+    <ul>
+      <li v-for="(item,index) of list" >
+        <div :class = "item.status==0? 'active':''"></div>
+        <div class="mid">
+          <span>消息通知</span>
+          <span>{{item.create_time | formData}}</span>
+          <span v-if="item.status==0" class="biaoji" @click="biaoji(item.id,index)">标记已读</span>
+          <span v-else class="biaoji_">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        </div>
+        <p>{{item.content}}</p>
+      </li>
+    </ul>
+    <footer>
+      <img src="../image/kong.png" style="display:block;width:7rem;margin:10rem auto;" alt="">
+    </footer>
+  </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/app.js"></script>
+<script type="text/javascript" src="../script/fastclick.js"></script>
+<script type="text/javascript" src="../script/vue.min.js"></script>
+<script type="text/javascript" src="../script/md5.min.js"></script>
+<script type="text/javascript">
+    var U_id;
+    apiready = function() {
+        window.FastClick && FastClick.attach(document.body);
+        UILoading(U_id)
+        vm = new Vue({
+          el:'#app',
+          data:{
+            list:[],
+            page:1,
+            current_page:1
+          },
+          filters:{
+            formData:function(value){
+              var time  = new Date(value*1000)
+              var year = time.getFullYear()
+              var month = time.getMonth()+1
+              var day  =time.getDate()
+              return  year+'-'+month+'-'+day
+            }
+          },
+          methods:{
+            openMessageType(){
+              _openWin('messagetype')
+            },
+            biaoji(id,index){
+
+              _ajax('api/index/setNews',function(ret){
+                if(ret.errCode==1){
+                  vm.list[index].status = 1
+                  api.execScript({
+                      name: 'main',
+                      frameName: 'messageList_frame',
+                      script: 'fnInitData();'
+                  });
+                  api.execScript({
+                      name: 'main',
+                      script: 'getbginfo();'
+                  });
+                }
+              },{
+                id:id
+              })
+            }
+          }
+        })
+        fnInitData()
+        initEventListenter(fnInitData)
+        api.setRefreshHeaderInfo({
+            loadingImg: 'widget://image/xiala.png',
+            bgColor: "#f2f2f2",
+            textColor: "#333",
+            textDown: '下拉刷新...',
+            textUp: '松开刷新...'
+        }, function(ret, err) {
+            fnInitData(1)
+            api.refreshHeaderLoadDone()
+        });
+    }
+    function fnInitData(n){
+    //  alert(type)
+    if(n){
+      vm.page=1;
+      vm.current_page=1
+    }
+      _ajax('api/index/news',function(ret){
+        console.log(JSON.stringify(ret))
+        if(ret.errCode==1){
+          if(n && ret.data.length>0){
+            vm.list = ret.data
+            vm.page = 2
+
+          }else{
+            vm.list = vm.list.concat(ret.data)
+            var listLength = vm.list.length + ''
+            //alert(vm.taskList.length)
+            vm.current_page = vm.list.length < 10 ? 1 : parseInt(listLength.substr(0, listLength.length - 1))+1;
+            if(vm.list.length%10 == 0){
+              vm.current_page -= 1
+            }
+            vm.page = vm.current_page += 1
+            UILoading_Close(U_id)
+            api.execScript({
+                name: 'main',
+                frameName: 'messageList_frame',
+                script: 'fnInitData();'
+            });
+          }
+        }else{
+          if(vm.list.length==0){
+            $api.css($api.dom('footer'), 'display:block');
+          }
+          UILoading_Close(U_id)
+        }
+
+      },{
+        type:api.pageParam.type,
+        p:vm.page
+      })
+    }
+</script>
+
+</html>

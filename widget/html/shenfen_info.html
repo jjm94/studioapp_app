@@ -1,0 +1,183 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>身份信息</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <style>
+        header{
+            height: 75px;
+            background: #fff;
+        }
+        header div{
+            position: absolute;
+            top: 34px;
+            box-sizing: border-box;
+            padding: 8px;
+            width: 60px;
+            height: 40px;
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-pack:center;
+            -webkit-justify-content:center;
+            justify-content: center;
+            -webkit-box-align:center;
+            -webkit-align-items:center;
+            align-items: center;
+        }
+        header div img{
+            height: 1.9rem;
+        }
+        header p{
+            font-size: 1.7rem;
+            font-weight: bold;
+            color: #333;
+            position: absolute;
+            top: 43px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        section>p{
+          font-size: 1.2rem;
+          color: #FF435B;
+          margin-left: 1rem;
+        }
+        section>div{
+          margin-top: 2rem;
+          width: 100%;
+          font-size: 1.5rem;
+          color: #333;
+        }
+        section>div>p{
+          box-sizing: border-box;
+          padding-left: 1rem;
+        }
+        section img{
+          width: 22rem;
+          height: 12rem;
+          display: block;
+          margin: 1.5rem auto;
+        }
+        footer{
+          margin:4rem auto;
+          height:4rem;
+          border-radius: 4rem;
+          width: 27rem;
+          line-height: 4rem;
+          text-align: center;
+          color: #fff;
+          font-size: 1.5rem;
+          background: -webkit-linear-gradient(right,#FDA96D 0%,#FF435B 100%);
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div tapmode onclick="closeWin()">
+            <img src="../image/return.png" alt="">
+        </div>
+        <p>身份信息</p>
+    </header>
+    <section>
+      <p>
+        *上传身份证照片时，请确保边框完整，内容清晰
+      </p>
+      <div>
+        <p>上传身份证正面</p>
+        <img tapmode onclick="upload(1)" id="img1" src="../image/zheng1.png" alt="">
+      </div>
+      <div>
+        <p>上传身份证反面</p>
+        <img tapmode onclick="upload(2)" id="img2" src="../image/zheng2.png" alt="">
+      </div>
+    </section>
+    <footer tapmode onclick="sub()">
+      提交
+    </footer>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/app.js"></script>
+<script type="text/javascript" src="../script/md5.min.js"></script>
+<script type="text/javascript">
+    var img1,img2
+    apiready = function() {
+
+    }
+
+    function closeWin(){
+        api.closeWin();
+    }
+    function upload(n){
+      api.actionSheet({
+          title: '上传身份证',
+          cancelTitle: '取消',
+          buttons: ['拍照', '相册']
+      }, function(ret, err) {
+          var index = ret.buttonIndex;
+          if (index != 3) {
+              var sourceType = 'album'
+              if (index == 1) {
+                  sourceType = 'camera'
+              }
+              api.getPicture({
+                  sourceType: sourceType,
+                  encodingType: 'jpg',
+                  mediaValue: 'pic',
+                  destinationType: 'url',
+                  allowEdit: true,
+                  quality: 50,
+                  targetWidth: 800,
+                  targetHeight: 800,
+              }, function(ret, err) {
+                  if (ret) {
+                      if (ret.data) {
+                          var image = ret.data;
+                          console.log(n)
+                          _ajax('api/index/upload',function(res){
+                            console.log(JSON.stringify(res))
+                            if(res.errCode==1){
+                              if(n==1){
+                                img1 = res.data
+                              }else{
+                                img2 = res.data
+                              }
+                              $api.attr($api.byId(`img${n}`), 'src', res.data);
+                            }
+                          },{},{
+                          file: image})
+                      }
+                  }
+              });
+          }
+      });
+    }
+    function sub(){
+      if(!img1){
+        _msg('请上传身份证正面')
+      }else if (!img2) {
+        _msg('请上传身份证反面')
+      }else{
+        _ajax('api/index/information',function(ret){
+          console.log(JSON.stringify(ret))
+          if(ret.errCode==1){
+            _msg('提交成功')
+            setTimeout(function(){
+              api.closeWin();
+            },600)
+          }
+        },{
+          zheng:img1,
+          fan:img2,
+          uid:$api.getStorage('user').id
+        })
+      }
+
+    }
+</script>
+
+</html>

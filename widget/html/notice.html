@@ -1,0 +1,116 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>公告详情</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <style>
+        body,html{
+          background: #f2f2f2;
+        }
+        header{
+            height: 65px;
+            background: #fff;
+            border-bottom: 1px solid #f2f2f2;
+        }
+        header div{
+            position: absolute;
+            bottom: 0px;
+            box-sizing: border-box;
+            padding: 8px;
+            width: 60px;
+            height: 40px;
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-pack:center;
+            -webkit-justify-content:center;
+            justify-content: center;
+            -webkit-box-align:center;
+            -webkit-align-items:center;
+            align-items: center;
+        }
+        header div img{
+            height: 1.9rem;
+        }
+        header p{
+            font-size: 1.7rem;
+            font-weight: bold;
+            color: #333;
+            position: absolute;
+            bottom: 6px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div tapmode onclick="closeWin()">
+            <img src="../image/return.png" alt="">
+        </div>
+        <p>公告</p>
+    </header>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/app.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+      _setStatusBarStyle()
+      var l_id = api.pageParam.l_id
+      var r_id = api.pageParam.r_id
+      if(l_id){
+        $api.html($api.dom('header p'), '文章详情');
+      }
+      if(r_id==11){
+        $api.html($api.dom('header p'), '发单规则');
+      }
+      if(r_id==8){
+        $api.html($api.dom('header p'), '免责声明');
+      }
+      if(r_id==7){
+        $api.html($api.dom('header p'), '接单规则');
+      }
+      if(r_id==12){
+        $api.html($api.dom('header p'), '类型说明');
+      }
+      if(r_id==6){
+        $api.html($api.dom('header p'), '关于我们');
+      }
+      if(r_id==5){
+        $api.html($api.dom('header p'), '用户协议');
+      }
+      OpenNotice_frame()
+    }
+    function OpenNotice_frame(){
+        api.openFrame({
+            name: 'notice_frame',
+            url: './notice_frame.html',
+            vScrollBarEnabled: false,
+            hScrollBarEnabled: false,
+            rect: {
+                x: 0,
+                y: 66,
+                w: 'auto',
+                h: 'auto'
+            },
+            pageParam:{
+              id:api.pageParam.id,
+              l_id:api.pageParam.l_id,
+              r_id:api.pageParam.r_id,
+              s_id:api.pageParam.s_id
+            },
+            bounces: false,
+            reload:true
+        });
+    }
+    function closeWin(){
+        api.closeWin();
+    }
+</script>
+
+</html>

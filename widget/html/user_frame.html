@@ -1,0 +1,431 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>我的</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <style>
+        body,
+        html {
+            background: #F2F2F2;
+            /*height: 100%;*/
+        }
+
+        header {
+            width: 36rem;
+            height: 300px;
+            background-image: url('../image/user/4.png');
+            background-size: 36rem 300px;
+            background-repeat: no-repeat;
+        }
+
+        .title {
+            width: 33rem;
+            margin: auto;
+            padding-top: 50px;
+            height: 60px;
+        }
+
+        .title,
+        .username {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .title>.head {
+            width: 20%;
+            margin-right: 1.5rem;
+            border-radius: 50%;
+        }
+
+        .title>div {
+            width: 75%;
+        }
+
+        .title>.right {
+            width: 5%;
+        }
+
+        .username {
+            justify-content: flex-start;
+        }
+
+        .username>span {
+            color: #fff;
+            font-size: 1.6rem;
+            margin-right: .8rem;
+        }
+
+        .username>.level {
+            width: 1.7rem;
+        }
+
+        .title p {
+            margin-top: 10px;
+            color: #fff;
+            font-size: 1.5rem;
+        }
+
+        .right>img {
+            width: 1.5rem;
+        }
+
+        .huiyuan {
+            width: 34rem;
+            height: 100px;
+            margin: auto;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin-top: 0.7rem;
+        }
+
+        .huiyuan>span:nth-child(1) {
+            color: #FF6531;
+            font-weight: 800;
+            font-size: 1.7rem;
+            font-style: italic;
+        }
+
+        .huiyuan>span:nth-child(2) {
+            font-size: 1.5rem;
+            color: #724811;
+            margin-left: -2rem;
+        }
+
+        .huiyuan>span:nth-child(3) {
+            display: inline-block;
+            width: 8rem;
+            height: 25px;
+            line-height: 25px;
+            background: #FF6531;
+            text-align: center;
+            color: #fff;
+            font-size: 1.3rem;
+            border-radius: 2.5rem;
+        }
+
+        .income {
+            width: 30rem;
+            margin: 0 auto 0;
+            height: 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .income>div {
+            text-align: center;
+        }
+
+        .income>div>span {
+            display: block;
+            font-size: 1.4rem;
+            color: #333333
+        }
+
+        .income>div>span:last-child {
+            display: block;
+            margin-top: 12px;
+            font-weight: bold;
+            color: #FF4841;
+            font-size: 1.8rem;
+        }
+
+        .content {
+            /*width: 34rem;*/
+            /*background: #fff;*/
+            /*margin: auto;*/
+            /*border-radius: 6px;*/
+            /*box-shadow: 0 0 .2px .5px #ddd;*/
+            /*box-sizing: border-box;*/
+            /*padding: 10px 15px;*/
+            display: flex;
+            justify-content: flex-start;
+            margin-top: 20px;
+            /*align-items: center;*/
+        }
+
+        .content>div {
+            width: 25%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .content>div>img {
+            width: 4.8rem;
+            height: 4.8rem;
+        }
+
+        .content>div>span {
+            font-size: 1.3rem;
+            color: #666;
+            text-align: center;
+            display: block;
+            margin-top: 10px;
+        }
+
+        #foot {
+            margin-top: 15px;
+        }
+
+        #foot1 {
+            margin-top: 15px;
+        }
+
+        [v-cloack] {
+            display: none;
+        }
+
+        #app {
+            visibility: hidden;
+        }
+        .content_body{
+          width:32rem;
+          background:rgba(255,255,255,1);
+          border-radius:5px;
+          margin: 0 auto;
+          /*padding-left: 15px;*/
+          padding: 10px 10px;
+          }
+          .content_body>div:nth-child(1){
+            font-size:16px;
+            font-family:PingFang SC;
+            font-weight:bold;
+            color:rgba(0,0,0,1);
+          }
+          .tenant{
+            display: flex;
+            justify-content: space-between;
+            width: 110px;
+            font-size:11px;
+            margin-top: 9px;
+            font-family:PingFang SC;
+            font-weight:500;
+            color:#FFF142;
+          }
+    </style>
+</head>
+
+<body>
+    <div id="app" style="padding-bottom: 15px;" v-cloack>
+        <header>
+            <div class="title">
+                <img class="head opcity " id="avatar" v-if="headImg" :src="headImg" tapmode onclick="_openWin('personal')" alt="">
+                <img class="head opcity " id="avatar" v-else src="../image/user/1.png" tapmode onclick="_openWin('personal')" alt="">
+
+                <div>
+                    <div class="username opcity">
+                        <span id="mobile">{{data_.nickname||data_.wx_nickname}}</span>
+                        <img class="level" src="../image/user/level1.png" alt="">
+                    </div>
+                    <p tapmode onclick="_openWin('login')" id="id">{{sta}}</p>
+                    <div class="tenant">
+                      <div tapmode onclick="_openWin('myfansme')">粉丝：{{data_.fansme}}</div>
+                      <div tapmode onclick="_openWin('myfans')">关注：{{data_.myfans}}</div>
+                    </div>
+                </div>
+                <div class="right" tapmode onclick="_openWin('personal')">
+                    <img src="../image/user/3.png" alt="">
+                </div>
+            </div>
+            <div class="huiyuan">
+                <span>VIP</span>
+                <span>黄金会员 享受更多权益</span>
+                <span tapmode onclick="_openWin('huiyuan')">立即开通</span>
+            </div>
+            <div class="income">
+                <div>
+                    <span>今日收益</span>
+                    <span id="todayincome" class="opacity">0.00</span>
+                </div>
+                <div>
+                    <span>累计收益</span>
+                    <span id="incomenum" class="opacity">0.00</span>
+                </div>
+                <div>
+                    <span>可提现金额</span>
+                    <span id="user_money">0.00</span>
+                </div>
+                <div onclick="todeposit()">
+                    <span>保证金</span>
+                    <span id="user_deposit">0.00</span>
+                </div>
+            </div>
+        </header>
+        <div class="content_body">
+          <div>悬赏管理</div>
+          <div class="content">
+            <div tapmode onclick="_openWintoken('order')">
+                <img src="../image/user/6.png" alt="">
+                <span>我的接单</span>
+            </div>
+            <div tapmode onclick="_openWintoken('fabu')">
+                <img src="../image/user/fabu.png" alt="">
+                <span>发布管理</span>
+            </div>
+            <div tapmode onclick="_openWintoken('myincome')">
+                <img src="../image/user/7.png" alt="">
+                <span>收益管理</span>
+            </div>
+            <div tapmode onclick="_openWin('huiyuan')">
+                <img src="../image/user/8.png" alt="">
+                <span>会员权益</span>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="content_body" style="margin-top:13px;">
+          <div>应用管理</div>
+          <div  class="content">
+            <div tapmode onclick="_openWintoken('chongzhi')">
+                <img src="../image/user/38.png" alt="">
+                <span>充值</span>
+            </div>
+            <div tapmode onclick="_openWintoken('myteam')">
+                <img src="../image/user/9.png" alt="">
+                <span>我的团队</span>
+            </div>
+            <div tapmode onclick="_openWintoken('share')">
+                <img src="../image/user/10.png" alt="">
+                <span>分享收徒</span>
+            </div>
+            <div tapmode onclick="_openWintoken('personal')">
+                <img src="../image/user/11.png" alt="">
+                <span>设置</span>
+            </div>
+          </div>
+          <div  class="content">
+            <div tapmode onclick="_openWintoken('jvbao')">
+                <img src="../image/user/40.png" alt="">
+                <span>维权举报</span>
+            </div>
+            <div tapmode onclick="_openWintoken('heiwu')">
+                <img src="../image/user/41.png" alt="">
+                <span>小黑屋</span>
+            </div>
+          </div>
+        </div>
+        <!-- <footer class="content" id="foot">
+
+        </footer>
+
+        <footer class="content" id="foot1">
+            <div tapmode onclick="_openWintoken('jvbao')">
+                <img src="../image/user/40.png" alt="">
+                <span>维权举报</span>
+            </div>
+            <div tapmode onclick="_openWintoken('heiwu')">
+                <img src="../image/user/41.png" alt="">
+                <span>小黑屋</span>
+            </div>
+        </footer> -->
+    </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/app.js"></script>
+<script type="text/javascript" src="../script/md5.min.js"></script>
+<script type="text/javascript" src="../script/fastclick.js"></script>
+<script type="text/javascript" src="../script/vue.min.js"></script>
+<script type="text/javascript">
+    var U_id
+    apiready = function() {
+        if (api.systemType == 'ios') {
+            api.setWinAttr({
+                slidBackEnabled: false
+            });
+        }
+        window.FastClick && FastClick.attach(document.body);
+        setStatusBarStylemoren()
+        UILoading(U_id)
+        vm = new Vue({
+            el: '#app',
+            data() {
+                return {
+                    data_: {'fansme':0,'myfans':0},
+                    sta: '登录',
+                    headImg: '',
+                    wxUserInfo: {}
+                }
+
+            },
+            created() {
+                var wxUserInfo = $api.getStorage('user');
+                if (wxUserInfo) {
+                    this.headImg = wxUserInfo.headimgurl;
+                    this.sta = wxUserInfo.id;
+                }
+
+            }
+        })
+        api.setRefreshHeaderInfo({
+            loadingImg: 'widget://image/xiala.png',
+            bgColor: "#FF435B",
+            textColor: "#fff",
+            textDown: '下拉刷新...',
+            textUp: '松开刷新...'
+        }, function(ret, err) {
+            fnInitData()
+            marginBottom()
+            api.refreshHeaderLoadDone()
+        });
+        // setRefreshHeaderInfo(fnInitData, "#FF435B", "#fff") //下拉刷新
+        fnInitData();
+        marginBottom();
+    }
+
+    function fnInitData() {
+        _ajax('api/user/userInfo', function(ret) {
+
+            console.log(JSON.stringify(ret))
+            if (ret.errCode == -1) {
+                _openWin('login')
+            }
+            if (ret.errCode == 1) {
+                $api.setStorage('user', ret.data);
+                vm.data_ = ret.data
+                vm.avatar = imgurl + ret.data.avatar
+                if (ret.data.avatar) {
+                    $api.attr($api.byId('avatar'), 'src', imgurl + ret.data.avatar);
+                }
+                vm.sta = 'ID:' + ret.data.id
+                $api.html($api.byId('user_money'), ret.data.user_money);
+                $api.html($api.byId('user_deposit'), ret.data.deposit);
+                $api.html($api.byId('todayincome'), ret.data.todayincome);
+                $api.html($api.byId('incomenum'), ret.data.incomenum);
+                $api.css($api.byId('id'), 'pointer-events: none');
+                $api.css($api.byId('level'), 'pointer-events: none');
+                $api.attr($api.dom('.level'), 'src', `../image/user/level${ret.data.level}.png`);
+                $api.css($api.byId('app'), 'visibility: visible;');
+                UILoading_Close(U_id)
+            } else {
+                $api.css($api.byId('app'), 'visibility: visible;');
+                UILoading_Close(U_id)
+            }
+        })
+    }
+
+    function openSfWin() {
+        var user_status = $api.getStorage('user').user_status;
+        if (user_status == 1) {
+            _msg('实名认证已通过')
+        } else {
+            _openWin('shenfen_info')
+        }
+    }
+
+    function todeposit() {
+        var deposit = $api.text($api.byId(`user_deposit`));
+        if (deposit <= 0) {
+            _openWintoken('deposit');
+        }
+    }
+</script>
+
+</html>

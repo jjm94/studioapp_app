@@ -1,0 +1,479 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>粉丝</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <style>
+        body,
+        html {
+            background: #f2f2f2;
+            height: 100%;
+        }
+
+        ul {
+            width: 34rem;
+            margin: 0 auto;
+            background: #fff;
+        }
+
+        li {
+            border-bottom: 1px solid #f2f2f2;
+            padding: .5rem;
+        }
+
+        li,
+        .top,
+        .bot {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        li>img {
+            width: 5rem;
+            height: 5rem;
+            border-radius: 50%;
+            box-sizing: border-box;
+            margin-right: .5rem;
+        }
+
+        li>div {
+            width: 26rem
+        }
+
+        .left>img {
+            width: 1.2rem;
+        }
+
+        .top {
+            box-sizing: border-box;
+            padding-right: 1rem;
+        }
+
+        .top>.left>span {
+            color: #333;
+            font-size: 1.4rem;
+        }
+
+        .top>.right {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #FF4841;
+        }
+
+        .bot {
+            box-sizing: border-box;
+            padding-right: 1rem;
+            font-size: 1.1rem;
+            color: #666;
+        }
+
+        .mid>span {
+            display: inline-block;
+            line-height: normal;
+            padding: 0.1rem .5rem;
+            background: #f2f2f2;
+            color: #999;
+            font-size: 1.2rem;
+            border-radius: 2px;
+            margin: .5rem 0;
+        }
+
+        .tijiao {
+            margin-right: .3rem;
+        }
+
+        .bot>.right {
+            display: flex;
+            align-items: center;
+        }
+
+        .tijiao,
+        .tijiao+span {
+            width: 5rem;
+            height: 1.8rem;
+            line-height: 1.8rem;
+            text-align: center;
+            border: .5px solid #F08080;
+            border-radius: 3px;
+            color: #F08080
+        }
+
+        .tijiao1 {
+            margin-right: 10px;
+            width: 4rem;
+            height: 1.8rem;
+            line-height: 1.8rem;
+            text-align: center;
+            border: .5px solid #F08080;
+            border-radius: 3px;
+            color: #F08080
+        }
+
+        .shenhezhong {
+            color: #FF8247;
+        }
+
+        .fangqi {
+            color: #999;
+        }
+
+        .wancheng {
+            color: #79CDCD;
+        }
+
+        .buhege {
+            color: #CD8500;
+        }
+
+        [v-cloack] {
+            display: none;
+        }
+
+        .loading,
+        .nomore {
+            display: none;
+        }
+
+        #app {
+            box-sizing: border-box;
+            padding-bottom: 20px;
+        }
+
+        .pop {
+            position: fixed;
+            top: 20%;
+            left: 50%;
+            transform: translate(-50%);
+        }
+
+        .save {
+            margin: 10px auto;
+            width: 60px;
+            height: 30px;
+            text-align: center;
+            line-height: 30px;
+            border-radius: 10px;
+            background-color: red;
+        }
+
+        .top_img {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .top_img img {
+            width: 54px;
+            height: 54px;
+            /*background:rgba(0,0,0,1);*/
+            border-radius: 50%;
+            margin-right: 15px;
+        }
+
+        .user_title {}
+
+        .user_title>div:nth-child(1) {
+            font-size: 14px;
+            font-family: PingFang SC;
+            /*font-weight: bold;*/
+            color: #333333;
+            margin-top: 6px;
+        }
+
+        .user_title>div:nth-child(2) {
+            font-size: 14px;
+            font-family: PingFang SC;
+            margin-top: 10px;
+            margin-left: 3px;
+            /*font-weight: 500;*/
+            color: #666666;
+        }
+
+        .user {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 10px;
+            /*padding-top: 11px;*/
+            background: #fff;
+            margin: 0 auto;
+            /*border-bottom: 1px solid rgba(242,242,242,1);*/
+            border-top: 1px solid rgba(242, 242, 242, 1);
+        }
+
+        .user_ygz {
+            width: 70px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            border: 1px solid #999;
+            border-radius: 15px;
+            font-size: 15px;
+            font-family: PingFang SC;
+            font-weight: 500;
+            color: #999;
+            margin-top: 7px;
+        }
+
+        .user_gz {
+            width: 70px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            border: 1px solid rgba(255, 72, 65, 1);
+            border-radius: 15px;
+            font-size: 15px;
+            font-family: PingFang SC;
+            font-weight: 500;
+            color: rgba(255, 72, 65, 1);
+            margin-top: 7px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloack>
+        <div class="user" v-for="item in taskList">
+            <div class="top_img" @click="go_body(item.id)">
+                <img :src="imgurl+item.avatar" alt="">
+
+                <div class="user_title">
+                    <div>{{item.nickname}}</div>
+                    <div>ID:{{item.id}}</div>
+                </div>
+            </div>
+            <div class="user_gz" @click="status_(item.id,1)" v-show="item.fan_status==0">关注</div>
+            <div class="user_ygz" @click="status_(item.id,0)" v-show="item.fan_status==1">已关注</div>
+        </div>
+        <footer v-show="isShow">
+            <img src="../image/kong.png" style="display:block;width:7rem;margin:10rem auto;" alt="">
+        </footer>
+    </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/app.js"></script>
+<script type="text/javascript" src="../script/md5.min.js"></script>
+<script type="text/javascript" src="../script/fastclick.js"></script>
+<script type="text/javascript" src="../script/vue.min.js"></script>
+<script type="text/javascript">
+    var U_id, open = true;
+    apiready = function() {
+        window.FastClick && FastClick.attach(document.body);
+
+        UILoading(U_id)
+        vm = new Vue({
+            el: '#app',
+            data() {
+                return {
+                    isShow: false,
+                    content: '',
+                    flag: false,
+                    page: 1,
+                    jvbao: '举报',
+                    current_page: 1,
+                    taskList: [],
+                    fanKuiInfo: {
+                        tid: '',
+                        rid: '',
+                        title: '',
+                        creatorid: '',
+                        tid: '',
+                    }
+                }
+
+            },
+            methods: {
+                status_(a, b) {
+                    let that = this;
+                    if (b == 0) {
+                        //取消关注
+                        api.confirm({
+                            // title: '确认取消关注？',
+                            msg: '确认取消关注？',
+                            buttons: ['确定', '取消']
+                        }, function(ret, err) {
+                            var index = ret.buttonIndex;
+                            if (index == 1) {
+                                let taskList = that.taskList;
+                                for (var i = 0; i < taskList.length; i++) {
+                                    if (taskList[i].id == a) {
+                                        taskList[i].fan_status = b
+                                        that.guanz(a, b)
+                                    }
+                                }
+                            }
+                        })
+                    } else {
+                        //关注
+                        let taskList = that.taskList;
+                        for (var i = 0; i < taskList.length; i++) {
+                            if (taskList[i].id == a) {
+                                taskList[i].fan_status = b
+                                that.guanz(a, b)
+                            }
+                        }
+                    }
+                },
+                guanz(id, type) {
+                    _ajax('api/user/dofans', function(ret, err) {
+                        if (ret.errCode == 1) {
+                        }
+                    }, {
+                        type: type,
+                        fanid: id
+                    })
+                },
+                go_body(e) {
+                    _openWin('my_body', {
+                        id: e
+                    })
+                },
+                step: function(i) {
+                    var id = "div" + i;
+                    return id;
+                },
+                gouTong(item) {
+                    var data = {
+                        uid: item.id,
+                        nname: item.title
+                    }
+                    var rong = api.require('UIRongCloud');
+                    rong.openConversation({
+                        conversationType: 'PRIVATE',
+                        targetId: data.uid,
+                        title: data.nname
+                    }, function(ret) {
+                        api.alert({
+                            msg: JSON.stringify(ret)
+                        });
+                    });
+                    return;
+                },
+                call(item) {
+                    api.openFrame({
+                        name: 'jubao',
+                        url: './jubao.html',
+                        vScrollBarEnabled: false,
+                        hScrollBarEnabled: false,
+                        allowEdit: true,
+                        rect: {
+                            x: 0,
+                            y: 0,
+                            w: 'auto',
+                            h: 'auto'
+                        },
+                        pageParam: {
+                            info: {
+                                tid: item.tid,
+                                rid: item.rid,
+                                title: item.title,
+                                creatorid: item.creatorid
+                            }
+                        },
+                        bounces: false,
+                        bgColor: 'rgba(0,0,0,0.6)',
+                        animation: {
+                            type: "fade", //动画类型（详见动画类型常量）
+                            subType: "from_right", //动画子类型（详见动画子类型常量）
+                            duration: 300 //动画过渡时间，默认300毫秒
+                        },
+                    });
+                },
+
+                openDetail(id, rid) {
+                    _openWin('putongDetail', {
+                        id: id,
+                        rid: rid
+                    })
+                }
+            }
+        })
+        fnInitData()
+        initEventListenter_()
+        api.setRefreshHeaderInfo({
+            loadingImg: 'widget://image/xiala.png',
+            bgColor: "#f2f2f2",
+            textColor: "#333",
+            textDown: '下拉刷新...',
+            textUp: '松开刷新...'
+        }, function(ret, err) {
+            fnInitData(1)
+            api.refreshHeaderLoadDone()
+        });
+
+    }
+
+    function fnInitData(n) {
+        if (n) {
+            vm.page = 1
+        }
+        _ajax('api/user/fans', function(ret, err) {
+            if (ret.errCode == -1) {
+                _openWin('login')
+            }
+
+            if (ret.errCode == 0 && vm.page == 1) {
+                vm.taskList = ret.data;
+                vm.current_page = 2
+                vm.page = 2
+            }
+            if (ret.errCode == 1) {
+                if (n) {
+                    vm.taskList = ret.data
+                    vm.page = 2
+                } else {
+                    vm.taskList = vm.taskList.concat(ret.data)
+                    var taskListLength = vm.taskList.length + ''
+                    vm.current_page = vm.taskList.length < 10 ? 1 : parseInt(taskListLength.substr(0, taskListLength.length - 1)) + 1;
+                    if (vm.taskList.length % 10 == 0) {
+                        vm.current_page -= 1
+                    }
+                    vm.page = vm.current_page += 1
+                }
+            }
+            if (vm.taskList.length > 0) {
+                vm.isShow = false;
+            } else {
+                vm.isShow = true;
+            }
+            UILoading_Close(U_id)
+        }, {
+            // token: getToken(),
+            p: vm.page,
+            type: 1
+        })
+    }
+
+    function initEventListenter_() { //上拉加载更多
+        api.addEventListener({
+            name: 'scrolltobottom',
+            extra: {
+                threshold: 60
+            }
+        }, function(ret, err) {
+            if (open) {
+                loading()
+                fnInitData()
+            }
+
+        });
+
+    }
+
+    function loading() {
+        $api.css($api.dom('.loading'), 'display:flex');
+    }
+
+    function loading_() {
+        open = false
+        setTimeout(function() {
+            $api.css($api.dom('.loading'), 'display:none');
+        }, 500)
+
+    }
+</script>
+
+</html>

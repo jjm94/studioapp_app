@@ -1,0 +1,1010 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>普通任务详情</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <style>
+        body,
+        html {
+            background: #f2f2f2;
+        }
+
+        header {
+            width: 36rem;
+            height: 17rem;
+            background-image: url('../image/task/6.png');
+            background-size: 36rem 14rem;
+            background-repeat: no-repeat;
+            box-sizing: border-box;
+            padding-top: 1rem;
+        }
+
+        header>div {
+            width: 33rem;
+            background: #fff;
+            border-radius: 6px;
+            margin: auto;
+            box-sizing: border-box;
+            padding: 1rem;
+        }
+
+        .info,
+        .top,
+        .num,
+        .video,
+        .video>div {
+            display: flex;
+            align-items: center;
+        }
+
+        .info>img {
+            width: 6rem;
+            height: 6rem;
+            border-radius: 50%;
+        }
+
+        .info>div {
+            width: 80%;
+            box-sizing: border-box;
+            padding: 0 1.5rem;
+        }
+
+        .top {
+            justify-content: space-between;
+            font-size: 1.5rem;
+            color: #333;
+        }
+
+        .top>span:last-child {
+            font-weight: bold;
+            color: #FF4841
+        }
+
+        .top>span {
+            margin: 0.6rem 0;
+        }
+
+        .info p {
+            font-size: 1.3rem;
+            color: #999;
+        }
+
+        .num {
+            margin-top: 1.5rem;
+            justify-content: space-between;
+        }
+
+        .num>div>p {
+            height: 2rem;
+        }
+
+        .num .line {
+            width: 1px;
+            height: 3rem;
+            background: #f1f1f1;
+        }
+
+        .num p {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #999;
+        }
+
+        .num>div>p:first-child {
+            margin-bottom: .5rem;
+            font-size: 1.6rem;
+            color: #333;
+        }
+
+        section {
+            width: 34rem;
+            margin: auto;
+            background: #fff;
+            box-sizing: border-box;
+            padding: 1rem;
+            margin-top: -.8rem;
+        }
+
+        section>p {
+            font-size: 1.5rem;
+            color: #FF4841;
+        }
+
+        section>div>p {
+            font-size: 1.3rem;
+            line-height: 2rem;
+            color: #333
+        }
+
+        .video {
+            background: #fff;
+            width: 34rem;
+            margin: auto;
+            justify-content: space-between;
+            box-sizing: border-box;
+            padding: 1rem;
+            font-size: 1.5rem;
+            color: #FF4841
+        }
+
+        .video img {
+            width: 1rem;
+        }
+
+        .video>div>img {
+            width: 2rem;
+            margin-left: 1rem;
+        }
+
+        footer {
+            width: 34rem;
+            box-sizing: border-box;
+            padding: 1rem;
+            background: #fff;
+            margin: 1rem auto 0;
+            padding-bottom: 5rem;
+        }
+
+        .title>span {
+            font-size: 1.4rem;
+            color: #333;
+            display: inline-block;
+        }
+
+        .title>span:last-child {
+            color: #666;
+        }
+
+        li p {
+            font-size: 1.5rem;
+            color: #333
+        }
+
+        li>p {
+            background: #FF4841;
+            border-radius: 50%;
+            width: 2rem;
+            height: 2rem;
+            text-align: center;
+            line-height: 2rem;
+            color: #fff;
+            font-size: 1.5rem;
+            margin-right: .7rem;
+        }
+
+        li {
+            display: flex;
+            margin: 1rem 0;
+            align-items: flex-start;
+        }
+
+        li>div {
+            flex: 1
+        }
+
+        .index {
+            width: 100%;
+            line-height: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .urls>.conrent,
+        .qrcode .contet {
+            display: flex;
+        }
+
+        .content>span {
+            font-size: 1.5rem;
+            padding: .2rem .5rem;
+            height: 2rem;
+            line-height: 2rem;
+            background: -webkit-linear-gradient(right, #FDA96D 0%, #FF435B 100%);
+            color: #fff;
+            border-radius: 4px;
+            margin-right: 3rem;
+        }
+
+        .content>span:last-child {
+            color: #FF435B;
+            background: -webkit-linear-gradient(right, #FFE4E1 0%, #FFAEB9 100%);
+        }
+
+        .checkimg .content {
+            display: flex;
+            width: 100%;
+            align-items: flex-start;
+            justify-content: space-between;
+            box-sizing: border-box;
+            padding-right: 2.5rem;
+        }
+
+        .checkimg .content>div {
+            width: 46%;
+        }
+
+        .checkimg .leftimg {
+            width: 100%;
+        }
+
+        .checkimg .rightimg {
+            width: 8rem;
+        }
+
+        .getinfo>input {
+            border-radius: 4px;
+            outline: none;
+            border: .5px solid #FF435B;
+            width: 100%;
+            color: #333;
+            box-sizing: border-box;
+            padding: 1rem .3rem;
+            font-size: 1.4rem;
+        }
+
+        .graphicexplanation img {
+            width: 14rem;
+        }
+
+        .copydata input {
+            width: 16rem;
+            padding: .6rem;
+            font-size: 1.4rem;
+            color: #999;
+            border-radius: 4px;
+            outline: none;
+            border: .5px solid #FF435B;
+            margin-right: 1rem;
+        }
+
+        .foot {
+            position: fixed;
+            z-index: 999;
+            bottom: 0;
+            width: 36rem;
+            height: 4.7rem;
+            background: #fff;
+            display: flex;
+            align-items: center;
+        }
+
+        .foot>div {
+            width: 30%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .foot>div img {
+            width: 2rem;
+            margin-right: .5rem
+        }
+
+        .foot span {
+            font-size: 1.5rem;
+            color: #333;
+        }
+
+        .foot>p {
+            width: 70%;
+            text-align: center;
+            color: #fff;
+            height: 4.7rem;
+            line-height: 4.7rem;
+            font-size: 1.6rem;
+            background: -webkit-linear-gradient(right, #FDA96D 0%, #FF435B 100%);
+        }
+
+        .qrcode .content {
+            display: flex;
+            align-items: center;
+        }
+
+        .qrcode .content img {
+            width: 100%;
+        }
+
+        .mask_div {
+            position: relative;
+            width: 10rem;
+            margin: 2rem 2rem 2rem 0rem;
+        }
+
+        .mask_ {
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.8);
+            width: 10rem;
+            height: 100%;
+        }
+
+        .mask {
+            position: absolute;
+            width: 10rem;
+            text-align: center;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.3rem;
+            color: #F8E6B8;
+        }
+
+        .foot .gray {
+            color: #333;
+            background: -webkit-linear-gradient(top, #E3E3E3 0%, #BABABA 100%);
+            pointer-events: none;
+        }
+
+        .opa,
+        .opa1 {
+            opacity: 0.0;
+            transition: all .8s
+        }
+
+        .opac {
+            opacity: 1 !important;
+        }
+
+        [v-cloack] {
+            display: none;
+        }
+
+        .info{
+            width: calc(100% - 20px);
+            height: 50px;
+            margin: 5px 0;
+            background-color: #ffffff;
+        }
+        .info .opaimg{
+          width: 40px;
+          height: 40px;
+          margin-left: 15px;;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloack tapmode onclick="closeFrame_rule()">
+        <header>
+            <div>
+                <div class="info">
+                    <img :src="info.img" alt="" class="opa">
+                    <div>
+                        <div class="top">
+                            <span>{{info.title}}</span>
+                            <span>+{{info.task_money}}元</span>
+                        </div>
+                        <p>
+                            <span>{{info.tasktypename}}</span>
+                            <span>&nbsp;</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="num">
+                    <div>
+                        <p>{{info.num}}</p>
+                        <p>剩余数量</p>
+                    </div>
+                    <div class="line"></div>
+                    <div>
+                        <p>{{info.receive_num+info.overnum}}</p>
+                        <p>完成数量</p>
+                    </div>
+                    <div class="line"></div>
+                    <div>
+                        <p>{{info.limitedtime}}小时</p>
+                        <p>做单时间</p>
+                    </div>
+                    <div class="line"></div>
+                    <div>
+                        <p>{{info.audittime}}天</p>
+                        <p>审核时间</p>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <section>
+            <p>做单说明</p>
+            <div>
+                <p>1.任务赏金已托管到平台，赚钱有保障。</p>
+                <p>2.请先报名再做任务，否则无赏金。</p>
+                <p>3.需要打钱、投资的悬赏请谨慎，否则后果自负。</p>
+                <p>4.有奖举报：发现同类平台任务单、拉人、线下交易者找客服举报重奖。</p>
+            </div>
+            <p style="margin-top:1rem;">任务说明</p>
+            <div>
+                <p>{{info.more}}</p>
+            </div>
+        </section>
+        <!-- 任务详情客服聊天 -->
+        <div class="info" style="background-color: #ffffff;margin: 5px 0;width: calc(100% - 20px);margin: 5px auto;">
+            <img :src='shopInfo.avatar' alt="" class="opaimg" @click="go_body(shopInfo.uid)">
+            <div style="display: flex;justify-content: space-between;">
+                <div @click="go_body(shopInfo.uid)">
+                    <p style="margin: 3px 0;">[UID:{{shopInfo.uid}}]</p>
+                    <p>{{shopInfo.level}}</p>
+                </div>
+                <div @click='goKf(shopInfo)'>
+                    <img src="../image/msg.png" alt="" style="width:20px;height: 20px;margin: 2px 0 2px 5px;">
+                    <p style="width:32px;height: 20px;">消息</p>
+                </div>
+            </div>
+
+        </div>
+        <!-- 任务详情客服聊天 -->
+        <div class="video" tapmode onclick="openVideo()">
+            <div>
+                <span>做单视频</span>
+                <img src="../image/task/3.png" alt="">
+            </div>
+            <img src="../image/task/4.png" alt="">
+        </div>
+        <footer>
+            <p class="title">
+                <span>做单步骤</span>
+                <span>(请参考以下步骤完成做单)</span>
+            </p>
+            <ul class="opa1">
+                <li v-for="(item,index) of tasksteps">
+                    <p>{{index+1}}</p>
+                    <div v-if="item.type=='urls'" class="urls">
+                        <p class="index">{{item.urls.title}}</p>
+                        <div class="content">
+                            <span @click="openUrl(item.urls.e_url)">打开链接</span>
+                            <span @click="copyUrl(item.urls.e_url)">复制链接</span>
+                        </div>
+                    </div>
+                    <div v-else-if="item.type=='copydata'" class="copydata">
+                        <p class="index">{{item.copydata.title}}</p>
+                        <div class="content">
+                            <input v-if="restatus=='点击报名'" value="内容受保护 点击报名" readonly="true"></input>
+                            <input v-else v-model="item.copydata.e_copydata" readonly="true"></input>
+                            <span @click="copyUrl(item.copydata.e_copydata)">复制数据</span>
+                        </div>
+                    </div>
+                    <div v-else-if="item.type=='checkimg'" class="checkimg">
+                        <p class="index">{{item.checkimg.title}}</p>
+                        <div class="content">
+                            <div>
+                                <img :src="imgurl+item.checkimg.e_checkimg" id="imgnum" @click="enlargeimg(item.checkimg.e_checkimg)" alt="" class="leftimg">
+                            </div>
+                            <div id="checkimg" v-if="item.checkimg.s_checkimg==''">
+                                <img src="../image/task/7_.png" alt="" @click="addimg(item.hao,item.checkimg.title)" class="rightimg" :id="item.hao+'Img'">
+                            </div>
+                            <div id="checkimg" v-else>
+                                <img :src="imgurl+item.checkimg.s_checkimg" alt="" class="rightimg" :id="index+'Img'" style="width:100%">
+                            </div>
+                        </div>
+                    </div>
+                    <div v-else-if="item.type=='qrcode'" class="qrcode">
+                        <p class="index">{{item.qrcode.title}}</p>
+                        <div class="content">
+                            <div class="mask_div">
+                                <img :src="imgurl+item.qrcode.e_qrcode" @click="enlargeimg(item.qrcode.e_qrcode)" alt="" class="leftimg">
+                                <div v-if="restatus=='点击报名'" class="mask_"></div>
+                                <span v-if="restatus=='点击报名'" class="mask">点击报名</span>
+                            </div>
+                            <span @click="preserve(item.qrcode.e_qrcode)">保存扫码</span>
+                        </div>
+                    </div>
+                    <div v-else-if="item.type=='getinfo'" class="getinfo">
+                        <p class="index" id="getinfo_title">{{item.getinfo.title}}</p>
+                        <input v-if="item.getinfo.info==''" type="text" @click="text()" v-model="info_" :readonly="restatus=='点击报名'" placeholder="请根据要求输入内容">
+                        <input v-else type="text" v-model="item.getinfo.info" readonly="true">
+                    </div>
+                    <div v-else-if="item.type=='graphicexplanation'" class="graphicexplanation">
+                        <p class="index">{{item.graphicexplanation.title}}</p>
+                        <div class="content">
+                            <img :src="imgurl+item.graphicexplanation.e_graphicexplanation" @click="enlargeimg(item.graphicexplanation.e_graphicexplanation)" alt="">
+                        </div>
+
+                    </div>
+                </li>
+            </ul>
+        </footer>
+        <div class="foot">
+            <div tapmode onclick="change()">
+                <img src="../image/task/8.png" alt="">
+                <span>换一个</span>
+            </div>
+            <p @click.stop="taskReceive()" :class="info.restatus==4 ?'gray':''">{{restatus}}</p>
+        </div>
+
+    </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/app.js"></script>
+<script type="text/javascript" src="../script/fastclick.js"></script>
+<script type="text/javascript" src="../script/vue.min.js"></script>
+<script type="text/javascript" src="../script/md5.min.js"></script>
+<script type="text/javascript" src="../script/meiqia.js"></script>
+<script type="text/javascript" src="../script/sha1.min.js"></script>
+
+<script type="text/javascript">
+    var UIPhotoViewer
+    var U_id, uid, rid, u_id, mq;
+    apiready = function() {
+        window.FastClick && FastClick.attach(document.body);
+        if (api.pageParam.rid) {
+            $api.css($api.dom('.foot>div'), 'display:none');
+            $api.css($api.dom('.foot>p'), 'width:100%');
+        }
+        UILoading(U_id)
+        UIPhotoViewer = api.require('UIPhotoViewer');
+        vm = new Vue({
+            el: '#app',
+            data: {
+                info: "",
+                tasksteps: [],
+                restatus: '点击报名',
+                input_: true,
+                checkimg: [],
+                getinfo: '',
+                info_: '',
+                rid: '',
+                id: '',
+                subdata: [],
+                shopInfo: {}
+            },
+            methods: {
+                //客服
+                goKf(data) {
+                    if (data.channel == 1) {
+                        mq = api.require('meiQia');
+                        console.log(mq);
+                        initServer('75601692ba906279c843569eff823a2e', mq); //美洽客服
+                        console.log(i)
+                    } else {
+                      _msg('请先进行配置');
+                      return;
+                        var rong = api.require('UIRongCloud');
+                        rong.openConversation({
+                            conversationType: 'PRIVATE',
+                            targetId: data.uid,
+                            title: data.nname,
+                            navigationBar:{
+                                titleColor: '#fff',     //字符串类型；标题文字颜色；默认：#fff
+                                bgColor: '#0099ff',     //字符串类型；导航条背景色；默认：#0099ff
+                                backColor: '#fff',      //字符串类型；导航条返回按钮色；默认：#fff(android不支持)
+
+                            }
+                        }, function(ret) {
+                            _msg('退出聊天');
+                        });
+                    }
+                },
+                openUrl(url) {
+                    if (vm.restatus == '点击报名') {
+                        _msg('请点击报名')
+                        return
+                    }
+                    api.openFrame({
+                        name: 'banner_title',
+                        url: './banner_title.html',
+                        vScrollBarEnabled: false,
+                        hScrollBarEnabled: false,
+                        rect: {
+                            x: 0,
+                            y: 0,
+                            w: 'auto',
+                            h: 75
+                        },
+                        pageParam: {
+                            url: url
+                        }
+                    });
+
+                },
+                copyUrl(url) {
+                    if (vm.restatus == '点击报名') {
+                        _msg('请点击报名')
+                        return
+                    }
+                    usercopy(url, '复制成功')
+                },
+                enlargeimg(url) {
+                    if (vm.restatus == '点击报名') {
+                        _msg('请点击报名')
+                        return
+                    }
+                    UIPhotoViewer.open({
+                        images: [
+                            imgurl + url
+                        ],
+                        bgColor: 'rgba(0,0,0,0.6)',
+
+                    }, function(ret, err) {
+                        if (ret) {
+                            if (ret.eventType == 'click') {
+                                UIPhotoViewer.close();
+                            }
+                        } else {
+                            //alert(JSON.stringify(err));
+                        }
+                    });
+                },
+                preserve(e_qrcode) {
+                    if (vm.restatus == '点击报名') {
+                        _msg('请点击报名')
+                        return
+                    }
+                    var timestamp = new Date().getTime()
+                    api.download({
+                        url: imgurl + e_qrcode,
+                        savePath: 'fs://task' + timestamp + '.jpeg',
+                        report: true,
+                        cache: true,
+                        allowResume: true
+                    }, function(ret, err) {
+                        //alert(JSON.stringify(ret))
+                        if (ret.savePath) {
+                            var savePath = ret.savePath
+                        }
+                        api.saveMediaToAlbum({
+                            path: 'fs://task' + timestamp + '.jpeg'
+                        }, function(ret, err) {
+                            if (ret && ret.status) {
+                                _msg('保存成功，请在相册中查看')
+                            } else {
+
+                            }
+                        });
+                    });
+                },
+                addimg(n, title) {
+                    if (vm.restatus == '点击报名') {
+                        _msg('请点击报名')
+                        return
+                    }
+                    api.actionSheet({
+                        title: '上传图片',
+                        cancelTitle: '取消',
+                        buttons: ['拍照', '相册']
+                    }, function(ret, err) {
+                        var index = ret.buttonIndex;
+                        if (index != 3) {
+                            var sourceType = 'album'
+                            if (index == 1) {
+                                sourceType = 'camera'
+                            }
+                            api.getPicture({
+                                sourceType: sourceType,
+                                encodingType: 'jpg',
+                                mediaValue: 'pic',
+                                destinationType: 'base64',
+                                quality: 60,
+                            }, function(ret, err) {
+                                if (ret) {
+                                    if (ret.data) {
+
+                                        img = ret.data;
+                                        console.log(JSON.stringify(ret))
+                                            // $api.attr($api.byId(`${n}Img`), 'src', img);
+                                            // $api.css($api.byId(`${n}Img`), 'width:100%');
+                                        ajaxImg(img, n, title)
+                                    }
+                                }
+                            });
+                        }
+                    });
+                },
+                text() {
+                    if (vm.restatus == '点击报名') {
+                        _msg('请点击报名')
+                        return
+                    }
+                },go_body(e){
+                   _openWin('my_body', {
+                    id: e
+                })
+                },
+                //点击报名
+                taskReceive() {
+                    if (vm.restatus == '点击报名') {
+                        var status
+                        if (api.systemType == 'android') {
+                            status = 1
+                        } else if (api.systemType == 'ios') {
+                            status = 2
+                        }
+                        _ajax('api/pt_task/taskReceive', function(ret) {
+                            console.log(JSON.stringify(ret))
+                            if (ret.errCode == -1) {
+                                _openWin('login')
+                            } else
+                            if (ret.errCode == 1) {
+                                _msg(ret.msg)
+                                    //fnInitData()
+                                if (ret.data.restatus == 0) {
+                                    vm.restatus = '提交任务'
+                                    vm.rid = ret.data.rid
+                                }
+                            } else {
+                                _msg(ret.msg)
+                            }
+                        }, {
+                            id: api.pageParam.id
+                        })
+                    } else if (vm.restatus == '已完成') {
+                        return
+                    } else if (vm.restatus == '提交任务') {
+
+
+
+
+                        var checkimgLength = $api.domAll('#imgnum').length
+                            //alert(vm.checkimg.length)
+                        if (vm.checkimg.length < checkimgLength) {
+                            _msg('请根据任务步骤上传图片')
+                            return
+                        }
+                        var getinfo = $api.dom('.getinfo');
+                        if (getinfo) {
+                            var getinfo_title = $api.html($api.byId('getinfo_title'));
+                            if (!vm.info_) {
+                                _msg('请根据任务要求输入内容')
+                                return
+                            }
+                        }
+                        for (var j = 0; j < vm.subdata.length; j++) {
+                            if (vm.subdata[j].type == 'getinfo') {
+                                vm.subdata[j].getinfo.info = vm.info_
+                            }
+                        }
+
+                        console.log(JSON.stringify(vm.subdata))
+                        UILoading()
+                        _ajax('api/pt_task/submissiontask', function(ret) {
+                            console.log(JSON.stringify(ret))
+                            if (ret.errCode == 1) {
+                                UILoading_Close()
+
+                                _msg('提交成功,请等待审核')
+                                api.execScript({
+                                    name: 'order',
+                                    frameName: 'frame0_',
+                                    script: 'fnInitData(1);'
+                                });
+                                api.execScript({
+                                    name: 'order',
+                                    frameName: 'frame1_',
+                                    script: 'fnInitData(1);'
+                                });
+                                api.execScript({
+                                    name: 'order',
+                                    frameName: 'frame2_',
+                                    script: 'fnInitData(1);'
+                                });
+                                setTimeout(function() {
+                                    api.closeWin();
+                                }, 1000)
+                            } else {
+                                _msg(ret.msg)
+                                UILoading_Close()
+                            }
+                        }, {
+                            rid: vm.rid,
+                            tasksteps: JSON.stringify(vm.subdata)
+                        })
+                    }
+                }
+            }
+        })
+        vm.id = api.pageParam.id;
+        vm.rid = api.pageParam.rid;
+        fnInitData()
+        load()
+        vm.rid = api.pageParam.rid
+    };
+
+    function fnInitData() {
+        _ajax('api/pt_task/taskInfo', function(ret) {
+            console.log(JSON.stringify(ret))
+            if (ret.errCode == -1) {
+                setTimeout(function() {
+                    _openWin('login')
+                }, 300)
+            }
+            if (ret.errCode == 1) {
+                vm.info = ret.data;
+                vm.shopInfo = ret.data.shop;
+                // alert(JSON.stringify(ret.data.shop))
+                vm.tasksteps = JSON.parse(ret.data.tasksteps)
+                vm.subdata = vm.tasksteps
+                if (api.pageParam.rid) {
+                    $api.css($api.dom('.foot>div'), 'display:none');
+                    $api.css($api.dom('.foot>p'), 'width:100%');
+                    var restatus_ = ret.data.restatus
+                    restatus(restatus_)
+                }
+                UILoading_Close(U_id)
+                $api.addCls($api.dom('.opa'), 'opac');
+                $api.addCls($api.dom('.opa1'), 'opac');
+
+            }
+            //console.log(JSON.stringify(ret))
+        }, {
+            id: vm.id,
+            rid: vm.rid
+        })
+    }
+
+    function restatus(restatus_) {
+        switch (restatus_) {
+            case -1:
+                vm.restatus = '点击报名'
+                break;
+            case 0:
+                vm.restatus = '提交任务'
+                break;
+            case 1:
+                vm.restatus = '已完成'
+                break;
+            case 2:
+                vm.restatus = '已放弃'
+                break;
+            case 3:
+                vm.restatus = '任务过期'
+                break;
+            case 4:
+                vm.restatus = '审核中'
+                break;
+            case 5:
+                vm.restatus = '已被拒绝'
+        }
+    }
+
+    function openVideo() {
+        _ajax('api/index/VideoList', function(ret) {
+            console.log(JSON.stringify(ret))
+            if (ret.errCode == 1) {
+                var moviePlayer = api.require('moviePlayer');
+                moviePlayer.open({
+                    rect: {
+                        x: 0,
+                        y: 0,
+                        w: api.winWidth,
+                        h: api.winHeight,
+                    },
+                    styles: {
+                        head: {
+                            bg: 'rgba(0,0,0,0.6)',
+                            height: 44,
+                            y: 33,
+                            title: {
+                                size: 20,
+                                color: '#fff',
+                                width: 40,
+                                leftMargin: 10
+                            },
+                            backSize: 20,
+                            backImg: 'widget://image/main/16.png',
+                        },
+                        foot: {
+                            bg: 'rgba(0,0,0,0.5)',
+                            height: 44,
+                            palyBtn: {
+                                size: 20,
+                                playImg: 'widget://image/play.png',
+                                pauseImg: 'widget://image/pause.png',
+                                marginLeft: 5
+                            },
+                            currentTimeLabel: {
+                                textSize: 14,
+                                textColor: "#FFF",
+                                textWidth: 43,
+                                marginLeft: 5
+                            },
+                            seekBar: {
+                                sliderImg: 'widget://image/circle.png',
+                                sliderW: 20,
+                                sliderH: 20,
+                                progressColor: '#696969',
+                                progressSelected: '#FF435B',
+                                marginLeft: 10,
+                                marginRight: 10
+                            },
+                            totalTimeLabel: {
+                                textSize: 14,
+                                textColor: "#FFF",
+                                textWidth: 43,
+                                marginRight: 5
+                            },
+                            fullscreenBtn: {
+                                size: 20,
+                                verticalImg: 'widget://image/vertical.png',
+                                horizontalImg: 'widget://image/horizontal.png',
+                            }
+                        }
+                    },
+                    path: imgurl + ret.data.url,
+                    showBack: true,
+                    autoPlay: true
+                }, function(ret, err) {
+                    if (ret) {
+                        //alert(JSON.stringify(ret));
+                    } else {
+                        //  alert(JSON.stringify(err));
+                    }
+
+                });
+                var moviePlayer = api.require('moviePlayer');
+                moviePlayer.addEventListener(function(ret) {
+                    if (ret && ret.eventType == 'back') {
+                        moviePlayer.close();
+                    }
+                });
+            }
+        })
+    }
+
+    function closeFrame_rule() {
+        $api.setStorage('rule_s', 'close');
+        api.closeFrame({
+            name: 'ptrule_frame'
+        });
+    }
+
+    function load() {
+        document.addEventListener('touchstart', closeFrame_rule, false);
+    }
+
+    function change() {
+        UILoading()
+
+        $api.removeCls($api.dom('.opa'), 'opac');
+        $api.removeCls($api.dom('.opa1'), 'opac');
+        _ajax('api/pt_task/RandtaskInfo', function(ret) {
+            if (ret.errCode == 1) {
+                vm.info = ret.data
+                vm.tasksteps = JSON.parse(ret.data.tasksteps)
+                var restatus_ = -1;
+                vm.rid = ret.data.rid;
+                vm.id = ret.data.id;
+
+                if (vm.rid) {
+                    $api.css($api.dom('.foot>div'), 'display:none');
+                    $api.css($api.dom('.foot>p'), 'width:100%');
+                    restatus_ = ret.data.restatus
+                }
+                restatus(restatus_)
+                $api.addCls($api.dom('.opa'), 'opac');
+                $api.addCls($api.dom('.opa1'), 'opac');
+                UILoading_Close()
+            } else {
+                UILoading_Close();
+                _msg(ret.msg);
+            }
+        }, {
+            editiontype: $api.getStorage('systemType')
+        })
+
+    }
+
+    function ajaxImg(img, n, title) {
+        _ajax('api/pt_task/upload', function(ret) {
+            // alert(JSON.stringify(ret))
+            if (ret.code == 1) {
+                $api.attr($api.byId(`${n}Img`), 'src', img);
+                $api.css($api.byId(`${n}Img`), 'width:100%');
+                for (var j = 0; j < vm.subdata.length; j++) {
+                    if (vm.subdata[j].hao == n) {
+                        vm.subdata[j].checkimg.s_checkimg = ret.url
+                    }
+                }
+                vm.checkimg.push(ret.url)
+            } else {
+                //alert(JSON.stringify(ret))
+                _msg('图片上传失败')
+            }
+        }, {}, {
+            file: img
+        })
+    }
+</script>
+
+</html>

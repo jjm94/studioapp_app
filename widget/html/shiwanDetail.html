@@ -1,0 +1,586 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>试玩任务详情</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <style>
+        header {
+            width: 36rem;
+            background-image: url('../image/main/24.png');
+            background-size: 36rem;
+            background-repeat: no-repeat;
+        }
+
+        header div {
+            position: absolute;
+            top: 34px;
+            box-sizing: border-box;
+            padding: 8px;
+            width: 60px;
+            height: 40px;
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-pack: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            -webkit-box-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+        }
+
+        header div img {
+            height: 22px;
+        }
+
+        header p {
+            font-size: 1.7rem;
+            font-weight: bold;
+            color: #fff;
+            position: absolute;
+            top: 43px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        section {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 31rem;
+            background-image: url('../image/main/27.png');
+            background-size: 31rem;
+            background-repeat: no-repeat;
+        }
+
+        .title,
+        li>div {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        .title>img {
+            width: 6rem;
+            margin-right: 3rem;
+        }
+
+        .title>span {
+            font-size: 1.6rem;
+            color: #FF4841;
+        }
+
+        .time {
+            width: 12rem;
+            color: #fff;
+            height: 20px;
+            line-height: 20px;
+            font-size: 1.2rem;
+            background: #FF8984;
+            text-align: center;
+            margin: 15px auto;
+            border-radius: 15px;
+        }
+
+        ul {
+            width: 27rem;
+            margin: auto;
+            border-radius: 6px;
+            box-sizing: border-box;
+            padding: 1rem;
+            overflow-y: auto;
+        }
+
+        li {
+            background: #f2f2f2;
+            border-radius: 6px;
+            margin-bottom: 2rem;
+            width: 100%;
+            box-sizing: border-box;
+            padding: 10px 0;
+            position: relative;
+        }
+
+        li>p:nth-child(1) {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 6rem;
+            height: 2.5rem;
+            text-align: center;
+            line-height: 2.5rem;
+            background: #FF455C;
+            color: #fff;
+            font-size: 1.2rem;
+            border-radius: 6px 0 2.5rem 0;
+        }
+
+        li>p:nth-child(2) {
+            width: 100%;
+            text-align: center;
+            font-size: 1.2rem;
+            color: #333;
+        }
+
+        li>p:nth-child(3) {
+            width: 100%;
+            text-align: center;
+            color: #FF4841;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+
+        li>div>p:nth-child(1) {
+            font-size: 1.2rem;
+            color: #333;
+            margin-right: 10px;
+        }
+
+        li>div>p:nth-child(2) {
+            width: 7.5rem;
+            padding: .5rem 0;
+            border-radius: 2rem;
+            background: #FF4841;
+            color: #fff;
+            text-align: center;
+        }
+
+        ul>li:last-child>.two {
+            padding-top: 2.5rem;
+            font-weight: bold;
+        }
+
+        .draw {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: 30px;
+            color: #fff;
+            font-size: 1.8rem;
+            height: 45px;
+            width: 28rem;
+            text-align: center;
+            line-height: 45px;
+            background: linear-gradient(to right, #FF435B, #FDA96D);
+        }
+
+        footer {
+            width: 36rem;
+            height: 100%;
+            position: absolute;
+            z-index: 999;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0);
+            transition: all .2s;
+            display: none;
+        }
+
+        .content1,
+        .content2,
+        .content3 {
+            display: none
+        }
+
+        .active {
+            background: rgba(0, 0, 0, .6);
+            display: block;
+        }
+
+        .active1 {
+            display: block;
+        }
+
+        footer>div {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 27rem;
+            border-radius: 10px;
+            background: #fff;
+            box-sizing: border-box;
+            padding: 30px;
+        }
+
+        footer h4 {
+            color: #000;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 1.5rem;
+        }
+
+        footer p {
+            color: #666;
+            font-size: 1.3rem;
+            width: 18rem;
+            margin: 0 auto;
+            text-align: justify;
+            text-justify: inter-character
+        }
+
+        footer .goon,.sure{
+            width: 15rem;
+            height: 3.5rem;
+            line-height: 3.5rem;
+            border-radius: 3.5rem;
+            text-align: center;
+            color: #fff;
+            background: #FF4841;
+            font-size: 1.6rem;
+            margin-top: 15px;
+        }
+
+        .goon+p {
+            width: 15rem;
+            height: 3.5rem;
+            line-height: 3.5rem;
+            border-radius: 3.5rem;
+            text-align: center;
+            color: #FF4841;
+            background: #fff;
+            border: 1px solid #FF4841;
+            font-size: 1.6rem;
+            margin-top: 15px;
+        }
+
+        .content1>p>span,.text {
+            font-weight: bold;
+            display: block;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div tapmode onclick="comeBackAgin()">
+            <img src="../image/main/16.png" alt="">
+        </div>
+        <p>任务详情</p>
+    </header>
+    <section>
+        <div class="title">
+            <img id="title_img" src="../image/main/9.png" alt="">
+            <span id="task_money">0.00元</span>
+        </div>
+        <p class="time">剩余时间20:00</p>
+        <ul>
+            <li>
+                <p>第一步</p>
+                <p>应用商城内搜索关键词</p>
+                <p id="keywords">"一元秒杀"</p>
+                <div>
+                    <p id="step">APP内搜索排名第一位</p>
+                    <p tapmode onclick="goDownload();">前去下载</p>
+                </div>
+            </li>
+            <li>
+                <p>第二步</p>
+                <p class="two">打开应用进入界面，试玩3分钟</p>
+                <div>
+                    <p>打开时请确保移动网络开启</p>
+                    <p tapmode onclick="openApp();">打开APP</p>
+                </div>
+            </li>
+        </ul>
+        <p class="draw" tapmode onclick="getTask();">领取奖励</p>
+    </section>
+    <footer>
+        <div class="content1">
+            <p><span>马上就可以获取奖金了呢</span>
+                <span>确定放弃该任务吗？</span>
+            </p>
+            <p class="goon" tapmode onclick="closeMask();">继续任务</p>
+            <p tapmode onclick="closeWordBack()">放弃任务</p>
+        </div>
+        <!-- <div class="content2">
+            <h4>任务须知</h4>
+            <p>该任务的奖励发放与否，由广告 直接判定。请务必确保允许应用 联网，并体验3分钟否则将可能 领不到奖励。
+            </p>
+            <p class="goon">继续任务</p>
+            <p tapmode onclick="giveUp()">放弃任务</p>
+        </div> -->
+        <div class="content3">
+            <h4>任务须知</h4>
+            <p class="text">该任务的奖励发放与否，由广告 直接判定。请务必确保允许应用 联网,并体验3分钟否则将可能 领不到奖励。
+            </p>
+            <p class="sure"tapmode onclick="closeZhong()">确定</p>
+        </div>
+    </footer>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/app.js"></script>
+<script type="text/javascript" src="../script/md5.min.js"></script>
+<script type="text/javascript">
+    var isback = true;
+    var isdownload = 1;
+    var iosUrl = '';
+    var copytext = '';
+    var androidPkg = '';
+    var tid =""
+    apiready = function() {
+        id = api.pageParam.id
+        var date = new Date();
+        var time = date.getTime();
+        endTime = time + 1800000;
+        init()
+    }
+
+    function init() {
+        var h = api.winHeight
+        var h1 = h - 280
+        var h2 = h1 / 1.8
+            //alert(h)
+        $api.css($api.dom('header'), `background-size: 36rem ${h}px;height:${h}px`);
+        $api.css($api.dom('section'), `background-size: 31rem ${h1}px;height:${h1}px`);
+        //$api.css($api.dom('ul'), `height:${h2}px`);
+        api.addEventListener({
+            name: 'viewappear'
+        }, function(ret, err) {
+            //$api.addCls($api.dom("footer"), 'active');
+        });
+        //console.log(api.pageParam.id)
+        _ajax('api/sw_task/taskInfo', function(ret) {
+            console.log(JSON.stringify(ret))
+            if(ret.errCode==0){
+              _msg(ret.msg)
+              setTimeout(function(){
+                api.closeWin();
+              },600)
+            }
+            if (ret.errCode == 1) {
+
+                if (ret.data.img != "" && ret.data.img != null) {
+                    $api.attr($api.byId('title_img'), 'src', imgurl + ret.data.img);
+                }
+                $api.html($api.byId('task_money'), '+' + ret.data.task_money + '元');
+                $api.html($api.byId('keywords'), `"${ret.data.keywords}"`);
+                $api.html($api.byId('step'), `APP内搜索排名第${ret.data.step}位`);
+                copytext = ret.data.keywords;
+                //console.log(copytext)
+                iosUrl = ret.data.appid;
+                androidPkg = 	ret.data.packagename
+                _ajax('api/sw_task/taskReceive', function(ret) {
+
+                    //console.log(JSON.stringify(ret))
+                    if(ret.errCode==0){
+                      _msg(ret.msg)
+                      setTimeout(function(){
+                        api.closeWin();
+                      },600)
+                    }
+                    if (ret.errCode == 1) {
+                      _msg(ret.msg)
+                        isback = false;
+                        //console.log('抢任务成功');
+                        task_time_due();
+                    } else if (ret.errCode == -1) {
+                        openWin('login');
+                    }
+                }, {
+                    tid: api.pageParam.id,
+                })
+            } else if (ret.errCode == -1) {
+                _openWin('login');
+            }
+        }, {
+            tid: api.pageParam.id,
+        })
+    }
+
+    function closeWin() {
+        api.closeWin();
+    }
+    //放弃任务
+    function closeWordBack() {
+        _ajax("api/sw_task/giveup", function(ret) {
+            if (ret) {
+                console.log(JSON.stringify(ret))
+                _msg(ret.msg);
+                api.closeWin();
+            }
+        }, {
+            tid: tid,
+            token: $api.getStorage('token')
+        })
+    }
+
+    function task_time_due() {
+        var date = new Date();
+        var time = date.getTime();
+        var lag = (endTime - time); //当前时间和结束时间之间的秒数
+        // console.log(lag);
+        if (lag > 0) {
+            var second = Math.floor(lag / 1000 % 60);
+            var minite = Math.floor(lag / 1000 / 60 % 60);
+            var hour = Math.floor(lag / 1000 / 60 / 60 % 24);
+            var day = Math.floor(lag / 1000 / 60 / 60 / 24);
+            second = second.toString().length == 2 ? second : second;
+            minite = minite.toString().length == 2 ? minite : minite;
+            hour = hour.toString().length == 2 ? hour : hour;
+            day = day.toString().length == 2 ? day : day;
+        } else {
+            var second = '0';
+            var minite = '0';
+            var hour = '0';
+            var day = '0';
+        }
+        $api.html($api.dom('.time'), `剩余时间:${minite}分${second}秒`);
+
+        //$(".timer-box span").html(minite + "分" + second + "秒")
+        setTimeout(function() {
+            task_time_due()
+        }, 1000);
+    }
+
+    function comeBackAgin() {
+        if (!isback) {
+
+            $api.css($api.dom('footer'), 'css');
+            $api.addCls($api.dom('footer'), 'active');
+            $api.addCls($api.dom('.content1'), 'active1');
+
+            // $(".mask-box .after").show();
+            // $(".mask-box").show();
+        } else {
+            api.closeWin();
+        }
+    };
+
+    function closeMask() {
+        $api.removeCls($api.dom('footer'), 'active');
+        $api.removeCls($api.dom('.content1'), 'active1');
+    };
+    //下载
+    function goDownload() {
+        console.log(copytext)
+        console.log(androidPkg)
+        usercopy(copytext);
+        if (isdownload == 1) {
+            isdownload = 2;
+        }
+        var systemType = api.systemType
+        if (systemType == 'android') {
+            var openApp = api.require('openApp');
+            var params = {
+                package: androidPkg,
+                url: ''
+            };
+            openApp.openAppMarket(params, function(ret, err) {
+                if (ret) {
+                    //alert($api.jsonToStr(ret));
+                    if (ret.install) {
+                        _msg(ret.msg)
+                    }
+                }
+            });
+        } else {
+            api.appInstalled({
+                appBundle: iosUrl
+            }, function(ret, err) {
+                if (ret.installed) {
+                    _msg("应用已安装");
+                } else {
+                    api.openApp({
+                        iosUrl: 'itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/search?'
+                    });
+                }
+            });
+        }
+
+    };
+    //领取奖金
+    function getTask() {
+        if (isdownload == 1 || isdownload == 2) {
+            _msg("请先下载后打开试玩！");
+            return;
+        } else if (isdownload == 4) {
+            _msg('奖金已领取，不能重复领取！');
+            return;
+        }
+        _ajax('api/sw_task/getMoney',function(ret){
+          if (ret) {
+              console.log(JSON.stringify(ret))
+              if (ret.errCode == 1) {
+                  _msg(ret.msg);
+                  isback = true;
+                  isdownload = 4;
+                  setTimeout(function() {
+                      api.closeWin();
+                  }, 800)
+              } else {
+                  $api.html($api.dom('.content3 .text'), ret.msg);
+                  $api.addCls($api.dom('footer'), 'active');
+                  $api.addCls($api.dom('.content3'), 'active1');
+              }
+          }
+        },{
+          tid:api.pageParam.id,
+        })
+
+    };
+
+    function openApp() {
+        if (isdownload == 2 || isdownload == 1 ){
+          isdownload = 3
+        }
+        //console.log(123)
+        if (api.systemType == "android") {
+            appBundle = androidPkg
+        } else {
+            appBundle = iosUrl
+        }
+
+        //异步返回结果：
+        api.appInstalled({
+            appBundle: appBundle
+        }, function(ret, err) {
+            if (ret.installed) {
+                if (api.systemType == "android") {
+                    api.openApp({
+                        androidPkg: appBundle,
+                    }, function(ret, err) {
+                        if (ret) {
+                            //alert(JSON.stringify(ret));
+                            _ajax('api/sw_task/loading',function(ret){
+                                console.log(JSON.stringify(ret))
+                            },{
+                              tid:api.pageParam.id,
+                            })
+                        } else {
+                            //alert(JSON.stringify(err));
+                        }
+                    });
+                } else {
+                    api.openApp({
+                        iosUrl: iosUrl
+                    });
+                    _ajax('api/sw_task/loading',function(ret){
+                        console.log(JSON.stringify(ret))
+                    },{
+                      tid:api.pageParam.id,
+                    })
+                }
+
+            } else {
+                //应用未安装
+                _msg("应用未安装,请先安装");
+            }
+        });
+
+    };
+    function closeZhong() {
+        $api.removeCls($api.dom('footer'), 'active');
+        $api.removeCls($api.dom('.content3'), 'active1');
+    };
+</script>
+
+</html>

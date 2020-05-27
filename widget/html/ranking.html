@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>排行榜</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+  <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+  <link rel="stylesheet" type="text/css" href="../css/api.css" />
+
+  <!-- Demo styles -->
+
+  <style>
+    body,html{
+    width: 100%;
+    height: 100%;
+    background-image: url('../image/rangking/1.png');
+    background-size: 100% 100%;
+    }
+    header{
+       width: 100%;
+       height: 40px;
+       display: flex;
+       justify-content: space-between;
+       align-items: center;
+       position: fixed;
+       background-color: #F02A3D;
+       z-index: 1000;
+       /*background-color: blue;*/
+    }
+
+    .one{
+      width: 100%;
+      height: 90vw;
+      background-image: url('../image/rangking/6.png');
+      background-size: 100% 90vw;
+      background-repeat: no-repeat;
+    }
+    header div{
+      width: 33%;
+      height: 40px;
+    }
+    header div:nth-of-type(2){
+      width: 33%;
+      height: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 16px;
+      color: white;
+      font-weight: bold;
+    }
+    .head {
+      display: flex;
+      align-items: center;
+    }
+    .head img{
+      width: 25px;
+      margin-left: 3vw;
+    }
+    .top{
+      width: 80vw;
+      height: 40px;
+      margin: 0 auto;
+      /*background-color: blue;*/
+      display: flex;
+      justify-content: space-between;
+    }
+    .top div{
+      width: 38vw;
+      height: 40px;
+      box-sizing: content-box;
+    }
+    .top div img{
+      width: 100%;
+
+      padding-bottom: 3px;
+
+    }
+    .active{
+      border-bottom: 3px solid white;
+    }
+    .two{
+      width: 75vw;
+      height: 43px;
+      margin: 0 auto;
+      /*background-color: blue;*/
+      border-radius: 18.25px;
+      position: relative;
+      top: -40px;
+      display: flex;
+    }
+    .two div:nth-of-type(1){
+      width: 37.5vw;
+      height: 43px;
+      font-size: 19px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      border-radius: 18.25px  0px   0px  18.25px;
+    }
+    .active1{
+      color: white;
+      background-color: rgba(253, 171, 13, 1);
+    }
+    .active2{
+      color: rgba(253, 171, 13, 1);
+      background-color: white;
+    }
+    .two div:nth-of-type(2){
+      width: 37.5vw;
+      height: 43px;
+      font-size: 19px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      border-radius: 0px 18.25px 18.25px 0px;
+    }
+    .three{
+      width: 100vw;
+       margin-top: 100px;
+      /*background-color: green;*/
+    }
+    .prize{
+      width: 340px;
+      height: 71.5px;
+      margin: 0 auto;
+      background-image: url("../image/rangking/5.png");
+      background-size: 340px 71.5px;
+      background-repeat: no-repeat;
+      position: relative;
+    }
+
+      .prize>div{
+        width: 100px;
+        height: 146.5px;
+        position: absolute;
+        /*position: relative;*/
+      }
+      .prize>div>img{
+        width: 100px;
+        height: 146.5px;
+      }
+      .prize>div:nth-of-type(1){
+        left: 10px;
+        top: -85px;
+      }
+      .prize>div:nth-of-type(2){
+        left: 120px;
+        top: -115px;
+      }
+      .prize>div:nth-of-type(3){
+        right:10px;
+        top: -85px;
+      }
+      .prize-content{
+        width: 70px;
+        position: absolute;
+        top: 30px;
+        left: 15px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        /*background-color: red;*/
+      }
+      .prize-content>.tou{
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+      }
+      .prize-content>p{
+        margin: 5px 0;
+        width: 70px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        text-align: center;
+      }
+      .prize-content>p:nth-of-type(2){
+        margin: 5px 0;
+        width: 70px;
+        overflow: hidden;
+        white-space: nowrap;
+        font-weight: bold;
+        text-overflow: ellipsis;
+        text-align: center;
+        color: rgba(255, 72, 65, 1);
+        font-size: 16px;
+      }
+      .four{
+        margin-top: 30px;
+        width: 100vw;
+        /*height: 600px;*/
+        background-color: rgba(242, 242, 242, 1);
+        border-radius: 15px 15px 0 0;
+        padding-bottom: 15px;
+      }
+      .four-title{
+        width: 100vw;
+        height: 50px;
+        border-radius: 15px 15px 0 0;
+        display: flex;
+      }
+      .four-title div{
+        width: 49vw;
+        line-height: 50px;
+        text-align: center;
+        color: rgba(102, 102, 102, 1);
+        font-size: 15.5px;
+        font-weight: bold;
+      }
+      .list{
+        width: 95vw;
+        height: 59.5px;
+        border-radius: 10.25px;
+        display: flex;
+        box-sizing: border-box;
+        margin: 0 auto;
+        justify-content: space-between;
+        background-color: white;
+        margin-bottom: 15px;
+      }
+      .list>.list-left{
+        width: 60%;
+        height: 59.5px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-sizing: border-box;
+        padding: 0 5%;
+        /*background-color: red;*/
+        font-size: 14px;
+        color: rgba(51, 51, 51, 1);
+      }
+      .list>.list-left>div:nth-of-type(1){
+        width: 20.5px;
+        line-height: 20.5px;
+        border-radius: 50%;
+        background-color: rgba(251, 178, 32, 1);
+        color: rgba(255, 72, 65, 1);
+        font-size: 11.5px;
+        text-align: center;
+      }
+      .list>.list-left>div:nth-of-type(2){
+        width: 25%;
+        display: flex;
+        justify-content: center;
+        text-align: center;
+        align-items: center;
+        /*background-color: red;*/
+
+      }
+      .list>.list-left>div:nth-of-type(3){
+        width: 50%;
+        display: flex;
+        justify-content: center;
+        text-align: center;
+        align-items: center;
+      }
+      .list>.list-left>div>img{
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+      }
+      .list>.list-rig{
+        width: 30%;
+        line-height: 59.5px;
+        text-align: center;
+        color: rgba(255, 72, 65, 1);
+        font-weight: bold;
+        font-size: 16px;
+      }
+  </style>
+</head>
+<body>
+  <div id="ranking">
+    <header>
+        <div class="head" tapmode onclick="api.closeWin()">
+            <img src="../image/main/16.png" alt="">
+        </div>
+        <div class="title">排行榜</div>
+        <div></div>
+    </header>
+    <div class="con">
+      <div class="one">
+        <div class="top">
+          <div v-for="(item,i) in classify"  @click="changeIndex(i)">
+             <img :class="{active:i==index}" :src="item"  >
+          </div>
+        </div>
+      </div>
+      <div class="two">
+         <div   @click="changeIn(0)" :class="ind==0?active1:active2">
+           每周排行
+         </div>
+         <div @click="changeIn(1)" :class="ind==0?active2:active1">
+           每月排行
+         </div>
+         <!-- <div v-for="(item,i) in monwek"  @click="changeIn(i)">
+           {{item}}
+         </div> -->
+      </div>
+      <div class="three">
+        <div class="prize">
+          <div>
+            <img src="../image/rangking/2.png" alt="">
+            <div class="prize-content">
+              <img class="tou" v-if="twolist.avatar" :src="twolist.avatar?twolist.avatar:'imgurl+/favicon.ico'" alt="暂无数据">
+                <img class="tou" v-else src="../image/rangking/favicon.ico" alt="">
+              <p>{{twolist.nickname}}</p>
+              <p>
+              +{{twolist.num}}
+              </p>
+            </div>
+          </div>
+          <div>
+            <img src="../image/rangking/3.png" alt="">
+            <div class="prize-content">
+              <img class="tou" v-if="onelist.avatar" :src="onelist.avatar?onelist.avatar:'imgurl+/favicon.ico'" alt='暂无数据'>
+              <img class="tou" v-else src="../image/rangking/favicon.ico" alt="">
+              <p>{{onelist.nickname}}</p>
+              <p>
+                +{{onelist.num}}
+              </p>
+            </div>
+          </div>
+          <div>
+            <img src="../image/rangking/4.png" alt="">
+            <div class="prize-content">
+              <img class="tou" v-if="threelist.avatar" :src="threelist.avatar?threelist.avatar:'imgurl+/favicon.ico'" alt= "暂无数据">
+                <img class="tou" v-else src="../image/rangking/favicon.ico" alt="">
+              <p>{{threelist.nickname}}</p>
+              <p>
+                +{{threelist.num}}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="four">
+          <div class="four-title">
+            <div>用户</div>
+            <div>{{type==1?'收入':'人数'}}</div>
+          </div>
+          <div class="listBox">
+            <div class="list" v-for="(item,i) in qiyulist">
+             <div class="list-left">
+               <div>{{i+4}}</div>
+
+               <div><img v-if="item.avatar" :src="item.avatar?item.avatar:'imgurl+/favicon.ico'" alt="">  <img class="tou" v-else src="../image/rangking/favicon.ico" alt=""></div>
+              <div> <span>{{item.nickname?item.nickname:"暂未昵称"}}</span></div>
+             </div>
+              <div class="list-rig">
+                +{{item.num?item.num:"0.00"}}
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/app.js"></script>
+<script type="text/javascript" src="../script/md5.min.js"></script>
+<script type="text/javascript" src="../script/vue.min.js"></script>
+<script type="text/javascript" src="../script/fastclick.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+        $api.fixStatusBar($api.dom('header'));
+       let uu =   $api.dom('.con')
+       let top = api.safeArea.top
+       uu.style.paddingTop =  top +40 +"px"
+
+        window.FastClick && FastClick.attach(document.body);
+        var vm = new Vue({
+          el:"#ranking",
+          data(){
+            return{
+              classify:["../image/rangking/8.png","../image/rangking/9.png"],
+              index:0,
+              ind:0,
+              type:1,
+              list_type:1,
+              active1:"active1",
+              active2:"active2",
+              onelist:"",
+              twolist:"",
+              threelist:"",
+              qiyulist:""
+            }
+          },
+          created(){
+            this.getinfo()
+          },
+          methods:{
+            changeIndex(i){
+              console.log(i)
+              this.index = i
+              this.type = i + 1
+              this.getinfo()
+            },
+            changeIn(i){
+              console.log(i)
+              this.ind = i
+              this.list_type = i + 1
+              this.getinfo()
+            },
+            getinfo(){
+
+              console.log(getToken())
+              console.log(this.type)
+              console.log(this.list_type)
+              UILoading()
+              _ajax('api/rank_list/getranklist',(ret,err)=>{
+                 console.log(JSON.stringify(ret))
+                 if(ret.data.length>0){
+                   UILoading_Close()
+                   console.log(ret.data.length)
+                   this.onelist = ""
+                   this.twolist = ""
+                   this.threelist = ""
+                   this.qiyulist = ""
+                   this.onelist  =  ret.data.slice(0,1)[0]
+                   console.log(JSON.stringify(this.onelist))
+                   this.twolist = ret.data.slice(1,2)[0]
+                   this.threelist = ret.data.slice(2,3)[0]
+                   console.log(JSON.stringify(this.threelist))
+                   this.qiyulist = ret.data.slice(3,ret.data.length)
+
+                 }else{
+                   UILoading_Close()
+                   this.onelist = ""
+                   this.twolist = ""
+                   this.threelist = ""
+                   this.qiyulist = ""
+                 }
+              },{
+                type:this.type,
+                list_type:this.list_type
+              })
+            }
+          }
+        })
+    }
+</script>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>发布管理任务列表</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <style>
+    body,html{
+      background: #f2f2f2;
+    }
+    header{
+        height: 75px;
+        background: #fff;
+        border-bottom: 1px solid #f2f2f2;
+    }
+    header div{
+        position: absolute;
+        top: 34px;
+        box-sizing: border-box;
+        padding: 8px;
+        width: 60px;
+        height: 40px;
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-box-pack:center;
+        -webkit-justify-content:center;
+        justify-content: center;
+        -webkit-box-align:center;
+        -webkit-align-items:center;
+        align-items: center;
+    }
+    header div img{
+        height: 1.9rem;
+    }
+    header p{
+        font-size: 1.7rem;
+        font-weight: bold;
+        color: #333;
+        position: absolute;
+        top: 43px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    </style>
+</head>
+
+<body>
+    <header>
+        <div tapmode onclick="api.closeWin()">
+            <img src="../image/return.png" alt="">
+        </div>
+        <p id='status'></p>
+    </header>
+
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/app.js"></script>
+<script type="text/javascript">
+
+    apiready = function() {
+      var status = api.pageParam.status
+      if(status=='0'){
+      $api.html($api.byId('status'),'进行中列表')
+      }
+      if(status=='1'){
+      $api.html($api.byId('status'),'已完成列表')
+      }
+      if(status=='5'){
+      $api.html($api.byId('status'),'驳回列表')
+      }
+      api.openFrame({
+          name: 'fbfllist_frame',
+          url: './fbgllist_frame.html',
+          rect: {
+              x: 0,
+              y: 76,
+              w: 'auto',
+          },
+          pageParam: {
+              status: api.pageParam.status,
+              id:api.pageParam.id,
+          },
+          bounces: true,
+          bgColor: 'rgba(0,0,0,0)',
+          vScrollBarEnabled: false,
+          hScrollBarEnabled: false,
+      });
+
+
+    }
+</script>
+
+</html>

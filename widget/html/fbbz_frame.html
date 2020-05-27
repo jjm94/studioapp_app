@@ -1,0 +1,532 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>发布步骤</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <style>
+    body,html{
+      background:transparent;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+    }
+    .bz{
+      width: 33rem;
+      background: #fff;
+      border-radius: 10px;
+      box-sizing: border-box;
+      padding: 2rem 2rem .5rem;
+      display: none;
+    }
+    .bz p{
+      font-size: 1.6rem;
+      color: #333;
+      margin-bottom: .8rem;
+    }
+    .bz>div{
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+    }
+    .title{
+      margin-bottom: 1rem;
+
+    }
+  .bz  .title>p{
+      padding: 0;
+      margin: 0;
+      font-size: 1.7rem;
+    }
+    .title>img{
+      width: 1.5rem;
+      margin-right: .3rem;
+    }
+    .bz textarea{
+      width: 100%;
+      height: 100px;
+      line-height: 16px;
+      box-sizing: border-box;
+      padding: 1rem;
+      font-size: 1.3rem;
+      border-radius: 6px;
+      border: 1px solid #f2f2f2;
+      background: #f2f2f2;
+      outline: none;
+
+    }
+    .bz .url{
+      padding: 0 1rem;
+      height: 50px;
+    }
+    .bz .foot{
+      margin:15px 0;
+      display: flex;
+      justify-content: center;
+    }
+    .foot>span{
+      width: 50%;
+      text-align: center;
+      font-size: 1.5rem;
+      color: #666;
+    }
+    .foot>span:nth-child(2){
+      width: 1px;height: 16px;
+      background: #999;
+    }
+    .foot>span:last-child{
+      border: 0;
+      color: #FF4841;
+    }
+    li p {
+        font-size: 1.5rem;
+        color: #333
+    }
+
+    li>p {
+        background: #FF4841;
+        border-radius: 50%;
+        width: 2rem;
+        height: 2rem;
+        text-align: center;
+        line-height: 2rem;
+        color: #fff;
+        font-size: 1.5rem;
+        margin-right: .7rem;
+    }
+
+    li {
+        display: flex;
+        margin: 1rem 0;
+        align-items: flex-start;
+    }
+
+    li>div {
+        flex: 1
+    }
+
+    .index {
+        width: 100%;
+        line-height: 2rem;
+        margin-bottom: 1rem;
+    }
+
+    .urls>.conrent,
+    .qrcode .contet {
+        display: flex;
+    }
+
+    .content>span {
+        font-size: 1.5rem;
+        padding: .2rem .5rem;
+        height: 2rem;
+        line-height: 2rem;
+        background: -webkit-linear-gradient(right, #FDA96D 0%, #FF435B 100%);
+        color: #fff;
+        border-radius: 4px;
+        margin-right: 3rem;
+    }
+
+    .content>span:last-child {
+        color: #FF435B;
+        background: -webkit-linear-gradient(right, #FFE4E1 0%, #FFAEB9 100%);
+    }
+
+    .checkimg .content {
+        display: flex;
+        width: 100%;
+        align-items: flex-start;
+        justify-content: space-between;
+        box-sizing: border-box;
+        padding-right: 2.5rem;
+    }
+
+    .checkimg .content>div {
+        width: 46%;
+    }
+
+    .checkimg .leftimg {
+        width: 100%;
+    }
+
+    .checkimg .rightimg {
+        width: 8rem;
+    }
+
+    .getinfo>input {
+        border-radius: 4px;
+        outline: none;
+        border: .5px solid #FF435B;
+        width: 100%;
+        color: #333;
+        box-sizing: border-box;
+        padding: 1rem .3rem;
+        font-size: 1.4rem;
+    }
+
+    .graphicexplanation img {
+        width: 14rem;
+    }
+
+    .copydata input {
+        width: 16rem;
+        padding: .6rem;
+        font-size: 1.4rem;
+        color: #999;
+        border-radius: 4px;
+        outline: none;
+        border: .5px solid #FF435B;
+        margin-right: 1rem;
+    }
+    .code>img{
+      display: block;
+      margin: auto;
+      width: 13rem;
+    }
+    .active{
+      pointer-events: none;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="bz bz1">
+      <div class="title">
+        <p>输入网址</p>
+        <img src="../image/fabu/3.png"  tapmode onclick="closebz_frame()" alt="">
+      </div>
+      <p>步骤说明</p>
+      <textarea  placeholder="适用于打开网址链接。输入内容，详细说明如何操作" rows="5" id="u_title" wrap="physical" ></textarea>
+      <p>填写网址</p>
+      <textarea class="url"  placeholder="网址链接 例：http://www.baidu.com" rows="2" wrap="physical" id="e_url"></textarea>
+      <div class="foot">
+        <span tapmode onclick="closebz_frame()">取消</span>
+        <span></span>
+        <span tapmode onclick="addinfo()">添加</span>
+      </div>
+    </div>
+    <div class="bz bz2">
+      <div class="title">
+        <p>上传二维码</p>
+        <img src="../image/fabu/3.png"  tapmode onclick="closebz_frame()" alt="">
+      </div>
+      <p>步骤说明</p>
+      <textarea  placeholder="适用于打开网址链接。输入内容，详细说明如何操作" rows="5" id="code_title" wrap="physical"></textarea>
+      <p>二维码</p>
+      <div class="code">
+        <img src="../image/fabu/17.png" id="codeimg" tapmode onclick="uploadimg(1)" alt="">
+      </div>
+      <div class="foot">
+        <span tapmode onclick="closebz_frame()">取消</span>
+        <span></span>
+        <span tapmode onclick="addinfo()" class="add">添加</span>
+      </div>
+    </div>
+    <div class="bz bz3">
+      <div class="title">
+        <p>复制数据</p>
+        <img src="../image/fabu/3.png"  tapmode onclick="closebz_frame()" alt="">
+      </div>
+      <p>步骤说明</p>
+      <textarea  placeholder="适用于需要复制数据。如填写邀请码，输入内容，提示会员复制数据，方便填写" rows="5" id="copy_title" wrap="physical" ></textarea>
+      <p>填写数据</p>
+      <textarea class="url"  placeholder="如邀请码，钱包地址之类" rows="1" wrap="physical" id="e_copydata"></textarea>
+      <div class="foot">
+        <span tapmode onclick="closebz_frame()">取消</span>
+        <span></span>
+        <span tapmode onclick="addinfo()">添加</span>
+      </div>
+    </div>
+    <div class="bz bz4">
+      <div class="title">
+        <p>上传说明图</p>
+        <img src="../image/fabu/3.png"  tapmode onclick="closebz_frame()" alt="">
+      </div>
+      <p>步骤说明</p>
+      <textarea  placeholder="适用于需要图文说明，引导悬赏人的操作。输入内容，详细说明注意事项。" rows="5" id="sm_title" wrap="physical"></textarea>
+      <p>说明图</p>
+      <div class="code">
+        <img src="../image/fabu/17.png" id="e_graphicexplanation" tapmode onclick="uploadimg(2)" alt="">
+      </div>
+      <div class="foot">
+        <span tapmode onclick="closebz_frame()">取消</span>
+        <span></span>
+        <span tapmode onclick="addinfo()">添加</span>
+      </div>
+    </div>
+    <div class="bz bz5">
+      <div class="title">
+        <p>上传验证图</p>
+        <img src="../image/fabu/3.png"  tapmode onclick="closebz_frame()" alt="">
+      </div>
+      <p>步骤说明</p>
+      <textarea  placeholder="适用于需要验证图，引导接单人的操作。输入内容，详细说明注意事项。" rows="5" id="yz_title" wrap="physical"></textarea>
+      <p>验证图</p>
+      <div class="code">
+        <img src="../image/fabu/17.png" id="e_checkimg" tapmode onclick="uploadimg(3)" alt="">
+      </div>
+      <div class="foot">
+        <span tapmode onclick="closebz_frame()">取消</span>
+        <span></span>
+        <span tapmode onclick="addinfo()">添加</span>
+      </div>
+    </div>
+    <div class="bz bz6">
+      <div class="title">
+        <p>收集信息</p>
+        <!-- <img src="../image/fabu/3.png"  tapmode onclick="closebz_frame()" alt=""> -->
+      </div>
+      <!-- <p>步骤说明</p> -->
+      <textarea  placeholder="适用于收集手机号、用户名、姓名、ID等。输入内容，详细说明你需要收集什么" rows="5" id="getinfo" wrap="physical"></textarea>
+      <div class="foot">
+        <span tapmode onclick="closebz_frame()">取消</span>
+        <span></span>
+        <span tapmode onclick="addinfo()">添加</span>
+      </div>
+    </div>
+
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/app.js"></script>
+<script type="text/javascript" src="../script/md5.min.js"></script>
+<script type="text/javascript">
+    var type,e_qrcode,U_id,e_graphicexplanation,e_checkimg,info,index;
+    apiready = function() {
+      setStatusBarStylemoren()
+      type = api.pageParam.type
+      isedit = api.pageParam.isedit
+      info = api.pageParam.info
+      index = api.pageParam.index
+    //  alert(JSON.stringify(isedit))
+      if(info){
+        if(info.type=='urls'){
+          $api.val($api.byId('u_title'), info.urls.title);
+          $api.val($api.byId('e_url'),info.urls.e_url);
+        }
+        if(info.type=='qrcode'){
+          e_qrcode = info.qrcode.e_qrcode
+          $api.val($api.byId('code_title'),info.qrcode.title);
+          $api.attr($api.byId(`codeimg`), 'src', imgurl+e_qrcode);
+        }
+        if(info.type=='copydata'){
+          $api.val($api.byId('copy_title'),info.copydata.title);
+          $api.val($api.byId('e_copydata'),info.copydata.e_copydata);
+        }
+        if(info.type=='graphicexplanation'){
+          e_graphicexplanation = info.graphicexplanation.e_graphicexplanation
+          $api.val($api.byId('sm_title'), info.graphicexplanation.title);
+          $api.attr($api.byId(`e_graphicexplanation`), 'src', imgurl+e_graphicexplanation);
+        }
+        if(info.type=='checkimg'){
+          $api.val($api.byId('yz_title'), info.checkimg.title);
+          e_checkimg = info.checkimg.e_checkimg
+          $api.attr($api.byId(`e_checkimg`), 'src',imgurl+e_checkimg);
+        }
+        if(info.type=='getinfo'){
+          $api.val($api.byId('getinfo'),info.getinfo.title);
+        }
+
+      }
+
+      for(var n=1;n<7;n++){
+        if(n==type){
+          $api.css($api.dom(`.bz${n}`), 'display:block');
+        }
+      }
+    }
+
+    function closebz_frame(){
+      api.closeFrame();
+
+    }
+    function addinfo(){
+      UILoading_Close(U_id)
+      var obj = {}
+      if(type==1){
+        var u_title = $api.val($api.byId('u_title'));
+        var e_url = $api.val($api.byId('e_url'));
+        var name = /(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?/
+        if(!u_title){
+          _msg('请添加步骤说明')
+          return
+        }else if (!e_url) {
+          _msg('请添加网址')
+          return
+        }else if (!name.test(e_url)) {
+          _msg('网址格式错误，请检查是否添加域名 http:// 或 https://')
+          return
+        }else{
+          obj['type'] = "urls"
+          obj['urls'] = {"title":u_title,"e_url":e_url}
+        }
+
+      }
+      if(type==2){
+        var code_title = $api.val($api.byId('code_title'));
+        if(!code_title){
+          _msg('请添加步骤说明')
+          return
+        }
+        if(!e_qrcode){
+          _msg('请添加二维码')
+          return
+        }
+        obj['type'] = "qrcode"
+        obj['qrcode'] = {"title":code_title,"e_qrcode":e_qrcode}
+      }
+      if(type==3){
+        var copy_title = $api.val($api.byId('copy_title'));
+        var e_copydata = $api.val($api.byId('e_copydata'));
+        if(!copy_title){
+          _msg('请添加步骤说明')
+          return
+        }else if (!e_copydata) {
+          _msg('请添加数据')
+          return
+        }else{
+          obj['type'] = "copydata"
+          obj['copydata'] = {"title":copy_title,"e_copydata":e_copydata}
+        }
+      }
+      if(type==4){
+        var sm_title = $api.val($api.byId('sm_title'));
+        if(!sm_title){
+          _msg('请添加步骤说明')
+          return
+        }
+        if(!e_graphicexplanation){
+          _msg('请添加说明图片')
+          return
+        }
+        obj['type'] = "graphicexplanation"
+        obj['graphicexplanation'] = {"title":sm_title,"e_graphicexplanation":e_graphicexplanation}
+      }
+      if(type==5){
+        var yz_title = $api.val($api.byId('yz_title'));
+        if(!yz_title){
+          _msg('请添加步骤说明')
+          return
+        }
+        if(!e_checkimg){
+          _msg('请添加验证图片')
+          return
+        }
+        obj['type'] = "checkimg"
+        obj['checkimg'] = {"title":yz_title,"e_checkimg":e_checkimg,"s_checkimg":''}
+      }
+      if(type==6){
+        var getinfo = $api.val($api.byId('getinfo'));
+        if(!getinfo){
+          _msg('请收集信息')
+          return
+        }
+        obj['type'] = "getinfo"
+        obj['getinfo'] = {"title":getinfo,'info':''}
+      }
+      if(info){
+        obj["isedit"] = api.pageParam.isedit
+        obj["hao"] = info.hao
+        console.log(JSON.stringify(obj))
+        api.execScript({
+            name: 'fabutask',
+            frameName: 'fabutask_frame',
+            script: 'addfbinfo('+JSON.stringify(obj)+')'
+        });
+      }else{
+        obj['hao'] = api.pageParam.length
+
+        console.log(JSON.stringify(obj))
+
+        api.execScript({
+            name: 'fabutask',
+            frameName: 'fabutask_frame',
+            script: 'addfbinfo('+JSON.stringify(obj)+')'
+        });
+      }
+
+
+      closebz_frame()
+    }
+    function uploadimg(n){
+      $api.addCls($api.dom('.add'), 'active');
+
+      api.actionSheet({
+          title: '上传图片',
+          cancelTitle: '取消',
+          buttons: ['拍照', '相册']
+      }, function(ret, err) {
+          var index = ret.buttonIndex;
+          if (index != 3) {
+              var sourceType = 'album'
+              if (index == 1) {
+                  sourceType = 'camera'
+              }
+              api.getPicture({
+                  sourceType: sourceType,
+                  encodingType: 'jpg',
+                  mediaValue: 'pic',
+                  destinationType: 'base64',
+                  quality: 60,
+              }, function(ret, err) {
+                  if (ret) {
+                      if (ret.data) {
+
+                          img = ret.data;
+                          console.log(JSON.stringify(ret))
+                          UILoading(U_id)
+                          uploadImg(img,n)
+                          // $api.css($api.byId(`${n}Img`), 'width:100%');
+                          // vm.checkimg.push(img)
+                              // alert($api.attr($api.byId(`${n}Img`)),'src')
+                      }
+                  }
+              });
+          }
+      });
+    }
+    function uploadImg(image,n) {
+        if (!image) {
+            api.toast({
+                msg: '图片出错',
+                duration: 2000,
+                location: 'bottom'
+            });
+            return;
+        }
+        _ajax('api/index/upload',function(ret){
+      //  alert(JSON.stringify(ret))
+          if(ret.errCode==1){
+
+              if(n==1){
+                $api.attr($api.byId(`codeimg`), 'src', imgurl+ret.data);
+                e_qrcode = ret.data
+              }
+              if(n==2){
+                $api.attr($api.byId(`e_graphicexplanation`), 'src', imgurl+ret.data);
+                e_graphicexplanation = ret.data
+              }
+              if(n==3){
+                $api.attr($api.byId(`e_checkimg`), 'src', imgurl+ret.data);
+                e_checkimg = ret.data
+              }
+              setTimeout(function(){
+                UILoading_Close(U_id)
+                $api.removeCls($api.dom('.add'), 'active');
+              },1)
+          }else{
+            UILoading_Close(U_id)
+            $api.removeCls($api.dom('.add'), 'active');
+          }
+        },{},{
+        file: image})
+    }
+</script>
+
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>消息</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <style>
+        html,
+        body {
+            background: #f2f2f2;
+        }
+
+        header {
+            height: 65px;
+            background: #fff;
+            text-align: center;
+            box-sizing: border-box;
+            padding-top: 14px;
+            line-height: 65px;
+        }
+
+        header p {
+            font-size: 1.6rem;
+            color: #333;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <header id="header">
+        <p class="shiwan">消息</p>
+    </header>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/app.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+        if (api.systemType == 'ios') {
+            api.setWinAttr({
+                slidBackEnabled: false
+            });
+        }
+        openmsgList_frame()
+    }
+
+    function openmsgList_frame() {
+        marginBottom()
+        api.openFrame({
+            name: 'messageList_frame',
+            url: './messageList_frame.html',
+            rect: {
+                marginTop: 65,
+                marginBottom: margin_bottom,
+                w: 'auto',
+            },
+            pageParam: {
+                name: 'test'
+            },
+            bounces: true,
+            bgColor: 'rgba(0,0,0,0)',
+            vScrollBarEnabled: false,
+            hScrollBarEnabled: false,
+        });
+
+    }
+</script>
+
+</html>

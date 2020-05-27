@@ -1,0 +1,713 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>我的团队</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <style>
+        body,
+        html {
+            background: #f2f2f2;
+        }
+
+        header {
+            width: 34rem;
+            height: 12rem;
+            background-image: url('../image/user/37.png');
+            background-size: 34rem 12rem;
+            margin: 1rem auto 0;
+        }
+
+        header>.time {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 10rem;
+            text-align: left;
+            margin-left: 2rem;
+            padding-top: 1rem;
+        }
+
+        .time>img {
+            width: 1.8rem;
+        }
+
+        .time>span {
+            font-size: 1.6rem;
+            color: #fff;
+        }
+
+        .money {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1.5rem;
+        }
+
+        .money>div {
+            width: 50%;
+            color: #fff;
+            font-size: 1.9rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .money>div>span:last-child {
+            font-weight: normal;
+            font-size: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        section {
+            margin-top: 2rem;
+            width: 36rem;
+            background: #f2f2f2;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        section>span {
+            width: 8rem;
+            height: 2.8rem;
+            line-height: 2.8rem;
+            font-size: 1.5rem;
+            text-align: center;
+            border-radius: 2.8rem;
+        }
+
+        .active {
+            color: #fff;
+            background: -webkit-linear-gradient(right, #FDA96D 0%, #FF435B 100%);
+        }
+    </style>
+</head>
+
+<body>
+<header>
+    <div class="time" tapmode onclick="openDate()">
+        <span id="month">3月</span>
+        <span id="year">2019</span>
+        <img src="../image/user/down.png" alt="">
+    </div>
+    <div class="money">
+        <div>
+            <span id="selfachievement">0.00</span>
+            <span>个人业绩(元)</span>
+        </div>
+        <div>
+            <span id="teamachievement">0.00</span>
+            <span>团队业绩(元)</span>
+        </div>
+    </div>
+</header>
+<section>
+    <span class="menu active" tapmode onclick="fnSetNavMenuIndex(0)">直推</span>
+    <span class="menu" tapmode onclick="fnSetNavMenuIndex(1)">间推</span>
+</section>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/app.js"></script>
+<script type="text/javascript" src="../script/md5.min.js"></script>
+<script type="text/javascript">
+    var data = [];
+    var arr2 = []
+    var d_
+    var index = 0
+    apiready = function() {
+
+        fnInit()    //日期数组
+        openFrames()  //打开直推frame
+    };
+    function initData(){
+        var arr = data.map(function(el) {
+            return el.name
+        })
+        var arr1 = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']
+        //alert(JSON.stringify(arr))
+
+        var d = new Date();
+        //获取当前年份
+        var year = parseInt(d.getFullYear());
+
+        //获取当前月份
+        var month = parseInt(d.getMonth() + 1);
+        $api.html($api.byId('month'), month+'月');
+        $api.html($api.byId('year'), year);
+        //alert(d.getTime())
+        if(month<10){
+            month = '0'+month
+        }
+        d_ = year+'-'+month
+        ajax_teamindex(d_)
+
+        for (var i=0; i < arr.length; i++) {
+            if(year==arr[i]){
+                arr2.push(i)
+            }
+        }
+        for (var j=0; j < arr1.length; j++) {
+            if (month == arr1[j]) {
+                arr2.push(j)
+            }
+        }
+        console.log(JSON.stringify(arr2))
+    }
+    function ajax_teamindex(d_){
+        _ajax('api/user/teamindex',function(ret){
+            console.log(JSON.stringify(ret))
+            if(ret.errCode==1){
+                $api.html($api.byId('teamachievement'),ret.data.teamachievement)
+                $api.html($api.byId('selfachievement'), ret.data.selfachievement);
+            }
+        },{
+            timer:d_
+        })
+    }
+    function openFrames() {
+
+        api.openFrameGroup({
+            name: 'group1',
+            background: '#fff',
+            scrollEnabled: true,
+            rect: {
+                x: 0,
+                y: 265,
+                w: 'auto',
+            },
+            index: 0,
+            preload: 0,
+            frames: [{
+                name: 'myteam_frame0',
+                url: 'myteam_frame0.html',
+                bgColor: '#f2f2f2',
+                pageParam:{
+                    timer:d_
+                },
+            }, {
+                name: 'myteam_frame1',
+                url: 'myteam_frame1.html',
+                bgColor: '#f2f2f2',
+                pageParam:{
+                    timer:d_
+                },
+            }]
+        }, function(ret, err) {
+            if (ret) {
+                //alert(JSON.stringify(ret))
+                //fnSetNavMenuSelected(ret.index)
+
+            } else {
+                //_msg('服务器连接超时，请稍后再试')
+            }
+        });
+
+    }
+
+    function fnSetNavMenuSelected(index_) {
+        var nav = $api.dom('section')
+        var menus = $api.domAll(nav, '.menu');
+        for (var i = 0; i < menus.length; i++) {
+            if (index_ == i) {
+                $api.addCls(menus[i], 'active');
+            } else {
+                $api.removeCls(menus[i], 'active');
+            }
+        }
+    }
+
+    function fnSetNavMenuIndex(index_) {
+        index = index_
+        fnSetNavMenuSelected(index_);
+
+        api.setFrameGroupIndex({
+            name: 'group1',
+            index: index_,
+            scroll: true,
+        });
+    }
+
+    function openDate() {
+
+        // api.execScript({
+        //     name: 'myteam',
+        //     script: 'openDate_frame();'
+        // });
+        var UIActionSelector = api.require('UIActionSelector');
+        UIActionSelector.open({
+            datas: data,
+            layout: {
+                row: 4,
+                col: 2,
+                height: 30,
+                size: 12,
+                sizeActive: 14,
+                rowSpacing: 5,
+                colSpacing: 30,
+                leftMargin: 40, //（可选项）数字类型；选择器分割线的左边距；默认：0
+                rightMargin: 40,
+                maskBg: 'rgba(0,0,0,0.5)',
+                bg: '#fff',
+                color: '#888',
+                colorActive: '#f00',
+                colorSelected: '#f00'
+            },
+            animation: true,
+            cancel: {
+                text: '取消',
+                size: 15,
+                w: 90,
+                h: 35,
+                bg: '#fff',
+                bgActive: '#fff',
+                color: '#888',
+                colorActive: '#fff'
+            },
+            ok: {
+                text: '确定',
+                size: 15,
+                w: 90,
+                h: 35,
+                bg: '#fff',
+                bgActive: '#fff',
+                color: '#666',
+                colorActive: '#fff'
+            },
+            title: {
+                text: '',
+                size: 12,
+                h: 44,
+                bg: '#fff',
+                color: '#888'
+            },
+            // fixedOn: 'myteamDate_frame'
+        }, function(ret, err) {
+            if (ret) {
+                if(ret.eventType=='cancel'){
+                    api.closeFrame({
+                        name: 'myteamDate_frame'
+                    });
+                }
+                if(ret.eventType=='ok'){
+                    console.log(JSON.stringify(ret))
+                    $api.html($api.byId('year'), ret.level1);
+                    $api.html($api.byId('month'), ret.level2+'月');
+                    var level2 = parseInt(ret.level2)
+                    if(level2<10){
+                        level2 = '0'+level2
+                    }
+                    var str_ = ret.level1+'-'+level2
+                    ajax_teamindex(str_)
+                    api.execScript({
+                        name: 'myteam',
+                        frameName: 'myteam_frame'+index,
+                        script: 'fnInitData'+'('+JSON.stringify(str_)+')'
+                    });
+
+                    api.closeFrame({
+                        name: 'myteamDate_frame'
+                    });
+
+                }
+            } else {
+                //alert(JSON.stringify(err));
+            }
+        });
+        setTimeout(function(){
+            UIActionSelector.setActive({
+                actives: arr2
+            });
+        },10)
+
+        console.log(JSON.stringify(arr2))
+
+    }
+
+    function fnInit() {
+
+        data = [{
+            "name": "2018", //字符串类型；第一级选择项的名称
+            "sub": [ //JSON 数组类型；第二级选择项数组
+                {
+                    "name": "1" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "2" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "3" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "4" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "5" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "6" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "7" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "8" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "9" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "10" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "11" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "12" //字符串类型；第二级选择项的名称
+                }
+            ]
+        },{
+            "name": "2019", //字符串类型；第一级选择项的名称
+            "sub": [ //JSON 数组类型；第二级选择项数组
+                {
+                    "name": "1" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "2" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "3" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "4" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "5" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "6" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "7" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "8" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "9" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "10" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "11" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "12" //字符串类型；第二级选择项的名称
+                }
+            ]
+        }, {
+            "name": "2020", //字符串类型；第一级选择项的名称
+            "sub": [ //JSON 数组类型；第二级选择项数组
+                {
+                    "name": "1" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "2" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "3" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "4" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "5" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "6" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "7" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "8" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "9" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "10" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "11" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "12" //字符串类型；第二级选择项的名称
+                }
+            ]
+        }, {
+            "name": "2021", //字符串类型；第一级选择项的名称
+            "sub": [ //JSON 数组类型；第二级选择项数组
+                {
+                    "name": "1" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "2" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "3" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "4" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "5" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "6" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "7" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "8" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "9" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "10" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "11" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "12" //字符串类型；第二级选择项的名称
+                }
+            ]
+        }, {
+            "name": "2022", //字符串类型；第一级选择项的名称
+            "sub": [ //JSON 数组类型；第二级选择项数组
+                {
+                    "name": "1" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "2" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "3" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "4" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "5" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "6" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "7" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "8" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "9" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "10" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "11" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "12" //字符串类型；第二级选择项的名称
+                }
+            ]
+        }, {
+            "name": "2023", //字符串类型；第一级选择项的名称
+            "sub": [ //JSON 数组类型；第二级选择项数组
+                {
+                    "name": "1" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "2" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "3" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "4" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "5" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "6" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "7" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "8" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "9" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "10" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "11" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "12" //字符串类型；第二级选择项的名称
+                }
+            ]
+        }, {
+            "name": "2024", //字符串类型；第一级选择项的名称
+            "sub": [ //JSON 数组类型；第二级选择项数组
+                {
+                    "name": "1" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "2" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "3" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "4" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "5" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "6" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "7" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "8" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "9" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "10" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "11" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "12" //字符串类型；第二级选择项的名称
+                }
+            ]
+        }, {
+            "name": "2025", //字符串类型；第一级选择项的名称
+            "sub": [ //JSON 数组类型；第二级选择项数组
+                {
+                    "name": "1" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "2" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "3" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "4" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "5" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "6" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "7" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "8" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "9" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "10" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "11" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "12" //字符串类型；第二级选择项的名称
+                }
+            ]
+        },{
+            "name": "2026", //字符串类型；第一级选择项的名称
+            "sub": [ //JSON 数组类型；第二级选择项数组
+                {
+                    "name": "1" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "2" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "3" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "4" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "5" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "6" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "7" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "8" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "9" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "10" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "11" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "12" //字符串类型；第二级选择项的名称
+                }
+            ]
+        }, {
+            "name": "2027", //字符串类型；第一级选择项的名称
+            "sub": [ //JSON 数组类型；第二级选择项数组
+                {
+                    "name": "1" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "2" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "3" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "4" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "5" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "6" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "7" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "8" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "9" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "10" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "11" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "12" //字符串类型；第二级选择项的名称
+                }
+            ]
+        }, {
+            "name": "2028", //字符串类型；第一级选择项的名称
+            "sub": [ //JSON 数组类型；第二级选择项数组
+                {
+                    "name": "1" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "2" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "3" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "4" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "5" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "6" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "7" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "8" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "9" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "10" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "11" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "12" //字符串类型；第二级选择项的名称
+                }
+            ]
+        }, {
+            "name": "2029", //字符串类型；第一级选择项的名称
+            "sub": [ //JSON 数组类型；第二级选择项数组
+                {
+                    "name": "1" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "2" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "3" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "4" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "5" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "6" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "7" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "8" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "9" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "10" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "11" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "12" //字符串类型；第二级选择项的名称
+                }
+            ]
+        }, {
+            "name": "2030", //字符串类型；第一级选择项的名称
+            "sub": [ //JSON 数组类型；第二级选择项数组
+                {
+                    "name": "1" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "2" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "3" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "4" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "5" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "6" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "7" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "8" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "9" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "10" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "11" //字符串类型；第二级选择项的名称
+                }, {
+                    "name": "12" //字符串类型；第二级选择项的名称
+                }
+            ]
+        }];
+        initData()
+    }
+</script>
+
+</html>

@@ -1,0 +1,177 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>试玩任务最新列表</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <style>
+        body,
+        html {
+            background: #f2f2f2;
+            padding-top: 5px;
+        }
+        footer>p{
+          width: 34rem;
+          text-align: left;
+          color: #333;
+          font-weight: bold;
+          font-size: 1.6rem;
+          margin: 1rem auto;
+          box-sizing: border-box;
+          padding-left: .5rem;
+        }
+        ul{
+          width: 34rem;
+          background: #fff;
+          margin: auto;
+          box-shadow: 0px 0px 5px 1px #f2f2f2;
+          border-radius: 8px;
+          overflow: hidden;
+        }
+        li{
+          border-bottom: 1px solid #f2f2f2;
+        }
+        li,.top,.bot{
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+        li>img{
+          width: 25%;
+          box-sizing: border-box;
+          padding: 1.4rem 1.2rem 1.4rem .8rem;
+        }
+        li>div{
+          width: 75%;
+        }
+        .left>img{
+          width: 1.5rem;
+
+        }
+        .top{
+          box-sizing: border-box;
+          padding-right: 1rem;
+        }
+        .top>.left>span{
+          color: #333;
+          font-size: 1.5rem;
+        }
+        .top>.right{
+          font-size: 1.5rem;
+          font-weight: bold;
+          color: #FF4841;
+        }
+        .bot{
+          margin-top: 1.3rem;
+          box-sizing: border-box;
+          padding-right: 1rem;
+        }
+        .bot>.left>span{
+          display: inline-block;
+          padding: 0rem .5rem;
+          height: 2rem;
+          line-height: 2rem;
+          background: #f2f2f2;
+          color: #999;
+          font-size: 1.2rem;
+          text-align: center;
+          border-radius: 5px;
+          vertical-align: middle;
+          margin-right: .5rem;
+        }
+        .bot>.right>span{
+          color: #999;
+          font-size: 1.2rem;
+        }
+        .bot>.right>span:nth-child(2){
+            display: inline;
+            margin: 0 .3rem;
+        }
+
+        [v-cloak] {
+            display: none;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <footer>
+            <ul>
+              <li v-for="(item,index) of taskList" @click = "openDetail(item.id)">
+                  <img :src="item.img" alt="">
+                  <div>
+                      <div class="top">
+                          <div class="left">
+                            <span>{{item.title}}</span>
+                            <!-- <img src="../image/main/10.png" alt="">
+                            <img src="../image/main/10.png" alt=""> -->
+                            <img src="../image/main/11.png" alt="">
+                          </div>
+                          <div class="right">
+                            +{{item.task_money}}元
+                          </div>
+                      </div>
+                      <div class="bot">
+                          <div class="left">
+                            <span>{{item.keywords}}</span>
+                            <!-- <span>昨玩右玩</span> -->
+                          </div>
+                          <div class="right">
+                            <span>{{item.receive_num}}人已完成</span><span>|</span><span>剩余数:{{item.num}}</span>
+                          </div>
+                      </div>
+                  </div>
+              </li>
+            </ul>
+        </footer>
+    </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/app.js"></script>
+<script type="text/javascript" src="../script/fastclick.js"></script>
+<script type="text/javascript" src="../script/vue.min.js"></script>
+<script type="text/javascript" src="../script/md5.min.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+        window.FastClick && FastClick.attach(document.body);
+        vm = new Vue({
+            el: '#app',
+            data: {
+              page:1,
+              taskList:[]
+            },
+            methods:{
+              openDetail(id){
+                _openWin('shiwanDetail',{id:id})
+              }
+            }
+        })
+        taskList()
+        initEventListenter(taskList)
+    };
+    function taskList(){
+      console.log(vm.page)
+      _ajax('api/sw_task/allTask',function(ret){
+      //console.log(JSON.stringify(ret))
+        if(ret.errCode==-1){
+          _openWin('login')
+        }
+        if(ret.errCode==1){
+          vm.taskList = vm.taskList.concat(ret.data)
+          var taskListLength = vm.taskList.length + ''
+          vm.current_page = vm.taskList.length<10 ? 1 : parseInt(taskListLength.substr(0,taskListLength.length-1));
+          vm.page = vm.current_page +=1
+        }
+      },{
+        p:vm.page,
+        pxtype: 1
+      })
+    }
+</script>
+
+</html>

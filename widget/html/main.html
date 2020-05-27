@@ -1,0 +1,438 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>底部导航栏</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <style>
+        body,
+        html {
+            background-color: #F2F2F2;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+
+    </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/app.js"></script>
+<script type="text/javascript" src="../script/md5.min.js"></script>
+<script type="text/javascript" src="../script/sha1.min.js"></script>
+<script type="text/javascript" src="../script/vue.min.js"></script>
+<script type="text/javascript">
+    var vm;
+    apiready = function() {
+        if (api.systemType == 'ios') {
+            api.setWinAttr({
+                slidBackEnabled: false
+            });
+        }
+        setStatusBarStylemoren()
+        NVTabBar_open() //打开底部导航栏
+        fnCloseWidget() //返回键退出程序
+        fnOpenHeader()
+        fnOpenmain_frame()
+        setinter_getinfo()
+        getbginfo()
+        var userinfo = $api.getStorage('userinfo');
+        if (userinfo) {
+            loginRong(userinfo.id, userinfo.nickname);
+        }
+        vm = new Vue({
+            el: '#app',
+            data() {
+                return {
+                    id: ''
+                }
+            },
+            methods: {
+
+            }
+        })
+    };
+
+    function setinter_getinfo() {
+        var setinter = setInterval(function() {
+            getbginfo()
+        }, 5000)
+    }
+
+    function getbginfo() {
+        _ajax('api/index/NewsLog', function(ret) {
+            // console.log('000000000000'+JSON.stringify(ret))
+            if (ret.errCode == 1) {
+                setbg(ret.data.total)
+            }
+        })
+    }
+
+    function fnOpenHeader() {
+        api.openFrame({
+            name: 'mainheader_frame',
+            url: './mainheader_frame.html',
+            vScrollBarEnabled: false,
+            hScrollBarEnabled: false,
+            rect: {
+                x: 0,
+                y: 0,
+                w: 'auto',
+                h: 66
+            },
+            pageParam: {
+                name: 'test'
+            }
+        });
+
+    }
+
+    function fnOpenmain_frame() {
+        marginBottom()
+        api.closeToWin({
+            name: 'user_frame'
+        })
+        api.openFrame({
+            name: 'main_frame',
+            url: './main_frame.html',
+            rect: {
+                marginTop: 0,
+                marginBottom: margin_bottom,
+                w: 'auto',
+            },
+            pageParam: {
+                name: 'test'
+            },
+            bounces: true,
+            bgColor: '#F2F2F2',
+        });
+    }
+
+    function fnOpenmessage_frame() {
+        marginBottom()
+        api.openFrame({
+            name: 'message_frame',
+            url: './message_frame.html',
+            rect: {
+                marginTop: 0,
+                marginBottom: margin_bottom,
+                w: 'auto',
+            },
+            pageParam: {
+                name: 'test'
+            },
+            bounces: false,
+            bgColor: '#F2F2F2',
+            vScrollBarEnabled: false,
+            hScrollBarEnabled: false,
+        });
+
+    }
+
+    function fnOpentask_frame() {
+        marginBottom()
+        api.openFrame({
+            name: 'task_frame',
+            url: './task_frame.html',
+            rect: {
+                marginTop: 0,
+                marginBottom: margin_bottom,
+                w: 'auto',
+            },
+            pageParam: {
+                name: 'test'
+            },
+            bounces: false,
+            bgColor: '#F2F2F2',
+            vScrollBarEnabled: false,
+            hScrollBarEnabled: false,
+        });
+    }
+
+
+    function fnOpenfabu_frame() {
+        marginBottom()
+        _openWintoken('fabutask')
+        return
+        api.openFrame({
+            name: 'fabutask_frame',
+            url: './fabutask_frame.html',
+            rect: {
+                marginTop: 0,
+                marginBottom: margin_bottom,
+                w: 'auto',
+            },
+            pageParam: {
+                name: 'test'
+            },
+            bounces: false,
+            bgColor: '#F2F2F2',
+            vScrollBarEnabled: false,
+            hScrollBarEnabled: false,
+        });
+    }
+
+    function fnOpenuser_frame() {
+        marginBottom()
+        api.openFrame({
+            name: 'user_frame',
+            url: './user_frame.html',
+            rect: {
+                marginTop: 0,
+                marginBottom: margin_bottom,
+                w: 'auto',
+            },
+            pageParam: {
+                name: 'test'
+            },
+            bounces: true,
+            bgColor: '#F2F2F2',
+            vScrollBarEnabled: false,
+            hScrollBarEnabled: false,
+        });
+
+
+    }
+
+    function NVTabBar_open() { //底部导航
+        var NVTabBar = api.require('NVTabBar');
+        NVTabBar.bringToFront();
+        NVTabBar.open({
+            styles: {
+                bg: '#fff',
+                h: 55,
+                dividingLine: {
+                    width: 0,
+                    color: '#ddd',
+                },
+                badge: {
+                    bgColor: '#FF4841',
+                    numColor: '#fff',
+                    size: 6.0,
+                }
+            },
+            items: [{
+                w: api.winWidth / 5.0,
+                bg: {
+                    marginB: -3.0,
+                    image: 'rgba(0,0,0,0)'
+                },
+                iconRect: {
+                    w: 25.0,
+                    h: 25.0,
+                },
+                icon: {
+                    normal: '../image/1.png',
+                    highlight: '',
+                    selected: '../image/5.png'
+                },
+                title: {
+                    text: '首页',
+                    size: 12.0,
+                    normal: '#696969',
+                    selected: '#FF4841',
+                    marginB: 6.0
+                }
+            }, {
+                w: api.winWidth / 5.0,
+                bg: {
+                    marginB: -3.0,
+                    image: 'rgba(0,0,0,0)'
+                },
+                iconRect: {
+                    w: 25.0,
+                    h: 25.0,
+                },
+                icon: {
+                    normal: '../image/25.png',
+                    highlight: '',
+                    selected: '../image/26.png'
+                },
+                title: {
+                    text: '分类',
+                    size: 12.0,
+                    normal: '#696969',
+                    selected: '#FF4841',
+                    marginB: 6.0
+                }
+            }, {
+                w: api.winWidth / 5.0,
+                bg: {
+                    marginB: 8.0,
+                    image: 'rgba(0,0,0,0)',
+                },
+                iconRect: {
+                    w: 52,
+                    h: 52,
+                },
+                icon: {
+                    normal: '../image/24.png',
+                    highlight: '',
+                    selected: '../image/24.png'
+                },
+                title: {
+                    text: '发布',
+                    size: 12.0,
+                    normal: '#696969',
+                    selected: '#696969',
+                    marginB: 6.0
+                }
+            }, {
+                w: api.winWidth / 5.0,
+                bg: {
+                    marginB: -3,
+                    image: 'rgba(0,0,0,0)'
+                },
+                iconRect: {
+                    w: 25.0,
+                    h: 25.0,
+                },
+                icon: {
+                    normal: '../image/6.png',
+                    highlight: '',
+                    selected: '../image/3.png'
+                },
+                title: {
+                    text: '消息',
+                    size: 12.0,
+                    normal: '#696969',
+                    selected: '#FF4841',
+                    marginB: 6.0
+                },
+            }, {
+                w: api.winWidth / 5.0,
+                bg: {
+                    marginB: -3,
+                    image: 'rgba(0,0,0,0)'
+                },
+                iconRect: {
+                    w: 25.0,
+                    h: 25.0,
+                },
+                icon: {
+                    normal: '../image/4.png',
+                    highlight: '',
+                    selected: '../image/8.png'
+                },
+                title: {
+                    text: '我的',
+                    size: 12.0,
+                    normal: '#696969',
+                    selected: '#FF4841',
+                    marginB: 6.0
+                },
+
+            }, ],
+            selectedIndex: 0
+        }, function(ret, err) {
+            if (ret) {
+                //alert(JSON.stringify(ret));
+
+                if (ret.eventType == 'click') {
+                    var index = ret.index
+                    api.setFrameGroupIndex({
+                        name: 'group0',
+                        index: index
+                    });
+                }
+                if (ret.eventType == "click" && ret.index == 0) {
+
+                    fnOpenHeader()
+                    fnOpenmain_frame()
+                    api.execScript({
+                        name: 'main',
+                        frameName: 'mainheader_frame',
+                        script: 'fnOpenmain_frame();'
+                    });
+                    setStatusBarStylemoren()
+                }
+                if (ret.eventType == "click" && ret.index == 1) {
+                    fnOpentask_frame()
+                    api.execScript({
+                        name: 'main',
+                        frameName: 'task_frame',
+                        script: 'task(2);'
+                    });
+                    api.execScript({
+                        name: 'main',
+                        frameName: 'putong_frame',
+                        script: "openPutongtask_frame(1,'all');"
+                    });
+                    api.setStatusBarStyle({
+                        style: 'dark',
+                        color: 'rgba(0,0,0,0)'
+                    });
+                }
+                if (ret.eventType == "click" && ret.index == 2) {
+                    // _openWintoken('fabutask0')
+                    // fnOpenHeader()
+                    fnOpenfabu_frame()
+                        // api.execScript({
+                        //     name: 'main',
+                        //     frameName: 'fabu_frame1',
+                        //     script: 'task(2);'
+                        // });
+                        // api.execScript({
+                        //     name: 'main',
+                        //     frameName: 'fabu_frame1',
+                        //     script: ""
+                        // });
+                    api.setStatusBarStyle({
+                        style: 'dark',
+                        color: 'rgba(0,0,0,0)'
+                    });
+                }
+                if (ret.eventType == "click" && ret.index == 3) {
+
+                    fnOpenHeader()
+                    fnOpenmessage_frame()
+                    api.execScript({
+                        name: 'main',
+                        frameName: 'message_frame',
+                        script: 'openmsgList_frame();'
+                    });
+                    api.execScript({
+                        name: 'main',
+                        frameName: 'messageList_frame',
+                        script: 'fnInitData();'
+                    });
+
+                    api.setStatusBarStyle({
+                        style: 'dark',
+                        color: 'rgba(0,0,0,0)'
+                    });
+                }
+                if (ret.eventType == "click" && ret.index == 4) {
+
+                    fnOpenuser_frame()
+                    setStatusBarStylemoren()
+                }
+
+            }
+        });
+    }
+
+    function set() {
+        var NVTabBar = api.require('NVTabBar');
+        NVTabBar.setSelect({
+            index: 1,
+            selected: true,
+        });
+    }
+
+    function setbg(n) {
+        UILoading_Close();
+        var NVTabBar = api.require('NVTabBar');
+        NVTabBar.setBadge({
+            index: 3,
+            badge: n,
+            // horizentalPadding:'5'
+        });
+    }
+</script>
+
+</html>

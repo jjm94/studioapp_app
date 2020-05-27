@@ -1,0 +1,200 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>我的团队直推</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <style>
+        body,
+        html {
+            background: #f2f2f2;
+        }
+        ul{
+            width: 34rem;
+            border-radius: 8px;
+            margin: auto;
+            background: #fff;
+        }
+        li{
+            width: 100%;
+            border-bottom: 1px solid #f2f2f2;
+            display: flex;
+            align-items: flex-start;
+            box-sizing: border-box;
+            padding: 1rem;
+        }
+        li>img{
+            width: 5rem;
+            margin-right: 1rem;
+            border-radius: 50%;
+        }
+        li>div{
+            flex: 1;
+        }
+        .top,.bot,.bot>div{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .bot{
+            justify-content: flex-start;
+            margin-top: 1rem;
+        }
+        .bot>div{
+            flex-direction: column;
+        }
+        .left{
+            margin-right: 10rem;
+        }
+        .bot>div>span{
+            font-size: 1.3rem;
+            color: #666;
+        }
+        .bot>div>span:last-child{
+            font-size: 1.7rem;
+            color: #FF4841;
+            margin-top: .5rem;
+        }
+        .top{
+            width: 14rem;
+        }
+        .top>span{
+            font-size: 1.4rem;
+            color: #333;
+        }
+        .top>p{
+            font-size: 1.3rem;
+            color: #999;
+        }
+        .top>p>span{
+            color: #FF4841
+        }
+        footer{
+            display: none
+        }
+        [v-cloack]{
+            display: none
+        }
+    </style>
+</head>
+
+<body>
+<div id="app" v-cloack>
+    <ul>
+        <li v-for="(item,index) of teamList">
+            <img v-if="item.avatar" :src="imgurl+item.avatar" alt="">
+            <img v-else src="../image/user/1.png" alt="">
+            <div>
+                <div class="top">
+                    <span class="name">{{item.nickname}}</span>
+                    <p>团队: <span>{{item.count}}</span>人</p>
+                </div>
+                <div class="bot">
+                    <div class="left">
+                        <span>个人业绩</span>
+                        <span>{{item.selfachievement}}</span>
+                    </div>
+                    <div class="right">
+                        <span>团队业绩</span>
+                        <span>{{item.teamachievement}}</span>
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ul>
+    <footer>
+        <img src="../image/kong.png" style="display:block;width:7rem;margin:10rem auto;" alt="">
+    </footer>
+</div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/app.js"></script>
+<script type="text/javascript" src="../script/fastclick.js"></script>
+<script type="text/javascript" src="../script/vue.min.js"></script>
+<script type="text/javascript" src="../script/md5.min.js"></script>
+<script type="text/javascript">
+    var U_id,Timer
+    apiready = function() {
+        window.FastClick && FastClick.attach(document.body);
+        UILoading(U_id)
+        vm = new Vue({
+            el: '#app',
+            data: {
+                page:1,
+                current_page:1,
+                teamList:[]
+            }
+        })
+        fnInitData(false,false)
+        initEventListenter_()
+    };
+    function fnInitData(timer,n){
+        if(!timer){
+            timer = api.pageParam.timer
+        }else{
+            timer = timer
+            Timer = timer
+        }
+        if(!n){
+            vm.page = 1
+        }
+        _ajax('api/user/teamlist',function(ret){
+            // alert(JSON.stringify(ret))
+            if(ret.errCode==-1){
+                _openWin('login')
+            }
+            if(ret.errCode==1){
+                if(!n){
+
+                    vm.teamList = ret.data
+                    vm.page = 2
+                    vm.current_page = 2
+                    console.log(vm.page);
+                    if(vm.teamList.length==0){
+                        $api.css($api.dom('footer'), 'display:block;');
+                    }else{
+                        $api.css($api.dom('footer'), 'display:none;');
+                    }
+                    UILoading_Close(U_id)
+                }else{
+                    vm.teamList = vm.teamList.concat(ret.data)
+                    // alert(JSON.stringify(vm.teamList.length))
+                    var teamListLength = vm.teamList.length + ''
+                    //alert(vm.taskList.length)
+                    vm.current_page = vm.teamList.length < 10 ? 1 : parseInt(teamListLength.substr(0, teamListLength.length - 1))+1;
+                    if(vm.teamList.length%10 == 0){
+                        vm.current_page -= 1
+                    }
+                    vm.page = vm.current_page += 1
+                    if(vm.teamList.length==0){
+                        $api.css($api.dom('footer'), 'display:block;');
+                    }else{
+                        $api.css($api.dom('footer'), 'display:none;');
+                    }
+                    UILoading_Close(U_id)
+                }
+            }else{
+                UILoading_Close(U_id)
+            }
+        },{
+            type:2,
+            p:vm.page,
+            timer:timer
+        })
+    }
+    function initEventListenter_() { //上拉加载更多
+        api.addEventListener({
+            name: 'scrolltobottom',
+            extra: {
+                threshold: 0
+            }
+        }, function(ret, err) {
+            fnInitData(Timer,true)
+        });
+    }
+</script>
+
+</html>

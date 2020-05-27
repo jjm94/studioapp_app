@@ -1,0 +1,290 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>签到</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <style>
+        body,
+        html {
+            background: #fbfbfb;
+        }
+
+        header {
+            height: 190px;
+            background-image: url('../image/main/14_2.png');
+            background-size: 36rem 190px;
+            background-repeat: no-repeat;
+            box-sizing: border-box;
+            padding-top: 20px;
+        }
+
+        header>p {
+            margin: auto;
+            width: 12.5rem;
+            padding: .6rem 0;
+            border-radius: 40px;
+            background: #fff;
+            color: #FF4841;
+            text-align: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        header>span {
+            display: inline-block;
+            width: 36rem;
+            text-align: center;
+            font-size: 1.5rem;
+            color: #fff;
+            margin-top: 15px;
+        }
+
+        section {
+            height: 280px;
+            width: 34rem;
+            background: #fff;
+            margin: auto;
+            margin-top: -75px;
+            border-radius: 10px;
+            padding-top: 5px;
+            box-shadow: 0px 0px 3px .3px #ddd;
+        }
+
+        section>.title {
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: flex;
+            justify-content: center;
+            -webkit-box-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+            margin: auto;
+            box-sizing: border-box;
+            width: 33rem;
+            height: 30px;
+            background: #fff;
+        }
+
+        section>.title>img {
+            height: 15px;
+            width: 8px;
+        }
+
+        #date {
+            margin: 0 7rem;
+            color: #111111;
+            font-size: 1.7rem;
+        }
+
+        footer {
+            box-sizing: border-box;
+            padding: 15px;
+            font-size: 1.6rem;
+            color: #FF4841;
+        }
+
+        footer>p:first-child {
+            font-weight: bold;
+        }
+
+        footer>p:last-child {
+            margin-top: 10px;
+            font-size: 1.3rem;
+            line-height: 25px;
+        }
+
+        .active {
+            color: #333;
+            background: -webkit-linear-gradient(top, #E3E3E3 0%, #BABABA 100%);
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <p id="isqiandao" tapmode onclick="qiandao()">签到</p>
+        <span id="all">已经连续签到0天，继续加油</span>
+    </header>
+    <section>
+        <div class="title">
+            <img src="../image/main/12.png" alt="" tapmode onclick="previous()">
+            <p id="date"></p>
+            <img src="../image/main/13.png" alt="" tapmode onclick="next()">
+        </div>
+    </section>
+    <footer>
+        <p>签到说明</p>
+        <p id="shuoming">
+        </p>
+    </footer>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/app.js"></script>
+<script type="text/javascript" src="../script/md5.min.js"></script>
+<script type="text/javascript">
+    var UICalendar, currentDate
+    var date = new Array()
+    var user = $api.getStorage('user');
+    var U_id
+    var id
+    apiready = function() {
+        //  fnInitData()
+        UILoading(U_id)
+        UICalendar = api.require('UICalendar');
+        fnInitData()
+    }
+
+    function fnInitData() {
+        var date_now = new Date();
+        var year = date_now.getFullYear();
+        var month = date_now.getMonth() + 1;
+        var day = date_now.getDate();
+        $api.text($api.byId('date'), year + '-' + month);
+        currentDate = year + '-' + month + '-' + day
+        var sign_setting = $api.getStorage('config').sign_setting;
+        $api.html($api.byId('shuoming'), sign_setting.rules);
+
+        fnIsqiandao()
+            //setSpecialDates() //标记哪些天已经签到
+    }
+
+    function fnIsqiandao() { //一进入页面判断是否签到\
+        _ajax('api/index/is_sign', function(ret) {
+            console.log(JSON.stringify(ret))
+            if (ret.errCode == -1) {
+                _openWin('login')
+            }
+            if (ret.errCode == 0) {
+                $api.html($api.byId('all'), '已经连续签到' + ret.data.count + '天,继续加油');
+                var date = ret.data.list.map(function(el) {
+                    return{date:el.createtime}
+                })
+                setTimeout(function(){
+                  calendar(date);
+                },200)
+            }
+            if (ret.errCode == 1) {
+                _msg('已连续签到' + ret.data.count + '天')
+                $api.html($api.byId('all'), '已经连续签到' + ret.data.count + '天,继续加油');
+                $api.html($api.byId('isqiandao'), '已签到');
+                $api.addCls($api.byId('isqiandao'), 'active');
+                var date = ret.data.list.map(function(el) {
+                    return{date:el.createtime}
+                })
+                setTimeout(function(){
+                  calendar(date);
+                },200)
+            }
+        })
+    }
+
+    function qiandao() { //点击签到
+      _ajax('api/index/sign',function(ret){
+        if(ret.errCode==-1){
+          _openWin('login')
+        }
+        if(ret.errCode==1){
+          fnIsqiandao()
+        }
+      })
+    }
+
+    function calendar(date_) {
+        UICalendar.open({
+            rect: {
+                x: 20,
+                y: 152,
+                w: api.frameWidth - 40,
+                h: 245
+            },
+            styles: {
+                //整体背景
+                bg: '#ffffff',
+                //星期样式
+                week: {
+                    weekdayColor: '#999999',
+                    weekendColor: '#999999',
+                    size: 14
+                },
+                //平时的样式
+                date: {
+                    color: '#999999',
+                    selectedColor: '#000000',
+                    selectedBg: "#ffffff",
+                    size: 14
+                },
+                //当前日期的样式
+                today: {
+                    color: '#000000',
+                    bg: '#ffffff'
+                },
+
+                //（可选项）JSON对象，需要标记的特殊日期的通用样式
+                specialDate: {
+                    color: '#ffffff',
+                    bg: 'widget://image/yuanblue.png'
+                },
+            },
+            specialDate: date_,
+            //月份切换方式---vertical（上下切换）--- horizontal（左右切换）--- none（不支持通过手势切换月份）
+            switchMode: 'none',
+            //模块视图添加到指定 frame 的名字
+            fixedOn: api.frameName,
+            //模块滚动
+            fixed: false
+        }, function(ret, err) {
+            if (ret) {
+                id = ret.id
+                UILoading_Close(U_id)
+            } else {
+                //alert(JSON.stringify(err))
+            }
+        });
+    }
+
+
+    //显示上一个月
+    function previous() {
+        UICalendar.prevMonth({
+            id: id
+        }, function(ret, err) {
+            if (ret) {
+                var lastyear = ret.year;
+                var lastmonth = ret.month;
+                //console.log('年份---' + lastyear + '---月份---' + lastmonth);
+                $api.text($api.byId('date'), lastyear + '-' + lastmonth);
+
+            } else {
+                console.log(JSON.stringify(err));
+                //_msg(ret.msg)
+            }
+        });
+
+    }
+
+
+    //显示下一个月
+    function next() {
+        UICalendar.nextMonth({
+            id: id
+        }, function(ret, err) {
+            if (ret) {
+                var nextyear = ret.year;
+                var nextmonth = ret.month;
+                //console.log('下一年---' + nextyear + '---下一个月---' + nextmonth);
+                $api.text($api.byId('date'), nextyear + '-' + nextmonth);
+            } else {
+                //console.log(JSON.stringify(err));
+                //_msg(ret.msg)
+            }
+        });
+
+    }
+</script>
+
+</html>

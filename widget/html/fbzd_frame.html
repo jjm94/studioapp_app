@@ -1,0 +1,168 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>发布置顶</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <style>
+    body,html{
+      background:transparent;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+    }
+    .zhiding{
+      width: 33rem;
+      background: #fff;
+      border-radius: 10px;
+      box-sizing: border-box;
+      padding: 2rem 2.5rem .5rem;
+    }
+    .title{
+      font-size: 17px;
+      margin-bottom: 20px;
+      margin-top: 5px;
+    }
+
+    .content>.bot{
+      margin-top: 15px;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      height: 50px;
+    }
+    .content>.bot>span{
+      width: 1px ;height: 15px;
+      background: #f2f2f2;
+    }
+    .content>.bot>p{
+      width: 100px;
+      text-align: center;
+      font-size: 16px;
+    }
+    .content>.bot>p:last-child{
+      color: #FF4841;
+    }
+    .input_{
+      margin-top: 5px;
+      height: 40px;
+      line-height: 40px;
+      font-size: 16px;
+      width: 100%;
+    }
+    .input_ input{
+      outline: none;
+      height: 30px;
+      border: 1px solid #f2f2f2;
+      border-radius: 5px;
+      box-sizing: border-box;
+      padding-left: 5px;
+      font-size: 15px;
+      margin-left: 1rem;
+    }
+    .info>p{
+      font-size: 13px;
+      color: #666;
+      line-height: 20px;
+    }
+    </style>
+</head>
+
+<body>
+    <div id="app" class="zhiding">
+      <div  class="content">
+        <p class="title">增加价格</p>
+        <div class="input_">
+          <span>置顶</span>
+          <input Oninput="value=value.replace(/[^\d]/g,'')"  type="Number" :placeholder="roof" v-model="hours">
+        </div>
+        <div class="input_">
+          <span>金额</span>
+          <input type="Number" readonly='true' placeholder="0.00" v-model="price">
+        </div>
+        <div class="bot">
+          <p tapmode onclick="closebz_frame()">取消</p>
+          <span></span>
+          <p @click="sure()">确定</p>
+        </div>
+        <div class="info">
+          <p>1.置顶只针对本任务有效；</p>
+          <p>2.任务时间暂停，置顶时间不会暂停；</p>
+          <p>3.任务提前下架或置顶未到期任务提前完成，剩余推荐或置顶时间不会保留也不会折算成任务币返还；</p>
+        </div>
+      </div>
+    </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/app.js"></script>
+<script type="text/javascript" src="../script/md5.min.js"></script>
+<script type="text/javascript" src="../script/fastclick.js"></script>
+<script type="text/javascript" src="../script/vue.min.js"></script>
+<script type="text/javascript">
+    var id,roof
+    apiready = function() {
+        window.FastClick && FastClick.attach(document.body);
+        roof = $api.getStorage('user').roofplacement;
+        id = api.pageParam.id
+        vm = new Vue({
+          el:'#app',
+          data:{
+            roof:'',
+            hours:null,
+            price:null,
+          },
+          methods:{
+            sure(){
+              if(!vm.price){
+                _msg('请输入置顶时长')
+              }else{
+                _ajax('api/pt_Task/roofplacement',function(ret){
+                  console.log(JSON.stringify(ret))
+                  _msg(ret.msg)
+                  if(ret.errCode==1){
+                    api.execScript({
+                        name: 'main',
+                        frameName: 'user_frame',
+                        script: 'fnInitData();'
+                    });
+                    api.closeFrame();
+
+
+                  }
+                },{
+                  id:id,
+                  hour:vm.hours,
+                  shouxu_money:vm.price
+                })
+
+              }
+            }
+          },
+          watch:{
+            hours:function(val){
+              vm.price = (val * Number(roof)).toFixed(2)
+              var user_money = $api.getStorage('user').user_money;
+              // if(vm.price>Number(user_money)){
+              //   _msg('余额不足，请充值')
+              //   vm.price = null
+              // }
+            }
+          }
+        })
+        vm.roof = '请输入小时数*'+roof+'元/每小时'
+
+    }
+
+    function closebz_frame(){
+      api.closeFrame();
+
+    }
+
+</script>
+
+</html>

@@ -1,0 +1,167 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>小黑屋</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <style>
+        html,
+        body {
+            background-color: #eeeeee;
+        }
+
+        .tab {
+            /*height: 200px;*/
+            width: 100%;
+            background-color: white;
+            overflow: hidden;
+            /* padding-bottom: 20px; */
+        }
+
+        .tab .tab-title {
+            width: calc(100% - 34px);
+            /*width: 100%;*/
+            margin: 0 auto;
+            height: 40px;
+            padding: 0 17px;
+            display: flex;
+            justify-content: space-between;
+            ;
+            align-items: center;
+            font-size: 18px;
+            background-color: white;
+        }
+
+        .tab-title li {
+            height: 40px;
+            width: 20%;
+            text-align: center;
+            line-height: 40px;
+            color: black;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .content {
+            width: 100%;
+        }
+
+        ._ul {
+            width: 100%
+            /*margin: 0 auto;*/
+            /*padding-left: 17px;
+            padding-right: 17px;*/
+            text-align: center;
+            background-color: white;
+        }
+
+        ._li {
+            width: 100%;
+            height: 40px;
+            display: flex;
+            justify-content: space-between;
+            text-align: center;
+            align-items: center;
+        }
+
+        .on {
+            width: 100%;
+            height: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #eeeeee;
+            text-align: center;
+        }
+
+        ._li span {
+            width: 20%;
+        }
+
+        .on span {
+            width: 20%;
+        }
+
+        .he {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloack>
+        <!-- <header tapmode onclick="openCode()">
+        </header> -->
+        <div class="tab">
+            <div class="mt10">
+                <ul class="tab-title">
+                    <li v-for="(title,index) in tabTitle" :key="index">
+                        {{ title }}
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="content">
+            <ul class="_ul">
+                <li v-for="(item,index) of taskList" class="_li" :class="{on:index%2==0,off:index%2!=0}">
+                    <span style="margin-left:17px;height:20px;line-height:20px;color:white;background-color:black;text-align:center;">{{ item.kind }}</span>
+                    <span class="he">{{ item.name }}</span>
+                    <span style="color:red">{{ item.way }}</span>
+                    <span style="margin-right:17px;">{{ item.time }}</span>
+                </li>
+            </ul>
+        </div>
+        <footer style="width:7rem;margin:7rem auto;height: 7rem;" v-show='isShow'>
+            <img src="../image/kong.png" style="width:7rem;margin:0 auto;height: 7rem;" alt="">
+        </footer>
+    </div>
+
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/app.js"></script>
+<script type="text/javascript" src="../script/fastclick.js"></script>
+<script type="text/javascript" src="../script/vue.min.js"></script>
+<script type="text/javascript" src="../script/md5.min.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+        window.FastClick && FastClick.attach(document.body);
+        vm = new Vue({
+            el: '#app',
+
+            data() {
+                return {
+                    cur: 0,
+                    tabTitle: ['违规原因', '违规用户', '处罚方式', '恢复时间'],
+                    type: 1,
+                    taskList: [],
+                    isShow: false,
+                }
+            },
+            methods: {
+
+            }
+        })
+        getlist();
+    }
+
+    function getlist() {
+        UILoading();
+        _ajax('api/user/getstoplist', function(ret) {
+            if (ret.errCode == 1) {
+                vm.isShow = false;
+                vm.taskList = vm.taskList.concat(ret.data)
+            } else {
+                vm.isShow = true;
+            }
+            UILoading_Close();
+        })
+    }
+</script>
+
+</html>

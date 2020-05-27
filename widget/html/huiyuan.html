@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>会员</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+  <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+  <!-- Link Swiper's CSS -->
+  <link rel="stylesheet" type="text/css" href="../css/swiper.min.css">
+  <link rel="stylesheet" type="text/css" href="../css/api.css" />
+
+  <!-- Demo styles -->
+  <style>
+    html, body {
+      position: relative;
+      height: 100%;
+    }
+    header{
+        height: 20rem;
+        width: 36rem;
+        background-image: url('../image/user/12.png');
+        background-size: 36rem 20rem;
+        background-repeat: no-repeat;
+    }
+    header div{
+        position: absolute;
+        top: 26px;
+        box-sizing: border-box;
+        padding: 8px;
+        width: 60px;
+        height: 40px;
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-box-pack:center;
+        -webkit-justify-content:center;
+        justify-content: center;
+        -webkit-box-align:center;
+        -webkit-align-items:center;
+        align-items: center;
+    }
+    header div img{
+        height: 22px;
+    }
+    header p{
+        font-size: 1.7rem;
+        color: #fff;
+        position: absolute;
+      font-weight: bold;
+        top: 35px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    .swiper-container {
+      position: absolute;
+      top: 90px;
+      left: 0;
+      width: 100%;
+      height: 130px;
+    }
+
+    .swiper-slide {
+      font-size: 1.8rem;
+      background: transparent;
+      width: 26rem !important;
+      margin: auto;
+      height: 130px !important;
+      /* Center slide text vertically */
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-box-pack: center;
+      -ms-flex-pack: center;
+      -webkit-justify-content: center;
+      justify-content: center;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      -webkit-align-items: center;
+      align-items: center;
+      transition: 300ms;
+      transform: scale(0.8) !important;
+    }
+    .swiper-slide-active{
+      transform: scale(1)!important ;
+    }
+    .huiyuan{
+      height: 130px;
+      width: 100%;
+      background-size: 26rem 130px;
+    }
+    .huiyuan img{
+      height: 130px;
+      width: 100%;
+      color: #373737
+    }
+    .active{
+      opacity: 0.0 ;
+      transition: all .1s;
+    }
+    section{
+      opacity: 1;
+      transition: all 1s;
+      width: 32rem;
+      margin: 5rem  auto 0;
+      box-sizing: border-box;
+      padding-left: .2rem;
+    }
+    section,section>div{
+      display: flex;
+      flex-wrap: wrap;
+    }
+    section>div{
+      margin:1.5rem .7rem 0rem;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 9rem;
+      height: 12rem;
+      border: 1px solid #FF9E9A;
+      border-radius: 6px;
+      justify-content: space-around;
+    }
+    section>div>img{
+      width: 5rem;
+    }
+    section>div>span{
+      font-size: 1.4rem;
+      color: #999;
+    }
+    footer{
+      height:4.8rem;
+      width: 36rem;
+      line-height: 4.8rem;
+      text-align: center;
+      position:absolute;
+      bottom: 0;
+      color: #fff;
+      font-size: 1.5rem;
+      background: -webkit-linear-gradient(right,#FDA96D 0%,#FF435B 100%);
+      display: none;
+    }
+    .level_{
+      color:#B99966;
+      background: -webkit-linear-gradient(right, #FDAA6E 0%, #EBCF99 100%);
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <!-- Swiper -->
+  <header id="header">
+      <div tapmode onclick="api.closeWin()">
+          <img src="../image/main/16.png" alt="">
+      </div>
+      <p>会员中心</p>
+  </header>
+  <div class="swiper-container">
+    <div class="swiper-wrapper">
+    </div>
+  </div>
+  <section >
+    <div>
+      <img src="../image/user/55.png" alt="">
+      <span>有效期</span>
+      <span id="termofvalidity"></span>
+    </div>
+    <div>
+      <img src="../image/user/66.png" alt="">
+      <span>费用</span>
+      <span id="money"></span>
+    </div>
+    <div>
+      <img src="../image/user/77.png" alt="">
+      <span>发布任务数</span>
+      <span id="fabunumber"></span>
+    </div>
+    <div>
+      <img src="../image/user/88.png" alt="">
+      <span>置顶费</span>
+      <span id="roofplacement"></span>
+    </div>
+    <div>
+      <img src="../image/user/99.png" alt="">
+      <span>服务费利率</span>
+      <span id="servicecharge"></span>
+    </div>
+    <div>
+      <img src="../image/user/100.png" alt="">
+      <span>提现比例</span>
+      <span id="withdrawalratio"></span>
+    </div>
+  </section>
+  <footer taomode onclick="shenji()" id="level">
+    升级会员
+  </footer>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/app.js"></script>
+<script type="text/javascript" src="../script/md5.min.js"></script>
+<script type="text/javascript" src="../script/swiper.min.js"></script>
+<script type="text/javascript">
+    var swiper;
+    var index;
+    var money;
+    var U_id;
+    var pay_way
+    apiready = function() {
+      UILoading()
+      pay_way = $api.getStorage('config').pay_way;
+      setStatusBarStylemoren()
+      var footer = $api.dom('footer'); // 获取 footer 标签元素
+      var footerH = $api.fixTabBar(footer);
+      fnInitData()
+      updata()
+    }
+    function fnInitData(){
+      _ajax('api/user/getVipInfo',function(ret){
+        console.log(JSON.stringify(ret))
+        if(ret.errCode==-1){
+          setTimeout(function(){
+            _openWin('login')
+          },300)
+        }
+        if(ret.errCode==1){
+          var data = ret.data
+
+          for(var i=0;i<data.length;i++){
+            $api.append($api.dom('.swiper-wrapper'),`<div class="swiper-slide">
+              <div class="huiyuan">
+                <img src="${imgurl+data[i].img}" alt="">
+              </div>
+            </div>`)
+          }
+          $api.html($api.byId('termofvalidity'), '永久');
+          $api.html($api.byId('money'), data[0].money+'元');
+          $api.html($api.byId('fabunumber'), data[0].fabunumber+'次');
+          $api.html($api.byId('roofplacement'), data[0].roofplacement+'元/小时');
+          $api.html($api.byId('servicecharge'), data[0].servicecharge*100+'%');
+          $api.html($api.byId('withdrawalratio'), data[0].withdrawalratio*100+'%');
+          $api.css($api.dom('footer'), 'display:none;');
+
+          swiper = new Swiper('.swiper-container', {
+            slidesPerView : 'auto',
+            spaceBetween : -10,
+            centeredSlides:true,
+            loop:false,
+            on: {
+              slideChangeTransitionStart: function(){
+                index = swiper.activeIndex
+                var level = $api.getStorage('user').level;
+                if(data[index].viptype<=level){
+                  $api.html($api.byId('level'), '已升级');
+                  $api.addCls($api.byId('level'), 'level_');
+                }else{
+                  $api.html($api.byId('level'), '升级会员');
+                  $api.removeCls($api.byId('level'), 'level_');
+                }
+
+                $api.css($api.dom('footer'), 'display:block;');
+                $api.html($api.byId('termofvalidity'), data[index].termofvalidity+'天');
+                if(index==0){
+                  $api.html($api.byId('termofvalidity'), '永久');
+                  $api.css($api.dom('footer'), 'display:none;');
+                }
+                money = data[index].money
+                $api.html($api.byId('money'), data[index].money+'元');
+                $api.html($api.byId('fabunumber'), data[index].fabunumber+'次');
+                $api.html($api.byId('roofplacement'), data[index].roofplacement+'元/小时');
+                $api.html($api.byId('servicecharge'), data[index].servicecharge*100+'%');
+                $api.html($api.byId('withdrawalratio'), data[index].withdrawalratio*100+'%');
+
+              },
+              touchEnd: function(event){
+                $api.removeCls($api.dom('section'), 'active');
+              },
+              touchStart: function(event){
+                $api.addCls($api.dom('section'), 'active');
+              },
+            },
+          });
+        }
+        UILoading_Close();
+      })
+    }
+    function shenji(){
+      var vip_status = $api.getStorage('user').vip_status;
+      var dialogBox = api.require('dialogBox');
+      event.stopPropagation();
+      dialogBox.actionMenu({
+          tapClose: true,
+          rect: {
+              h: 160
+          },
+          texts: {
+              cancel: '取消'
+          },
+          items: [{
+              text: '微信',
+              icon: 'widget://image/weixinpay.png'
+          }, {
+              text: '支付宝',
+              icon: 'widget://image/zhifubaopay.png'
+          }],
+          styles: {
+              bg: '#FFF',
+              column: 2,
+              itemText: {
+                  color: '#000',
+                  size: 12,
+                  marginT: 6
+              },
+              itemIcon: {
+                  size: 70
+              },
+              cancel: {
+                  bg: 'fs://icon.png',
+                  color: '#000',
+                  h: 40,
+                  size: 14
+              }
+          }
+      }, function(ret) {
+          if (ret.eventType == 'cancel') {
+              dialogBox.close({
+                  dialogName: 'actionMenu'
+              });
+          }
+          if (ret.index == 0 && ret.eventType == "click") {
+              if(pay_way.wx==0){
+                _msg('暂未开通,请选择其他支付方式')
+                return
+              }
+              _ajax('api/user/userupgrade', function(ret) {
+                  var data = ret.data
+                  console.log(JSON.stringify(ret))
+                  if (ret.status == 1) {
+                      var wxPay = api.require('wxPayPlus');
+                      wxPay.payOrder({
+                          apiKey: data.apiKey,
+                          orderId: data.orderId,
+                          mchId: data.mchId,
+                          nonceStr: data.nonceStr,
+                          timeStamp: data.timeStamp,
+                          package: data.package,
+                          sign: data.sign
+                      }, function(ret, err) {
+                          if (ret.status) {
+                              _msg('付款成功')
+                              updata()
+                          } else {
+                              console.log(JSON.stringify(err));
+                          }
+                      });
+                  }
+              }, {
+                  set_id: index+1,
+                  type:2,
+                  money: money
+              })
+
+              dialogBox.close({
+                  dialogName: 'actionMenu'
+              });
+          }
+          if (ret.index == 1 && ret.eventType == "click") {
+            if(pay_way.ali==0){
+              _msg('暂未开通,请选择其他支付方式')
+              return
+            }
+            console.log(money+'-'+index)
+              _ajax('api/user/userupgrade', function(ret) {
+                  // alert(JSON.stringify(ret))
+                  if (ret.status == 1) {
+                      var aliPayPlus = api.require('aliPayPlus');
+                      aliPayPlus.payOrder({
+                          orderInfo: ret.data
+                      }, function(ret, err) {
+                          if (ret) {
+                              console.log(JSON.stringify(ret))
+                              if (ret.code == 9000) {
+                                  _msg('付款成功')
+                                  updata()
+                              }
+                          } else {
+                              _msg('服务器连接超时，请稍后再试')
+                          }
+                      });
+                  }else{
+                    _msg(ret.msg)
+                  }
+                  //alert(JSON.stringify(ret))
+              }, {
+                  set_id: index+1,
+                  type:1,
+                  money: money
+              })
+              dialogBox.close({
+                  dialogName: 'actionMenu'
+              });
+          }
+      });
+    }
+    function updata(){
+      $api.html($api.byId('level'), '已升级');
+      $api.addCls($api.byId('level'), 'level_');
+      api.execScript({
+          name: 'main',
+          frameName: 'user_frame',
+          script: 'fnInitData();'
+      });
+    }
+</script>
+</html>

@@ -1,0 +1,244 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>商家举报</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <style>
+        body,html{
+            background:transparent;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+        }
+        .bz{
+            width: 33rem;
+            background: #fff;
+            border-radius: 10px;
+            box-sizing: border-box;
+            padding: 2rem 2rem .5rem;
+        }
+        .bz p{
+            font-size: 1.6rem;
+            color: #333;
+            margin-bottom: .8rem;
+        }
+        .bz>div{
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+        }
+        .title{
+            margin-bottom: 1rem;
+
+        }
+        .bz  .title>p{
+            padding: 0;
+            margin: 0;
+            font-size: 1.7rem;
+        }
+        .title>img{
+            width: 1.5rem;
+            margin-right: .3rem;
+        }
+        .bz textarea{
+            width: 100%;
+            height: 100px;
+            line-height: 16px;
+            box-sizing: border-box;
+            padding: 1rem;
+            font-size: 1.3rem;
+            border-radius: 6px;
+            border: 1px solid #f2f2f2;
+            background: #f2f2f2;
+            outline: none;
+
+        }
+        .bz .url{
+            padding: 0 1rem;
+            height: 50px;
+        }
+        .bz .foot{
+            margin:15px 0;
+            display: flex;
+            justify-content: center;
+        }
+        .foot>span{
+            width: 50%;
+            text-align: center;
+            font-size: 1.5rem;
+            color: #666;
+        }
+        .foot>span:nth-child(2){
+            width: 1px;height: 16px;
+            background: #999;
+        }
+        .foot>span:last-child{
+            border: 0;
+            color: #FF4841;
+        }
+        li p {
+            font-size: 1.5rem;
+            color: #333
+        }
+
+        li>p {
+            background: #FF4841;
+            border-radius: 50%;
+            width: 2rem;
+            height: 2rem;
+            text-align: center;
+            line-height: 2rem;
+            color: #fff;
+            font-size: 1.5rem;
+            margin-right: .7rem;
+        }
+
+        li {
+            display: flex;
+            margin: 1rem 0;
+            align-items: flex-start;
+        }
+
+        li>div {
+            flex: 1
+        }
+
+        .index {
+            width: 100%;
+            line-height: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .urls>.conrent,
+        .qrcode .contet {
+            display: flex;
+        }
+
+        .content>span {
+            font-size: 1.5rem;
+            padding: .2rem .5rem;
+            height: 2rem;
+            line-height: 2rem;
+            background: -webkit-linear-gradient(right, #FDA96D 0%, #FF435B 100%);
+            color: #fff;
+            border-radius: 4px;
+            margin-right: 3rem;
+        }
+
+        .content>span:last-child {
+            color: #FF435B;
+            background: -webkit-linear-gradient(right, #FFE4E1 0%, #FFAEB9 100%);
+        }
+
+        .checkimg .content {
+            display: flex;
+            width: 100%;
+            align-items: flex-start;
+            justify-content: space-between;
+            box-sizing: border-box;
+            padding-right: 2.5rem;
+        }
+
+        .checkimg .content>div {
+            width: 46%;
+        }
+
+        .checkimg .leftimg {
+            width: 100%;
+        }
+
+        .checkimg .rightimg {
+            width: 8rem;
+        }
+
+        .getinfo>input {
+            border-radius: 4px;
+            outline: none;
+            border: .5px solid #FF435B;
+            width: 100%;
+            color: #333;
+            box-sizing: border-box;
+            padding: 1rem .3rem;
+            font-size: 1.4rem;
+        }
+
+        .graphicexplanation img {
+            width: 14rem;
+        }
+
+        .copydata input {
+            width: 16rem;
+            padding: .6rem;
+            font-size: 1.4rem;
+            color: #999;
+            border-radius: 4px;
+            outline: none;
+            border: .5px solid #FF435B;
+            margin-right: 1rem;
+        }
+        .code>img{
+            display: block;
+            margin: auto;
+            width: 13rem;
+        }
+        .active{
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body>
+<div class="bz bz6">
+    <div class="title">
+        <p>投诉内容</p>
+    </div>
+    <textarea  placeholder="输入内容，详细说明投诉内容" rows="5" id="getinfo" wrap="physical"></textarea>
+    <div class="foot">
+        <span tapmode onclick="closebz_frame()">取消</span>
+        <span></span>
+        <span tapmode onclick="addinfo()">添加</span>
+    </div>
+</div>
+
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/app.js"></script>
+<script type="text/javascript" src="../script/md5.min.js"></script>
+<script type="text/javascript">
+    var info;
+    apiready = function() {
+        setStatusBarStylemoren()
+        info = api.pageParam.info
+    }
+
+    function closebz_frame(){
+        api.closeFrame();
+
+    }
+    function addinfo(){
+        var obj = {}
+        var getinfo = $api.val($api.byId('getinfo'));
+        if(!getinfo){
+          _msg('请输入投诉内容')
+          return
+        }
+        obj=info;
+        obj['content'] = getinfo
+        api.execScript({
+            name: 'order',
+            frameName: 'frame3_',
+            script: 'doSave('+JSON.stringify(obj)+')'
+        });
+        closebz_frame()
+    }
+</script>
+
+</html>

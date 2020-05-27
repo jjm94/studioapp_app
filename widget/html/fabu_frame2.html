@@ -1,0 +1,312 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>发布任务已暂停</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <style>
+    li {
+        border-bottom: 5px solid #f2f2f2;
+        padding: 0 1.8rem;
+    }
+
+    .topdiv,
+    .botdiv,
+    .botdiv>div,
+    .top,
+    .bot {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .topdiv{
+      padding: 1rem 0;
+      border-bottom: 1px solid #f2f2f2;
+    }
+    .topdiv>img {
+        width: 5rem;
+        height: 5rem;
+        border-radius: 50%;
+        box-sizing: border-box;
+    }
+
+    .topdiv>div {
+        width: 26rem
+    }
+
+    .left{
+      display: flex;
+      align-items: center;
+    }
+    .left>img {
+        width: 1.4rem;
+        margin-left: 3px;
+    }
+
+    .top {
+        box-sizing: border-box;
+        padding-right: 1rem;
+    }
+
+    .top>.left>span {
+        color: #333;
+        font-size: 1.5rem;
+    }
+
+    .top>.right {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #FF4841;
+    }
+
+    .bot {
+        margin-top: 1.3rem;
+        box-sizing: border-box;
+        padding-right: 1rem;
+    }
+
+    .bot>.left>span {
+        display: inline-block;
+        padding: 0rem .5rem;
+        height: 2rem;
+        line-height: 2rem;
+        background: #f2f2f2;
+        color: #999;
+        font-size: 1.2rem;
+        text-align: center;
+        border-radius: 5px;
+        vertical-align: middle;
+        margin-right: .5rem;
+    }
+
+    .bot>.right>span {
+        color: #999;
+        font-size: 1.2rem;
+    }
+
+    .bot>.right>span:nth-child(2) {
+        display: inline;
+        margin: 0 .3rem;
+    }
+    .botdiv{
+      justify-content: space-around;
+      font-size: 1.5rem;
+      color: #333;
+      height: 4rem;
+      box-sizing: border-box;
+      padding: 0 2rem;
+    }
+    .botdiv>div{
+      justify-content: center;
+    }
+    .botdiv>div>img{
+      width: 1.6rem;
+      margin-right: .3rem;
+    }
+    .botdiv>span{
+      width: 1px;height: 10px;
+      background: #999;
+    }
+    [v-cloack] {
+        display: none;
+    }
+    footer{
+      display: none
+    }
+    </style>
+</head>
+
+<body>
+  <ul id="app" v-cloack>
+    <li v-for="(item,index) of taskList" >
+      <div class="topdiv"  @click="_openWin('fabuguanli',{id:item.id})">
+        <img :src="imgurl+item.img" alt="">
+        <div>
+            <div class="top">
+                <div class="left">
+                    <span>{{item.title}}</span>
+                    <img v-if="item.roofplacement == 1" src="../image/main/10.png" alt="">
+                    <!-- <img src="../image/main/11.png" alt=""> -->
+                </div>
+                <div class="right">
+                    +{{item.task_money}}元
+                </div>
+            </div>
+            <div class="bot">
+                <div class="left">
+                    <span>{{item.tasktypename}}</span>
+                    <!-- <span>昨玩右玩</span> -->
+                </div>
+                <div class="right">
+                    <span>进行中:{{item.hand}}</span><span>|</span><span>剩余数:{{item.num}}</span>
+                </div>
+            </div>
+        </div>
+      </div>
+      <div class="botdiv">
+        <div @click = "">
+          <img src="../image/fabu/21.png" alt="">
+          <span >审核:{{item.inaudit}}</span>
+        </div>
+        <span></span>
+        <div @click = "changetaskstatus(item.status,item.id)">
+          <img v-if="item.status=='2'" src="../image/fabu/29.png" alt="">
+          <img v-else-if="item.status=='1'" src="../image/fabu/26.png" alt="">
+          <span v-if="item.status=='1'" >暂停</span>
+          <span v-else-if="item.status=='2'" >上架</span>
+        </div>
+        <span></span>
+        <div @click = "moveup(item.id)">
+          <img src="../image/fabu/23.png" alt="">
+          <span >置顶</span>
+        </div>
+      </div>
+    </li>
+  </ul>
+  <footer>
+    <img src="../image/kong.png" style="display:block;width:7rem;margin:10rem auto;" alt="">
+  </footer>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/app.js"></script>
+<script type="text/javascript" src="../script/md5.min.js"></script>
+<script type="text/javascript" src="../script/fastclick.js"></script>
+<script type="text/javascript" src="../script/vue.min.js"></script>
+<script type="text/javascript">
+    var U_id;
+    apiready = function() {
+        window.FastClick && FastClick.attach(document.body);
+        UILoading()
+        openFabu()
+        vm = new Vue({
+          el:'#app',
+          data:{
+            page:1,
+            current_page: 1,
+            taskList:[]
+          },
+          methods:{
+            openfbgl(id) {
+                _openWin('fabuguanli', {
+                    id: id
+                })
+            },
+            changetaskstatus(status_,id){
+              var status,msg
+              if(status_=='1'){
+                status=2
+                msg='是否暂停该任务'
+              }
+              if(status_=='2'){
+                status=1
+                msg='是否上架该任务'
+              }
+              function stop_ (){
+                _ajax('api/pt_Task/doTaskStatus',function(ret){
+                  console.log(JSON.stringify(ret))
+                  fnInitData(1)
+                  api.execScript({
+                      name: 'fabu',
+                      frameName: 'fabu_frame1',
+                      script: 'fnInitData(1);'
+                  });
+
+                },{
+                  tid:id,
+                  status:status
+                })
+              }
+              dialogBox('友情提示',msg, stop_)
+            },
+            moveup(id){
+              api.openFrame({
+                  name: 'fbzd_frame',
+                  url: './fbzd_frame.html',
+                  vScrollBarEnabled: false,
+                  hScrollBarEnabled: false,
+                  rect: {
+                    x: 0,
+                    y: 0,
+                    w: 'auto',
+                    h: 'auto'
+                  },
+                  pageParam: {
+                      id: id
+                  },
+                  bounces: false,
+                  bgColor: 'rgba(0,0,0,0.4)',
+                  animation: {
+                      type: "fade", //动画类型（详见动画类型常量）
+                      subType: "from_right", //动画子类型（详见动画子类型常量）
+                      duration: 300 //动画过渡时间，默认300毫秒
+                  },
+              });
+
+
+            },
+          }
+        })
+        fnInitData()
+        initEventListenter(fnInitData) //上拉加载
+        api.setRefreshHeaderInfo({
+            loadingImg: 'widget://image/xiala.png',
+            bgColor: "#f8f8f8",
+            textColor:"#666",
+            textDown: '下拉刷新...',
+            textUp: '松开刷新...'
+        }, function(ret, err) {
+            fnInitData(1)
+            api.refreshHeaderLoadDone()
+        });
+    }
+    function fnInitData(n){
+      if(n==1){
+        vm.page=1
+      }
+      _ajax('api/pt_Task/getmytask',function(ret){
+        console.log(JSON.stringify(ret))
+        if(ret.errCode==-1){
+          _openWin('login')
+        }
+        if(ret.errCode==0 && vm.page==1){
+          UILoading_Close(U_id)
+          vm.taskList = ret.data;
+          vm.current_page = 2
+          vm.page = 2
+          if(vm.taskList.length==0){
+            $api.css($api.dom('footer'), 'display:block');
+          }
+        }
+        if(ret.errCode==1){
+          $api.css($api.dom('footer'), 'display:none');
+          if(n==1){
+            vm.taskList = ret.data;
+            vm.current_page = 2
+            vm.page = 2
+          }else{
+            vm.taskList = vm.taskList.concat(ret.data)
+            console.log(JSON.stringify(vm.taskList))
+            var taskListLength = vm.taskList.length + ''
+            vm.current_page = vm.taskList.length < 10 ? 1 : parseInt(taskListLength.substr(0, taskListLength.length - 1)) + 1;
+            if (vm.taskList.length % 10 == 0) {
+                vm.current_page -= 1
+            }
+            vm.page = vm.current_page += 1
+            UILoading_Close(U_id)
+          }
+
+        }else{
+          UILoading_Close(U_id)
+        }
+      },{
+        p:vm.page,
+        tk_type:2
+      })
+    }
+
+</script>
+
+</html>

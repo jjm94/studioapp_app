@@ -1,0 +1,150 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>收入排行榜</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <style>
+      html,body{
+        background: -webkit-linear-gradient(right,#FDA96D 0%,#FF435B 100%);
+      }
+      #app{
+        background:#FFDE7B;
+        width: 100%;
+        border-radius: 6px;
+        box-sizing: border-box;
+        padding:1rem 0;
+      }
+      .title,li{
+        display: flex;
+        justify-content: space-between;
+
+      }
+      li{
+        height: 5rem;
+      }
+      .title>span:first-child{
+        font-size: 1.6rem;
+        color: #FF4841;
+        width: 40%;
+        text-align: center;
+      }
+      .title>span:last-child{
+        font-size: 1.6rem;
+        color: #FF4841;
+        width: 30%;
+        text-align: center;
+      }
+      li>div{
+        width: 50%;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        box-sizing: border-box;
+        padding-bottom: 30px;
+        padding-left: 1rem;
+      }
+      li{
+        margin-top: 2rem;
+        align-items: center;
+      }
+      li>p{
+        width: 30%;
+        text-align: center;
+        font-size: 1.4rem;
+        color: #FF4841;
+      }
+      li img{
+        width: 5rem;
+        border-radius: 50%;
+      }
+      .info>span{
+        font-size: 1.6rem;
+        color: #333;
+      }
+      li>div>p{
+        width: 2rem;
+        height: 2rem;
+        border-radius: 50%;
+        color: #FF4841;
+        background: #FFA7B2;
+        line-height: 2rem;
+        text-align: center;
+        font-size: 1.6rem;
+      }
+      .info{
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .info>span:last-child{
+        margin-top: .5rem;
+      }
+      [v-cloack]{
+        display: none
+      }
+    </style>
+</head>
+
+<body>
+  <div id="app" v-cloack>
+    <div class="title">
+      <span>用户</span>
+      <span>收入</span>
+    </div>
+    <ul>
+      <li v-for="(item,index) of list">
+        <div>
+          <p>{{index+1}}</p>
+          <img :src="imgurl+item.avatar" alt="">
+          <div class="info">
+            <span>{{item.mobile | formeData}}  </span>
+          </div>
+        </div>
+        <P>{{item.total}}</P>
+      </li>
+    </ul>
+  </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/app.js"></script>
+<script type="text/javascript" src="../script/fastclick.js"></script>
+<script type="text/javascript" src="../script/md5.min.js"></script>
+<script type="text/javascript" src="../script/vue.min.js"></script>
+<script type="text/javascript">
+    var U_id
+    apiready = function() {
+        window.FastClick && FastClick.attach(document.body);
+        UILoading(U_id)
+        vm = new Vue({
+            el: '#app',
+            data: {
+              list:[]
+            },
+            filters:{
+              formeData:function(value){
+                 var showPhone = value.substr(0,3)+'****'+value.substr(7);
+                 return showPhone
+              }
+            }
+        })
+        fnInitData()
+    }
+    function fnInitData(){
+      _ajax('api/index/top',function(ret){
+        if(ret.errCode==1){
+            console.log(JSON.stringify(ret.data.data))
+            vm.list = ret.data.data
+            UILoading_Close(U_id)
+        }
+        if(ret.errCode==-1){
+          _openWin('login')
+        }
+      })
+    }
+</script>
+
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>任务大厅</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <style>
+        header {
+            height: 65px;
+            background: #fff;
+            text-align: center;
+            box-sizing: border-box;
+            padding-top: 12px;
+            line-height: 65px;
+        }
+
+        header p {
+            font-size: 1.6rem;
+            color: #333;
+            font-weight: bold;
+        }
+        /*.active{
+          color: #FF4841
+        }*/
+    </style>
+</head>
+
+<body>
+    <header id="header">
+        <p class="putong" tapmode onclick="task(2)">任务大厅</p>
+        <!-- <p class="shiwan" tapmode onclick="task(1)">试玩任务</p> -->
+    </header>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/app.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+        if (api.systemType == 'ios') {
+            api.setWinAttr({
+                slidBackEnabled: false
+            });
+        }
+        task(2)
+        var isExit = false;
+    }
+
+    function task(n) {
+        api.closeFrame({
+            name: 'type_frame'
+        });
+
+        if (n == 1) {
+            _msg('暂未开放，敬请期待')
+            return
+            $api.addCls($api.dom('.shiwan'), 'active');
+            $api.removeCls($api.dom('.putong'), 'active');
+            openshiwan_frame()
+        } else {
+            $api.addCls($api.dom('.putong'), 'active');
+            $api.removeCls($api.dom('.shiwan'), 'active');
+            openputong_frame()
+        }
+
+    }
+
+    function openshiwan_frame() {
+        marginBottom()
+        api.openFrame({
+            name: 'shiwan_frame',
+            url: './shiwan_frame.html',
+            rect: {
+                marginTop: 65,
+                marginBottom: margin_bottom,
+                w: 'auto',
+            },
+            pageParam: {
+                name: 'test'
+            },
+            bounces: false,
+            bgColor: 'rgba(0,0,0,0)',
+            vScrollBarEnabled: false,
+            hScrollBarEnabled: false,
+        });
+        api.execScript({
+            name: 'main',
+            frameName: 'shiwan_frame',
+            script: "openshiwantype_frame('shiwanNew');"
+        });
+
+    }
+
+    function openputong_frame() {
+        marginBottom()
+        api.openFrame({
+            name: 'putong_frame',
+            url: './putong_frame.html',
+            rect: {
+                marginTop: 65,
+                marginBottom: margin_bottom,
+                w: 'auto',
+            },
+            pageParam: {
+                name: 'test'
+            },
+            bounces: false,
+            bgColor: 'rgba(0,0,0,0)',
+            vScrollBarEnabled: false,
+            hScrollBarEnabled: false,
+        });
+    }
+</script>
+
+</html>

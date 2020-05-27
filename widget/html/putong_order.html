@@ -1,0 +1,129 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>普通任务订单</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <style>
+        body,html{
+          background: #f2f2f2;
+        }
+        section{
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-pack: justify;
+            -webkit-justify-content: space-between;
+            justify-content: space-between;
+            -webkit-box-align:center;
+            -webkit-align-items:center;
+            align-items: center;
+            width: 100%;
+            height: 40px;
+            font-size: 14px;
+            color: #333333;
+            box-sizing: border-box;
+            padding: 5px 10px;
+            margin-top: 5px;
+            background: #fff;
+        }
+        section>span{
+            display: inline-block;
+            width: 45px;
+            height: 26px;
+            text-align: center;
+        }
+        section>span.active{
+            color: #FF4841;
+            border-bottom: 2px solid #FF4841;
+        }
+    </style>
+</head>
+
+<body>
+    <section>
+        <span class="menu active" tapmode onclick="fnSetNavMenuIndex(0)">全部</span>
+        <span class="menu" tapmode onclick="fnSetNavMenuIndex(1)">待提交</span>
+        <span class="menu" tapmode onclick="fnSetNavMenuIndex(2)">审核中</span>
+        <span class="menu" tapmode onclick="fnSetNavMenuIndex(3)">不合格</span>
+        <span class="menu" tapmode onclick="fnSetNavMenuIndex(4)">已完成</span>
+    </section>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/app.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+        openFrames_()
+    }
+    function closeWin(){
+        api.closeWin()
+    }
+    function openFrames_(){
+        api.openFrameGroup ({
+            name: 'group2',
+            background: '#f2f2f2',
+            scrollEnabled: true,
+            rect: {
+                 x: 0,
+                 y: 120,
+                 w: 'auto',
+            },
+            index: 0,
+            preload:0,
+            frames: [{
+                name: 'frame0_',
+                url: 'frame0_.html',
+                bgColor: '#f2f2f2'
+            },{
+                name: 'frame1_',
+                url: 'frame1_.html',
+                bgColor: '#f2f2f2'
+            },{
+                name: 'frame2_',
+                url: 'frame2_.html',
+                bgColor: '#f2f2f2'
+            },{
+                name: 'frame3_',
+                url: 'frame3_.html',
+                bgColor: '#f2f2f2'
+            },{
+                name: 'frame4_',
+                url: 'frame4_.html',
+                bgColor: '#f2f2f2'
+            }
+            ]
+        }, function(ret, err){
+            if( ret ){
+                //alert(JSON.stringify(ret))
+                 fnSetNavMenuSelected(ret.index)
+            }else{
+                 //alert( JSON.stringify( err ) );
+            }
+        });
+    }
+    function fnSetNavMenuSelected(index_) {
+        var nav = $api.dom('section')
+        var menus = $api.domAll(nav,'.menu');
+        for (var i = 0; i < menus.length; i++) {
+            if (index_ == i) {
+                $api.addCls(menus[i], 'active');
+
+            } else {
+                $api.removeCls(menus[i], 'active');
+            }
+        }
+    }
+    function fnSetNavMenuIndex(index_){
+        fnSetNavMenuSelected(index_);
+        api.setFrameGroupIndex({
+            name: 'group2',
+            index: index_,
+            scroll: true
+        });
+    }
+</script>
+
+</html>

@@ -1,0 +1,196 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>发布任务</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <style>
+    body,html{
+      background: #f2f2f2;
+    }
+    header{
+        height: 65px;
+        background: #fff;
+        border-bottom: 1px solid #f2f2f2;
+    }
+    header div{
+        position: absolute;
+        bottom: 0px;
+        box-sizing: border-box;
+        padding: 8px;
+        width: 60px;
+        height: 40px;
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-box-pack:center;
+        -webkit-justify-content:center;
+        justify-content: center;
+        -webkit-box-align:center;
+        -webkit-align-items:center;
+        align-items: center;
+    }
+    header div img{
+        height: 1.9rem;
+    }
+    header p{
+        font-size: 1.7rem;
+        font-weight: bold;
+        color: #333;
+        position: absolute;
+        bottom: 6px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    .task{
+            text-align: center;
+            width: 20rem;
+            margin: auto;
+            margin-top: 10px;
+            height: 38px;
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: flex;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        .task span{
+            display: inline-block;
+            box-sizing: border-box;
+            height: 38px;
+            width: 10rem;
+            line-height: 38px;
+        }
+        .task .shiwan,.putong{
+            color: #FF4841;
+            border: 1px solid #FF4841;
+            border-radius: 0 5px 5px 0;
+        }
+        .task .putong{
+            border-radius: 5px 0 0 5px;
+        }
+        .task>span.active{
+            color: #fff;
+            background: #FF4841;
+        }
+        nav{
+          width: 36rem;
+          height: 4rem;
+          background: #fff;
+          display:flex;
+          justify-content: space-around;
+          font-size: 1.5rem;
+          color: #333;
+          align-items: center;
+          border-bottom: 1px solid #f2f2f2
+        }
+        .active{
+          color: #FF435B;
+        }
+        #mask{
+          position: fixed;
+          z-index: 999;
+          top:0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0, 0, 0, 0.0);
+
+          transition: all 200ms;
+          display: none;
+        }
+        .mask_active{
+          background: rgba(0, 0, 0, 0.6);
+        }
+    </style>
+</head>
+
+<body>
+  <header>
+      <div tapmode onclick="closeWinL()">
+          <img src="../image/return.png" alt="">
+      </div>
+      <p>发布任务</p>
+  </header>
+  <nav>
+    <span class="menu active" tapmode onclick="fnSetNavMenuIndex(0)">已上架</span>
+    <span class="menu" tapmode onclick="fnSetNavMenuIndex(1)">已暂停</span>
+    <span class="menu" tapmode onclick="fnSetNavMenuIndex(2)">待上架</span>
+  </nav>
+  <div id="mask"></div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/app.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+        _setStatusBarStyle()
+        openFrames()
+    }
+    function openFrames() {
+
+        api.openFrameGroup({
+            name: 'fbgroup',
+            background: '#fff',
+            scrollEnabled: true,
+            rect: {
+              x: 0,
+              y: 112,
+              w: 'auto',
+              h: 'auto'
+            },
+            index: 0,
+            preload: 0,
+            scrollEnabled: false,
+            frames: [{
+                name: 'fabu_frame1',
+                url: './fabu_frame1.html',
+                bgColor: '#f2f2f2',
+            }, {
+                name: 'fabu_frame2',
+                url: './fabu_frame2.html',
+                bgColor: '#f2f2f2',
+            },{
+                name: 'fabu_frame3',
+                url: './fabu_frame3.html',
+                bgColor: '#f2f2f2',
+            }]
+        }, function(ret, err) {
+            if (ret) {
+                //alert(JSON.stringify(ret))
+                //fnSetNavMenuSelected(ret.index)
+
+            } else {
+                //_msg('服务器连接超时，请稍后再试')
+            }
+        });
+
+    }
+
+    function fnSetNavMenuSelected(index_) {
+        //var nav = $api.dom('section')
+        var menus = $api.domAll('.menu');
+        for (var i = 0; i < menus.length; i++) {
+            if (index_ == i) {
+                $api.addCls(menus[i], 'active');
+            } else {
+                $api.removeCls(menus[i], 'active');
+            }
+        }
+    }
+
+    function fnSetNavMenuIndex(index_) {
+        index = index_
+        fnSetNavMenuSelected(index_);
+
+        api.setFrameGroupIndex({
+            name: 'fbgroup',
+            index: index_,
+            scroll: false,
+        });
+    }
+</script>
+
+</html>

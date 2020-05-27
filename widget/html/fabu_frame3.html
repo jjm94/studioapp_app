@@ -1,0 +1,282 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>发布任务待上架</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <style>
+    li {
+        border-bottom: 5px solid #f2f2f2;
+        padding: 0 1.8rem;
+    }
+
+    .topdiv,
+    .botdiv,
+    .botdiv>div,
+    .top,
+    .bot {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .topdiv{
+      padding: 1rem 0;
+      border-bottom: 1px solid #f2f2f2;
+    }
+    .topdiv>img {
+        width: 5rem;
+        height: 5rem;
+        border-radius: 50%;
+        box-sizing: border-box;
+    }
+
+    .topdiv>div {
+        width: 26rem
+    }
+
+    .left{
+      display: flex;
+      align-items: center;
+    }
+    .left>img {
+        width: 1.4rem;
+        margin-left: 3px;
+    }
+
+    .top {
+        box-sizing: border-box;
+        padding-right: 1rem;
+    }
+
+    .top>.left>span {
+        color: #333;
+        font-size: 1.5rem;
+    }
+
+    .top>.right {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #FF4841;
+    }
+
+    .bot {
+        margin-top: 1.3rem;
+        box-sizing: border-box;
+        padding-right: 1rem;
+    }
+
+    .bot>.left>span {
+        display: inline-block;
+        padding: 0rem .5rem;
+        height: 2rem;
+        line-height: 2rem;
+        background: #f2f2f2;
+        color: #999;
+        font-size: 1.2rem;
+        text-align: center;
+        border-radius: 5px;
+        vertical-align: middle;
+        margin-right: .5rem;
+    }
+
+    .bot>.right>span {
+        color: #999;
+        font-size: 1.2rem;
+    }
+
+    .bot>.right>span:nth-child(2) {
+        display: inline;
+        margin: 0 .3rem;
+    }
+    .botdiv{
+      justify-content: space-around;
+      font-size: 1.5rem;
+      color: #333;
+      height: 4rem;
+      box-sizing: border-box;
+      padding: 0 2rem;
+    }
+    .botdiv>div{
+      justify-content: center;
+    }
+    .botdiv>div>img{
+      width: 1.6rem;
+      margin-right: .3rem;
+    }
+    .botdiv>p{
+      color: #FF4841;
+    }
+    .botdiv>span{
+      width: 1px;height: 10px;
+      background: #999;
+    }
+    [v-cloack] {
+        display: none;
+    }
+    footer{
+      display: none
+    }
+    </style>
+</head>
+
+<body>
+  <ul id="app" v-cloack>
+    <li v-for="(item,index) of taskList" >
+      <div class="topdiv"  @click="openDetail(item.id)">
+        <img :src="imgurl+item.img" alt="">
+        <div>
+            <div class="top">
+                <div class="left">
+                    <span>{{item.title}}</span>
+                    <img v-if="item.roofplacement == 1" src="../image/main/10.png" alt="">
+                    <!-- <img src="../image/main/11.png" alt=""> -->
+                </div>
+                <div class="right">
+                    +{{item.task_money}}元
+                </div>
+            </div>
+            <div class="bot">
+                <div class="left">
+                    <span>{{item.tasktypename}}</span>
+                    <!-- <span>昨玩右玩</span> -->
+                </div>
+                <div class="right">
+                    <span>{{item.receive_num}}人已完成</span><span>|</span><span>剩余数:{{item.num}}</span>
+                </div>
+            </div>
+        </div>
+      </div>
+      <div class="botdiv">
+        <p>{{item.statusname}}</p>
+        <span></span>
+        <div @click = again(item.id,item.statusname)>
+          <img src="../image/fabu/19.png" alt="">
+          <span >重新发布</span>
+        </div>
+        <span></span>
+        <div @click="fndelete(item.id,index)">
+          <img src="../image/fabu/20.png" alt="">
+          <span>删除</span>
+        </div>
+      </div>
+    </li>
+  </ul>
+  <footer>
+    <img src="../image/kong.png" style="display:block;width:7rem;margin:10rem auto;" alt="">
+  </footer>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/app.js"></script>
+<script type="text/javascript" src="../script/md5.min.js"></script>
+<script type="text/javascript" src="../script/fastclick.js"></script>
+<script type="text/javascript" src="../script/vue.min.js"></script>
+<script type="text/javascript">
+    var U_id;
+    apiready = function() {
+        window.FastClick && FastClick.attach(document.body);
+        UILoading(U_id)
+        openFabu()
+        vm = new Vue({
+          el:'#app',
+          data:{
+            page:1,
+            current_page: 1,
+            taskList:[]
+          },
+          methods:{
+            openDetail(id) {
+                _openWin('putongDetail', {
+                    id: id
+                })
+            },
+            again(id,statusname){
+              if(statusname=="审核中"){
+                _msg('任务审核中')
+              }else{_openWin('fabutask',{id:id})}
+
+            },
+            fndelete(id,index){
+              function fngiveup_ (){
+                _ajax('api/pt_Task/deltask',function(ret){
+                  console.log(JSON.stringify(ret))
+                  if(ret.errCode==1){
+                    _msg(ret.msg)
+                    vm.taskList.splice(index,1)
+                    if(vm.taskList.length==0){
+                      $api.css($api.dom('footer'), 'display:block');
+                    }
+                  }
+                },{
+                  id:id
+                })
+
+              }
+              dialogBox('友情提示','是否删除此步骤', fngiveup_)
+            },
+          }
+        })
+        fnInitData()
+        initEventListenter(fnInitData) //上拉加载
+        api.setRefreshHeaderInfo({
+            loadingImg: 'widget://image/xiala.png',
+            bgColor: "#f8f8f8",
+            textColor:"#666",
+            textDown: '下拉刷新...',
+            textUp: '松开刷新...'
+        }, function(ret, err) {
+            fnInitData(1)
+            api.refreshHeaderLoadDone()
+        });
+    }
+    function fnInitData(n){
+      if(n==1){
+        vm.page=1
+      }
+      _ajax('api/pt_Task/getmytask',function(ret){
+        console.log(JSON.stringify(ret))
+        if(ret.errCode==-1){
+          _openWin('login')
+        }
+        if(ret.errCode==0 && vm.page==1){
+          UILoading_Close(U_id)
+          vm.taskList = ret.data;
+          vm.current_page = 2
+          vm.page = 2
+          if(vm.taskList.length==0){
+            $api.css($api.dom('footer'), 'display:block');
+          }
+        }
+        if(ret.errCode==1){
+          $api.css($api.dom('footer'), 'display:none');
+          if(n==1){
+            vm.taskList = ret.data;
+            vm.current_page = 2
+            vm.page = 2
+          }else{
+            console.log(JSON.stringify(vm.taskList))
+            vm.taskList = vm.taskList.concat(ret.data)
+                //  console.log(JSON.stringify(vm.taskList))
+            var taskListLength = vm.taskList.length + ''
+            vm.current_page = vm.taskList.length < 10 ? 1 : parseInt(taskListLength.substr(0, taskListLength.length - 1)) + 1;
+            if (vm.taskList.length % 10 == 0) {
+                vm.current_page -= 1
+            }
+            vm.page = vm.current_page += 1
+            UILoading_Close(U_id)
+          }
+
+        }else{
+          UILoading_Close(U_id)
+        }
+      },{
+        p:vm.page,
+        tk_type:3
+      })
+    }
+
+</script>
+
+</html>
