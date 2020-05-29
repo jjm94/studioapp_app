@@ -1,0 +1,446 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>普通任务全部</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <style>
+        body,
+        html {
+            background: #f2f2f2;
+            height: 100%;
+        }
+
+        ul {
+            width: 34rem;
+            margin: 0 auto;
+            background: #fff;
+        }
+
+        li {
+            border-bottom: 1px solid #f2f2f2;
+            padding: .5rem;
+        }
+
+        li,
+        .top,
+        .bot {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        li>img {
+            width: 5rem;
+            height: 5rem;
+            border-radius: 50%;
+            box-sizing: border-box;
+            margin-right: .5rem;
+        }
+
+        li>div {
+            width: 26rem
+        }
+
+        .left>img {
+            width: 1.2rem;
+        }
+
+        .top {
+            box-sizing: border-box;
+            padding-right: 1rem;
+        }
+
+        .top>.left>span {
+            color: #333;
+            font-size: 1.4rem;
+        }
+
+        .top>.right {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #FF4841;
+        }
+
+        .bot {
+            box-sizing: border-box;
+            padding-right: 1rem;
+            font-size: 1.1rem;
+            color: #666;
+        }
+
+        .mid>span {
+            display: inline-block;
+            line-height: normal;
+            padding: 0.1rem .5rem;
+            background: #f2f2f2;
+            color: #999;
+            font-size: 1.2rem;
+            border-radius: 2px;
+            margin: .5rem 0;
+        }
+
+        .tijiao {
+            margin-right: .3rem;
+        }
+
+        .bot>.right {
+            display: flex;
+            align-items: center;
+        }
+
+        .tijiao,
+        .tijiao+span {
+            width: 5rem;
+            height: 1.8rem;
+            line-height: 1.8rem;
+            text-align: center;
+            border: .5px solid #F08080;
+            border-radius: 3px;
+            color: #F08080
+        }
+
+        .tijiao1 {
+            margin-right: 10px;
+            width: 4rem;
+            height: 1.8rem;
+            line-height: 1.8rem;
+            text-align: center;
+            border: .5px solid #F08080;
+            border-radius: 3px;
+            color: #F08080
+        }
+
+        .shenhezhong {
+            color: #FF8247;
+        }
+
+        .fangqi {
+            color: #999;
+        }
+
+        .wancheng {
+            color: #79CDCD;
+        }
+
+        .buhege {
+            color: #CD8500;
+        }
+
+        footer {
+            display: none
+        }
+
+        [v-cloack] {
+            display: none;
+        }
+
+        .loading,
+        .nomore {
+            display: none;
+        }
+
+        #app {
+            box-sizing: border-box;
+            padding-bottom: 20px;
+        }
+
+        .pop {
+            position: fixed;
+            top: 20%;
+            left: 50%;
+            transform: translate(-50%);
+        }
+
+        .save {
+            margin: 10px auto;
+            width: 60px;
+            height: 30px;
+            text-align: center;
+            line-height: 30px;
+            border-radius: 10px;
+            background-color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloack>
+        <ul>
+            <li v-for="(item,index) of taskList" @click="openDetail(item.id,item.rid)">
+                <img :src="item.img" alt="">
+                <div>
+                    <div class="top">
+                        <div class="left">
+                            <span>{{item.title}}</span>
+                            <img v-if="item.roofplacement == 1" src="../image/main/10.png" alt="">
+                            <!-- <img src="../image/main/11.png" alt=""> -->
+                        </div>
+                        <div class="right">
+                            +{{item.task_money}}元
+                        </div>
+                    </div>
+                    <div class="mid">
+                        <span>{{item.tasktypename}}</span>
+                    </div>
+                    <div class="bot">
+                        <div class="left">时间：{{item.create_time}}</div>
+                        <div class="right" v-if="item.statusname=='待提交'">
+                            <span class="tijiao">提交</span>
+                            <span @click.stop="giveup(item.id,index,item.rid)">放弃</span>
+                        </div>
+                        <div class="right" v-else-if="item.statusname=='已过期'">
+                            <span class="yiguoqi">{{item.statusname}}</span>
+                        </div>
+                        <div class="right" v-else-if="item.statusname=='审核中'">
+                            <span class="shenhezhong">{{item.statusname}}</span>
+                        </div>
+                        <div class="right" v-else-if="item.statusname=='已放弃'">
+                            <span class="fangqi">{{item.statusname}}</span>
+                        </div>
+                        <div class="right" v-else-if="item.statusname=='已完成'">
+                            <span class="wancheng">{{item.statusname}}</span>
+                        </div>
+                        <div class="right" v-else-if="item.statusname=='不合格'" :id="step(item.rid)">
+                            <span class="tijiao1" @click.stop='gouTong(item)'>沟通</span>
+                            <span class="tijiao1" @click.stop='call(item)'>举报</span>
+                            <span class="buhege" style="width:40px">{{item.statusname}}</span>
+                        </div>
+                        <div class="right" v-else>
+                            <span class="tijiao1" @click.stop='gouTong(item)'>沟通</span>
+                            <span class="shenhezhong" style="width:50px">{{item.statusname}}</span>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+
+        <footer>
+            <img src="../image/kong.png" style="display:block;width:7rem;margin:10rem auto;" alt="">
+        </footer>
+
+    </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/app.js"></script>
+<script type="text/javascript" src="../script/md5.min.js"></script>
+<script type="text/javascript" src="../script/fastclick.js"></script>
+<script type="text/javascript" src="../script/vue.min.js"></script>
+<script type="text/javascript">
+    var U_id, open = true;
+    apiready = function() {
+        window.FastClick && FastClick.attach(document.body);
+
+        UILoading(U_id)
+        vm = new Vue({
+            el: '#app',
+            data() {
+                return {
+                  isShowJb:false,
+                    content: '',
+                    flag: false,
+                    page: 1,
+                    jvbao: '举报',
+                    current_page: 1,
+                    taskList: [],
+                    fanKuiInfo: {
+                        tid: '',
+                        rid: '',
+                        title: '',
+                        creatorid: '',
+                        tid: '',
+                    }
+                }
+
+            },
+            methods: {
+              step: function(i) {
+                    var id = "div" + i;
+                    return id;
+                },
+                gouTong(item) {
+                    var data = {
+                        uid: item.id,
+                        nname: item.title
+                    }
+                    var rong = api.require('UIRongCloud');
+                    rong.openConversation({
+                        conversationType: 'PRIVATE',
+                        targetId: data.uid,
+                        title: data.nname
+                    }, function(ret) {
+                        api.alert({
+                            msg: JSON.stringify(ret)
+                        });
+                    });
+                    return;
+                },
+                call(item) {
+                    api.openFrame({
+                        name: 'jubao',
+                        url: './jubao.html',
+                        vScrollBarEnabled: false,
+                        hScrollBarEnabled: false,
+                        allowEdit: true,
+                        rect: {
+                            x: 0,
+                            y: 0,
+                            w: 'auto',
+                            h: 'auto'
+                        },
+                        pageParam: {
+                            info: {
+                                tid: item.tid,
+                                rid: item.rid,
+                                title: item.title,
+                                creatorid: item.creatorid
+                            }
+                        },
+                        bounces: false,
+                        bgColor: 'rgba(0,0,0,0.6)',
+                        animation: {
+                            type: "fade", //动画类型（详见动画类型常量）
+                            subType: "from_right", //动画子类型（详见动画子类型常量）
+                            duration: 300 //动画过渡时间，默认300毫秒
+                        },
+                    });
+                },
+
+                openDetail(id, rid) {
+                    _openWin('putongDetail', {
+                        id: id,
+                        rid: rid
+                    })
+                },
+                giveup(id, index, rid) {
+                    function fngiveup_() {
+                        _ajax('api/pt_task/giveup', function(ret) {
+                            // console.log(JSON.stringify(ret))
+                            if (ret.errCode == 1) {
+                                _msg('该任务已放弃')
+                                vm.taskList[index].statusname = '已放弃'
+                                    // fnInitData(1)
+                                api.execScript({
+                                    name: 'order',
+                                    frameName: 'frame1_',
+                                    script: 'fnInitData(1);'
+                                });
+
+                            }
+                        }, {
+                            tid: id,
+                            rid: rid
+                        })
+                    }
+                    dialogBox('任务提醒', '是否放弃该任务', fngiveup_)
+                }
+            }
+        })
+        fnInitData()
+        initEventListenter_()
+        api.setRefreshHeaderInfo({
+            loadingImg: 'widget://image/xiala.png',
+            bgColor: "#f2f2f2",
+            textColor: "#333",
+            textDown: '下拉刷新...',
+            textUp: '松开刷新...'
+        }, function(ret, err) {
+            fnInitData(1)
+            api.refreshHeaderLoadDone()
+        });
+
+    }
+
+        function doSave(obj) {
+            _ajax('api/pt_task/reporttask', function(ret) {
+                if (ret.errCode == 1) {
+                    _msg(ret.msg)
+                    fnInitData(1);
+                } else {
+                    _msg(ret.msg)
+                }
+            }, obj)
+        }
+    function fnInitData(n) {
+        if (n) {
+            vm.page = 1
+        }
+        _ajax('api/pt_task/allselfRTask', function(ret) {
+            // console.log(JSON.stringify(ret))
+            if (ret.errCode == -1) {
+                _openWin('login')
+            }
+            if (ret.errCode == 0 && vm.page == 1) {
+                UILoading_Close(U_id)
+                vm.taskList = ret.data;
+                vm.current_page = 2
+                vm.page = 2
+                if (vm.taskList.length == 0) {
+                    $api.css($api.dom('footer'), 'display:block');
+                }
+            }
+            if (ret.errCode == 1) {
+                $api.css($api.dom('footer'), 'display:none');
+                if (n) {
+                    vm.taskList = ret.data
+                    vm.page = 2
+                } else {
+                    vm.taskList = vm.taskList.concat(ret.data)
+                        //console.log(JSON.stringify(vm.taskList))
+                    var taskListLength = vm.taskList.length + ''
+                        //alert(vm.taskList.length)
+                    vm.current_page = vm.taskList.length < 10 ? 1 : parseInt(taskListLength.substr(0, taskListLength.length - 1)) + 1;
+                    if (vm.taskList.length % 10 == 0) {
+                        vm.current_page -= 1
+                    }
+                    vm.page = vm.current_page += 1
+                    UILoading_Close(U_id)
+                }
+
+            }
+            if (ret.errCode == 0) {
+                loading_()
+                UILoading_Close(U_id)
+                    // setTimeout(function(){
+                    //   nomore()
+                    // },500)
+            }
+        }, {
+            p: vm.page,
+            status: -1
+        })
+    }
+
+    function initEventListenter_() { //上拉加载更多
+        api.addEventListener({
+            name: 'scrolltobottom',
+            extra: {
+                threshold: 60
+            }
+        }, function(ret, err) {
+            if (open) {
+                loading()
+                fnInitData()
+            }
+
+        });
+
+    }
+
+    function loading() {
+        $api.css($api.dom('.loading'), 'display:flex');
+    }
+
+    function loading_() {
+        open = false
+        setTimeout(function() {
+            $api.css($api.dom('.loading'), 'display:none');
+        }, 500)
+
+    }
+</script>
+
+</html>

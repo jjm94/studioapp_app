@@ -1,0 +1,69 @@
+<widget id="A6030908529380" version="0.0.1">
+    <name>八戒赚钱</name>
+    <description>
+        尧勤软件
+    </description>
+    <author email="developer@apicloud.com" href="http://www.yqin.cn">
+        尧勤软件
+    </author>
+    <content src="index.html"/>
+    <access origin="*"/>
+    <preference name="pageBounce" value="false"/>
+    <preference name="appBackground" value="rgba(0,0,0,0.0)"/>
+    <preference name="windowBackground" value="rgba(0,0,0,0.0)"/>
+    <preference name="frameBackgroundColor" value="rgba(0,0,0,0.0)"/>
+    <preference name="hScrollBarEnabled" value="false"/>
+    <preference name="vScrollBarEnabled" value="false"/>
+    <preference name="autoLaunch" value="true"/>
+    <preference name="fullScreen" value="false"/>
+    <preference name="autoUpdate" value="true"/>
+    <preference name="smartUpdate" value="true"/>
+    <preference name="debug" value="false"/>
+    <preference name="statusBarAppearance" value="true"/>
+    <preference name="softInputMode" value="auto"/>
+    <permission name="readPhoneState"/>
+    <permission name="camera"/>
+    <permission name="record"/>
+    <permission name="location"/>
+    <permission name="fileSystem"/>
+    <permission name="internet"/>
+    <permission name="bootCompleted"/>
+    <permission name="hardware"/>
+    <feature name="aliPayPlus">
+        <param name="urlScheme" value="AliPayPlusA6030908529380"/>
+    </feature>
+    <preference name="appCertificateVerify" value="false"/>
+
+    <!-- //微信登录 -->
+     <!-- <feature name="wx">
+        <param name="urlScheme" value="wx6023252283df0eb4"/>
+        <param name="apiKey" value="wx6023252283df0eb4"/>
+        <param name="apiSecret" value="0bea64ad588d0dbce05243ee8fcb8d5f"/>
+     </feature> -->
+
+     <feature name="wxPlus">
+       <param name="urlScheme" value="wx6023252283df0eb4"/>
+       <param name="apiKey" value="wx6023252283df0eb4"/>
+       <param name="apiSecret" value="0bea64ad588d0dbce05243ee8fcb8d5f"/>
+       <param name="universalLink" value="https://bjtest.apicloud.com"/>
+     </feature>
+
+
+
+
+    <intent-filter>
+        <action name="android.intent.action.VIEW" />
+        <category name="android.intent.category.DEFAULT" />
+        <data host="com.zhao126126.jqx" pathPrefix="/push_message" scheme="rong" />
+    </intent-filter>
+
+    <feature name="UIRongCloud">
+        <param name="appKey" value="cpj2xarlchvcn" />
+        <!-- 通知通道名称，适配 Android 8.0+ 通知机制，该字段仅对Android有效 -->
+        <param name="notificationChannelName" value="" />
+        <!-- 通知通道ID，适配 Android 8.0+ 通知机制，该字段仅对Android有效 -->
+        <param name="notificationChannelId" value=""/>
+    </feature>
+
+
+</widget>

@@ -1,0 +1,91 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>发布任务头部</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <style>
+        html,body{
+          background:rgba(0, 0, 0, 0.3);
+          position: relative;
+          height: 100%;
+        }
+        ul{
+          position: fixed;
+          bottom: 0px;
+          left: 0px;
+          width: 36rem;
+          background: #fff;
+        }
+        ul>li{
+          display: block;
+          width: 100%;
+          text-align: center;
+          height: 5rem;
+          line-height: 5rem;
+          font-size: 1.5rem;
+          color: #333;
+          border-bottom: 1px solid #f2f2f2;
+        }
+    </style>
+</head>
+
+<body tapmode onclick="close_()">
+      <ul id="app">
+        <li v-for="(item,index) of selectList" @click.stop="select(item,index)">{{item}}</li>
+      </ul>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/app.js"></script>
+<script type="text/javascript" src="../script/fastclick.js"></script>
+<script type="text/javascript" src="../script/vue.min.js"></script>
+<script type="text/javascript">
+
+    apiready = function() {
+        window.FastClick && FastClick.attach(document.body);
+        vm = new Vue({
+          el:'#app',
+          data:{
+            selectList:[]
+          },
+          methods:{
+            select(value,index){
+              if(index==0){
+                return
+              }
+                // alert(1)
+
+              api.execScript({
+                  name: 'fabutask',
+                  frameName: 'fabutask_frame',
+                  script: 'selectvalue('+JSON.stringify(value)+');'
+              });
+            }
+          }
+        })
+        var n = api.pageParam.n
+        if(n==1){
+          vm.selectList = ['接单限时','1小时','6小时','1天','3天','5天','7天']
+        }
+        if(n==2){
+          vm.selectList = ['结单审核时间','1天','2天','3天','4天','5天','6天','7天']
+        }
+        if(n==3){
+          vm.selectList = ['做单次数','3次','5次','10次','不限']
+        }
+        if(n==4){
+          vm.selectList = ['重复次数','2次','3次','4次','5次','6次','7次','不限']
+        }
+
+    }
+    function close_(){
+      api.closeFrame({
+          name: 'fbselect_frame'
+      });
+    }
+</script>
+
+</html>

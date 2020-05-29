@@ -1,0 +1,810 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>首页</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/renwu.css" />
+    <style>
+        body,
+        html {
+            background: #F2F2F2;
+            margin-bottom: 20px !important;
+        }
+
+        .header {
+            width: 36rem;
+            margin: auto;
+            height: 15rem;
+            background-image: url('../image/task/bg.png');
+            background-size: 36rem 15rem;
+            background-repeat: no-repeat;
+            margin-top: 66px;
+        }
+
+        section {
+            /*margin-top: 1rem;*/
+        }
+
+        .nav {
+            /*width: 34rem;*/
+            border-radius: 6px;
+            margin: auto;
+            box-sizing: border-box;
+            padding: 1rem .5rem;
+            background: #fff;
+            /*box-shadow: 0px 0px 5px 1px #f2f2f2;*/
+        }
+
+        .nav_top {
+            box-shadow: 0px 0px 5px 1px #f2f2f2;
+            width: 34rem !important;
+            margin: 0 auto;
+            border-radius: 6px;
+            padding: 1rem 0rem;
+        }
+
+        .scroll-msg {
+            display: flex;
+            align-items: center;
+            padding-left: 15px;
+            margin-top: 10px;
+        }
+
+        .scroll-msg>img {
+            width: 5.5rem;
+            height: 2rem
+        }
+
+        .scroll-msg>div {
+            margin-left: 0rem;
+            font-size: 1.5rem;
+            color: #999999;
+            height: 3rem;
+            overflow: hidden;
+            padding-left: 15px;
+        }
+
+        .scroll-msg>div>div>span {
+            display: block;
+            height: 3rem;
+            line-height: 3rem;
+        }
+
+        .scroll_fgx {
+            height: 2rem !important;
+            background: #999;
+            width: 1.5px !important;
+            line-height: 2rem;
+            margin-left: 1.5rem;
+        }
+
+        .scroll_active {
+            transition: all .3s
+            /*transition-timing-function:linear;*/
+        }
+
+        .nav_class {
+            width: 33rem;
+        }
+
+        .nav_class {
+            display: flex;
+        }
+
+        .nav_class>div {
+            width: 25%;
+            text-align: center;
+        }
+
+        .nav_class>div>img {
+            width: 85%;
+            box-sizing: border-box;
+            padding: 1rem 1rem .3rem;
+        }
+
+        .nav_class>div>span {
+            display: block;
+            width: 100%;
+            text-align: center;
+            font-size: 1.4rem;
+            color: #333;
+        }
+
+        .ranking {
+            display: block;
+            width: 34rem;
+            margin: 1rem auto;
+        }
+
+        footer>p {
+            width: 34rem;
+            text-align: left;
+            color: #333;
+            font-weight: bold;
+            font-size: 1.6rem;
+            margin: 1rem auto;
+            box-sizing: border-box;
+            padding-left: .5rem;
+        }
+.footer{
+  height: 40px;
+}
+        ul {
+            width: 34rem;
+            background: #fff;
+            margin: auto;
+            box-shadow: 0px 0px 5px 1px #f2f2f2;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        li {
+            border-bottom: 1px solid #f2f2f2;
+            padding: .5rem;
+        }
+
+        li,
+        .top,
+        .bot {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        li>img {
+            width: 5rem;
+            height: 5rem;
+            border-radius: 50%;
+            box-sizing: border-box;
+            margin-right: .5rem;
+        }
+
+        li>div {
+            width: 26rem
+        }
+
+        .left {
+            display: flex;
+            align-items: center;
+        }
+
+        .left>img {
+            width: 1.4rem;
+            margin-left: 3px;
+        }
+
+        .top {
+            box-sizing: border-box;
+            padding-right: 1rem;
+        }
+
+        .top>.left>span {
+            color: #333;
+            font-size: 1.5rem;
+        }
+
+        .top>.right {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #FF4841;
+        }
+
+        .bot {
+            margin-top: 1.3rem;
+            box-sizing: border-box;
+            padding-right: 1rem;
+        }
+
+        .bot>.left>span {
+            display: inline-block;
+            padding: 0rem .5rem;
+            height: 2rem;
+            line-height: 2rem;
+            background: #f2f2f2;
+            color: #999;
+            font-size: 1.2rem;
+            text-align: center;
+            border-radius: 5px;
+            vertical-align: middle;
+            margin-right: .5rem;
+        }
+
+        .bot>.right>span {
+            color: #999;
+            font-size: 1.2rem;
+        }
+
+        .bot>.right>span:nth-child(2) {
+            display: inline;
+            margin: 0 .3rem;
+        }
+
+        [v-cloak] {
+            display: none;
+        }
+
+        #app {
+            box-sizing: border-box;
+            padding-bottom: 20px;
+        }
+
+        .line {
+            margin-left: .5rem;
+            width: 5px;
+            height: 15px;
+            /*background-color: #ff6b70;*/
+            border-radius: 5px;
+            margin-top: 5px;
+        }
+
+        .text {
+            width: 34rem;
+            text-align: left;
+            color: #333;
+            font-weight: bold;
+            font-size: 1.6rem;
+            box-sizing: border-box;
+            padding-left: .5rem;
+        }
+
+        .k_body {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 13px;
+        }
+
+        .k_body_to {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2px;
+        }
+
+        .k_img1>img {
+            width: 102px;
+            height: 170px;
+        }
+
+        .k_img2>img {
+            width: 240px;
+            /*height:80px;*/
+            height: 82px;
+        }
+
+        .k_img3>img {
+            width: 115px;
+            height: 82px;
+        }
+
+        .k_img4>img {
+            width: 115px;
+            height: 82px;
+        }
+        header {
+          position: fixed;
+          top: 0;
+          z-index: 999;
+              width: 36rem;
+              margin: auto;
+              height: 66px;
+              background-image: url('../image/task/bgtitle.png');
+              background-size: 36rem 66px;
+              background-repeat: no-repeat;
+          }
+
+          header>p {
+              text-align: center;
+              color: #fff;
+              font-size: 1.6rem;
+              font-weight: bold;
+              position: absolute;
+              bottom: 10px;
+              left: 50%;
+              transform: translateX(-50%);
+          }
+          p>img{
+            width: 1.2rem;
+            vertical-align: middle;
+          }
+          p>span{
+            font-size:1.2rem;
+            font-family:PingFang SC;
+            font-weight:500;
+            color:rgba(255,229,231,1);
+            vertical-align: middle;
+            margin-left: 1rem;
+            margin-bottom: 0.1rem;
+          }
+          p{
+            background:rgba(255,255,255,0.1);
+            /*opacity:0.2;*/
+            border-radius:33px;
+            width: 27.5rem;
+            height: 3rem;
+            line-height: 3rem;
+            margin-top: 1rem;
+            margin-left: 2rem;
+          }
+          header>img {
+              width: 4rem;
+              position: absolute;
+              bottom: 15px;
+              left: 1rem;
+
+          }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+      <header>
+        <!-- <p id='htitle'></p> -->
+        <!-- <img src="../image/main/2.png" alt="" tapmode onclick="_openWintoken('qiandao')"> -->
+        <p><img src="../image/main/main_ss.png" alt=""><span>请输入任务编号搜索</span></p>
+        <img src="../image/main/logo_top.png">
+    </header>
+        <div class="header" >
+        </div>
+        <section>
+            <div class="nav">
+                <div class="nav_top">
+                    <div class="nav_class">
+                        <div v-for="(item,index) of modularList4" @click="CategoryOpen(1,item)">
+                            <img :src="imgurl+item.img" alt="">
+                            <span>{{item.modularname}}</span>
+                        </div>
+                    </div>
+                    <div class="nav_class" v-show="mlength">
+                        <div v-for="(item,index) of modularList8" @click="CategoryOpen(1,item)">
+                            <img :src="imgurl+item.img" alt="">
+                            <span>{{item.modularname}}</span>
+                        </div>
+                    </div>
+                    <div class="scroll-msg">
+                        <img src="../image/main/3.png" alt="">
+                        <span class="scroll_fgx"></span>
+                        <div class="scroll-div">
+                            <div>
+                                <span v-for="(item,index) of textList" @click="openNoticeDetail(item.id)">{{item.notice_title}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="k_body">
+                    <div class="k_img1" tapmode onclick="CategoryOpen(2,0)">
+                        <img :src="imgurl+bodymodular4[0].img">
+                    </div>
+                    <div>
+                        <div class="k_img2" tapmode onclick="CategoryOpen(2,1)"><img :src="imgurl + bodymodular4[1].img" alt=""></div>
+                        <div class="k_body_to">
+                            <div class="k_img3" tapmode onclick="CategoryOpen(2,2)"><img :src="imgurl + bodymodular4[2].img" alt=""></div>
+                            <div class="k_img4" tapmode onclick="CategoryOpen(2,3)"><img :src="imgurl + bodymodular4[3].img" alt=""></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <footer>
+            <div style="display: flex; margin-top: 1rem;">
+                <p class="line"></p>
+                <p class="text">推荐悬赏</p>
+            </div>
+          <div>
+            <div class="list">
+                <div class="list_body" v-for="(item,index) of taskList" @click="openDetail(item.id)">
+                    <div>
+                        <div class="top_img"><img :src="item.img" alt=""></div>
+                        <div class="list_title">
+                            <div>{{item.title}}</div>
+                            <div>+{{item.task_money}}元</div>
+                        </div>
+                    </div>
+                    <div class="list_fu_title">
+                        <div>{{item.tasktypename}}</div>
+                        <div><img v-if="item.roofplacement == 1" src="../image/main/10.png" alt=""></div>
+                    </div>
+                    <div class="case">
+                        <div>
+                            <div><img src="../image/main/xs_q.png" alt=""></div>
+                            <div>{{item.receive_num}}人已赚</div>
+                        </div>
+                        <div>
+                            <div><img src="../image/main/xs_r.png" alt=""></div>
+                            <div>剩余{{item.num}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+            <div id='ondata' style="margin-bottom:60px;">
+                <img src="../image/kong.png" style="display:block;width:7rem;margin:15px auto;" alt="">
+            </div>
+        </footer>
+    </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/jquery.min.js"></script>
+<script type="text/javascript" src="../script/app.js"></script>
+<script type="text/javascript" src="../script/fastclick.js"></script>
+<script type="text/javascript" src="../script/vue.min.js"></script>
+<script type="text/javascript" src="../script/md5.min.js"></script>
+<script type="text/javascript" src="script/public.js"></script>
+<script type="text/javascript">
+    var U_id, config, open = true;
+    apiready = function() {
+        window.FastClick && FastClick.attach(document.body);
+        UILoading(U_id)
+        api.setStatusBarStyle({      //设置状态栏颜色
+            style: 'dark',
+            color:'rgba(0,0,0,0)'
+        });
+        getconfig(1, function() {
+            fnInitData() //初始化页面数据
+            text_slide() //公告上下轮播JS
+            setTimeout(function() {
+                _ajax('api/pt_task/isnewusertask', function(ret, err) {
+                    if (ret && ret.errCode == 1) {
+
+                        api.openFrame({
+                            name: 'everyday',
+                            url: './everyday.html',
+                            vScrollBarEnabled: false,
+                            hScrollBarEnabled: false,
+                            allowEdit: true,
+                            rect: {
+                                x: 0,
+                                y: 0,
+                                w: 'auto',
+                                h: 'auto'
+                            },
+                            pageParam: {
+                                id: ret.data.id
+                            },
+                            bounces: false,
+                            bgColor: 'rgba(0,0,0,0.6)',
+                            animation: {
+                                type: "fade", //动画类型（详见动画类型常量）
+                                subType: "from_right", //动画子类型（详见动画子类型常量）
+                                duration: 300 //动画过渡时间，默认300毫秒
+                            },
+                        });
+                    }
+                });
+            }, 3000)
+        });
+        vm = new Vue({
+            el: '#app',
+            data: {
+                textList: [],
+                page: 1,
+                current_page: 1,
+                taskList: [],
+                mlength: 0,
+                modularList4: [],
+                modularList8: [],
+                bodymodular4: [{"id":14,"modularname":"日常任务","img":"/uploads/modular/20200520/773edaaad8b919aa5526f2b9472056a7.png","jumptype":1,"url":"#","opentype":"openFrame"},{"id":15,"modularname":"收入排行榜","img":"/uploads/modular/20200520/874aba8f321a8538fdb67136b54952ca.png","jumptype":1,"url":"ranking","opentype":"openFrame"},{"id":16,"modularname":"邀请好友","img":"/uploads/modular/20200520/61f45acfee9808839f22351860aaa866.png","jumptype":1,"url":"share","opentype":"openFrame"},{"id":17,"modularname":"游戏试玩","img":"/uploads/modular/20200520/a94969eeba78e119d8d31e1e1e944663.png","jumptype":2,"url":"#","opentype":"play"}],
+                systemType: '',
+                slideImg: [],
+                slide: [],
+                threesetting: []
+            },
+            methods: {
+                openNoticeDetail(id) {
+                    _openWin('notice', {
+                        id: id
+                    })
+                },
+                openDetail(id) {
+                    _openWintoken('putongDetail', {
+                        id: id
+                    })
+                },
+                getclass: function(index) {
+                    index = index + 1;
+                    return 'k_img' + index;
+                }
+            }
+        })
+        initEventListenter_() //上拉加载
+        api.setRefreshHeaderInfo({
+            loadingImg: 'widget://image/xiala.png',
+            bgColor: "#ff6b70",
+            textColor: "#fff",
+            textDown: '下拉刷新...',
+            textUp: '松开刷新...'
+        }, function(ret, err) {
+            getconfig(1);
+            fnInitData(1)
+            taskList(1)
+            api.refreshHeaderLoadDone()
+        });
+    };
+
+    function fnInitData(n) {
+        config = getconfig();
+        vm.mlength = config.modular8.length > 0;
+        vm.modularList4 = config.modular4;
+        vm.modularList8 = config.modular8;
+        vm.threesetting = config.threesetting;
+        vm.bodymodular4 = config.bodymodular4;
+        console.log(JSON.stringify(config.bodymodular4))
+        slide();
+        var systemType = api.systemType
+        if (systemType == 'android') {
+            vm.systemType = 1
+            $api.setStorage('systemType', '1');
+
+        } else if (systemType == 'ios') {
+            vm.systemType = 2
+            $api.setStorage('systemType', '2');
+        }
+        taskList(n) //普通任务列表
+        _ajax('api/index/notice', function(ret) {
+            if (ret.errCode == -1) {
+                _openWin('login')
+            }
+            if (ret.errCode == 1) {
+                vm.textList = ret.data
+                vm.textList.push(ret.data[0])
+            }
+        })
+    }
+
+    function slide() { //轮播图
+        vm.slide = config.home
+        var slide = config.home
+        for (var i = 0; i < slide.length; i++) {
+            vm.slideImg.push(slide[i].img)
+        }
+        api.require('UIScrollPicture').open({
+            rect: {
+                x: 10,
+                y: 66,
+                w: api.winWidth - 20,
+                h: 158
+            },
+            data: {
+                paths: vm.slideImg
+            },
+            styles: {
+                indicator: {
+                    align: 'center',
+                    color: '#ddd',
+                    activeColor: '#5585FF'
+                }
+            },
+            placeholderImg: 'widget://image/loading.png',
+            contentMode: 'scaleToFill',
+            interval: 3,
+            cornerRadius: 6,
+            loop: true,
+            fixedOn: 'main_frame',
+            fixed: false
+        }, function(ret, err) {
+            if (ret) {
+                if (ret.eventType == 'click') {
+                    //alert(vm.slide[ret.index].lunbo_type)
+                    if (vm.slide[ret.index].lunbo_type == 1) {
+                        _openWin('banner_title', {
+                            url: vm.slide[ret.index].url
+                        })
+                    } else if (vm.slide[ret.index].lunbo_type == 2) {
+                        _openWin('notice', {
+                            l_id: vm.slide[ret.index].id
+                        })
+                    } else if (vm.slide[ret.index].lunbo_type == 3) {
+                        _openWin('putongDetail', {
+                            id: vm.slide[ret.index].url
+                        })
+                    }
+                }
+            } else {
+                // console.log(JSON.stringify(err));
+            }
+        });
+
+    }
+
+    function openTask(type) {
+        marginBottom()
+        api.openFrame({
+            name: 'task_frame',
+            url: './task_frame.html',
+            rect: {
+                marginTop: 0,
+                marginBottom: margin_bottom,
+                w: 'auto',
+            },
+            pageParam: {
+                type: type
+            },
+            bounces: false,
+            bgColor: 'rgba(0,0,0,0)',
+            vScrollBarEnabled: false,
+            hScrollBarEnabled: false,
+        });
+
+    }
+
+    function taskList(n) {
+        //console.log(vm.page)
+        if (n == 1) {
+            vm.page = 1;
+        }
+        _ajax('api/pt_Task/allTaskIndex', function(ret) {
+            if (ret.errCode == -1) {
+                _openWin('login')
+            }
+            if (ret.errCode == 1) {
+                if (n == 1) {
+                    vm.taskList = ret.data;
+                    vm.current_page = 2
+                    vm.page = 2
+                } else {
+                    vm.taskList = vm.taskList.concat(ret.data)
+                    var taskListLength = vm.taskList.length + ''
+                    vm.current_page = vm.taskList.length < 10 ? 1 : parseInt(taskListLength.substr(0, taskListLength.length - 1)) + 1;
+                    if (vm.taskList.length % 10 == 0) {
+                        vm.current_page -= 1
+                    }
+                    vm.page = vm.current_page += 1
+                    UILoading_Close(U_id)
+                }
+            } else {
+                UILoading_Close(U_id)
+            }
+            if (vm.taskList.length == 0) {
+                $api.css($api.byId('ondata'), 'display:block');
+            } else {
+                $api.css($api.byId('ondata'), 'display:none');
+            }
+        }, {
+            p: vm.page,
+            editiontype: vm.systemType
+        })
+    }
+
+    function openPutong(url) {
+        _setStatusBarStyle()
+        api.execScript({
+            name: 'main',
+            script: 'set();'
+        });
+        marginBottom()
+        api.openFrame({
+            name: 'task_frame',
+            url: url,
+            rect: {
+                marginTop: 0,
+                marginBottom: margin_bottom,
+                w: 'auto',
+            },
+            pageParam: {
+                name: 'test'
+            },
+            bounces: false,
+            bgColor: 'rgba(0,0,0,0)',
+            vScrollBarEnabled: false,
+            hScrollBarEnabled: false,
+        });
+        api.execScript({
+            name: 'main',
+            frameName: 'task_frame',
+            script: 'task(2);'
+        });
+        api.execScript({
+            name: 'main',
+            frameName: 'putong_frame',
+            script: "openPutongtask_frame(1,'all');"
+        });
+    }
+
+    function initEventListenter_() { //上拉加载更多
+        api.addEventListener({
+            name: 'scrolltobottom',
+            extra: {
+                threshold: 60
+            }
+        }, function(ret, err) {
+            if (open) {
+                taskList()
+            }
+        });
+
+    }
+
+    function renwu(opentype) {
+        if (!$api.getStorage('token')) {
+            _openWin('login')
+            return
+        }
+        if (api.systemType != "android") {
+            _msg('敬请期待');
+            return
+        }
+        let token = getToken()
+        let level = getlevel()
+        console.log(level)
+        let moduleItholidayoaid = api.require('moduleItholidayoaid');
+        var systemVersion = api.systemVersion;
+        if(systemVersion==10){
+        moduleItholidayoaid.syncoaid(function(ret){
+          renwu_ajax(opentype,level,ret.oaid)
+        })
+      }else{
+          renwu_ajax(opentype,level,'')
+      }
+        return
+        var systemType = api.systemType;
+
+    }
+      function renwu_ajax(opentype,level,oaid) {
+        _ajax('api/third_task/getThirdTaskUrl', function(ret, err) {
+            console.log(JSON.stringify(ret))
+            console.log(JSON.stringify(err))
+            if (ret.errCode == -1) {
+                _openWin('login')
+            } else if (ret.errCode == 1) {
+                var browser = api.require('webBrowser');
+                browser.open({
+                    url: ret.data
+                });
+            } else {
+                _msg(ret.msg)
+            }
+        }, {
+            opentype: opentype,
+            deviceid: api.deviceId,
+            device_type: api.systemType,
+            api_level: level,
+            oaid:oaid
+        })
+      }
+    function CategoryOpen(type, obj) {
+        if (type == 2) {
+            obj = vm.bodymodular4[obj];
+        }
+        switch (obj.opentype) {
+            case 'openWin':
+                _openWintoken(obj.url)
+                break;
+            case 'openFrame':
+                if (obj.url == '' || obj.url == '#') {
+                    _msg('敬请期待');
+                } else {
+                    _openWintoken(obj.url)
+                }
+
+                break;
+            case 'openTask':
+                openPutong(obj.url)
+                break;
+            case 'openContext':
+                $api.setStorage('frule_s', 'close');
+                _openWin('notice', {
+                    r_id: obj.url
+                })
+                break;
+            case 'leisure':
+                renwu(obj.opentype)
+                break;
+            case 'play':
+                renwu(obj.opentype)
+                break;
+            case 'web':
+                var browser = api.require('webBrowser');
+                browser.open({
+                    url: obj.url
+                });
+                break;
+            default:
+                _msg('敬请期待');
+                break;
+        }
+    }
+</script>
+
+</html>

@@ -1,0 +1,338 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>发布管理审核</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <style>
+    header{
+      width: 36rem;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      box-sizing: border-box;
+      padding: 0.6rem 1.5rem;
+      border-top: 6px solid #f2f2f2;
+      border-bottom: 6px solid #f2f2f2;
+    }
+    header> .avatar{
+      width: 5rem;
+      height: 5rem;
+      margin-right: .5rem;
+    }
+    header>div{
+      width: 26rem;
+      font-size: 1.6rem;
+      color: #333;
+    }
+    header>div>p:last-child{
+      margin-top: .5rem;
+      font-size: 1.4rem;
+      color: #666;
+    }
+    .head{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 24rem;
+      margin: auto;
+      height: 50px;
+    }
+    .head>span{
+      width: 12rem;
+      text-align: center;
+      font-size: 16px;
+    }
+    .head>p{
+      width: 1px;
+      height: 20px;
+      background: #f2f2f2;
+    }
+    .title{
+      width: 12rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 1rem auto;
+      color: #333;
+    }
+    .title>span{
+      width: 2rem;
+      height: .2rem;
+      background: #333;
+    }
+    .title>p{
+      font-size: 1.6rem;
+      margin: 0 .6rem;
+    }
+    .imgyz{
+      box-sizing: border-box;
+      padding: 0 1.5rem;
+    }
+    .imgyz>p{
+      font-size: 1.6rem;
+    }
+    .imgyz img{
+      width: 20rem;
+    }
+    .textyz{
+      width: 36rem;
+      box-sizing: border-box;
+      padding: 1.5rem 1.5rem 5rem;
+      font-size: 1.6rem;
+    }
+    footer{
+      position: fixed;
+      left: 0;
+      bottom: 0;
+      height: 45px;
+      display: flex;
+      width: 36rem;
+    }
+    footer>span{
+      width: 33.3%;
+      font-size: 16px;
+      box-sizing: border-box;
+      border-right: .3px solid #f2f2f2;
+      text-align: center;
+      line-height: 45px;
+      color: #fff;
+      background: #FF4841
+    }
+    footer>span:last-child{
+      border: 0;
+    }
+    #info{
+      color: #666;
+    }
+    .remark{
+      width: 36rem;
+      box-sizing: border-box;
+      padding: 1.5rem 1.5rem 1.5rem;
+      font-size: 1.6rem;
+      color: #F08080;
+    }
+    .foot,.previous,.remark{
+      display: none;
+    }
+    </style>
+</head>
+
+<body>
+  <div class="head">
+    <span id='audited'>已审核</span>
+    <p></p>
+    <span id="toaudited">待审核</span>
+  </div>
+  <header>
+    <img src="../image/main/9.png" class="avatar" id="avatar" alt="">
+    <div>
+      <p id="nickname"></p>
+      <p id="submission_time">提交时间</p>
+    </div>
+  </header>
+  <section>
+    <p class="remark">
+
+    </p>
+    <div class="title">
+      <span></span>
+      <p>验证图</p>
+      <span></span>
+    </div>
+    <div class="title_">
+
+    </div>
+    <div class="title">
+      <span></span>
+      <p>收集信息</p>
+      <span></span>
+    </div>
+    <div class="textyz">
+      <p id="title"></p>
+      <p id="info"></p>
+    </div>
+  </section>
+  <footer>
+    <span class="tg" tapmode onclick="tongguo()">通过</span>
+    <span class="bh" tapmode onclick="bohui()">驳回</span>
+    <span class="previous" tapmode onclick="previous()">上一个</span>
+    <span class="next"  tapmode onclick="next()">下一个</span>
+  </footer>
+  <div class="foot">
+    <img src="../image/kong.png" style="display:block;width:7rem;margin:10rem auto;" alt="">
+  </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/app.js"></script>
+<script type="text/javascript" src="../script/md5.min.js"></script>
+<script type="text/javascript">
+    var p = 1, id,toaudited,data;
+    var type,rid,tid,index,length
+    apiready = function() {
+      index = api.pageParam.index
+      length = api.pageParam.length
+      //alert(index+'-'+length)
+      var type_ = api.pageParam.type
+      //alert(type_)
+      if(type_==5){
+        type = 2
+      }
+      if(type_==1){
+        type = 1
+      }
+      rid = api.pageParam.rid
+      //alert('type:'+type+'tid:'+tid+'rid:'+rid)
+      if(type){
+        $api.css($api.dom('.tg'), 'display:none');
+        $api.css($api.dom('.bh'), 'display:none');
+        $api.css($api.dom('.remark'), 'display:block');
+        $api.css($api.dom('.previous'), 'display:block;width:50%;');
+        $api.css($api.dom('.next'), 'display:block;width:50%;');
+        $api.css($api.dom('.head'), 'display:none');
+        if(index==0){
+          $api.css($api.dom('.previous'), 'display:none;');
+          $api.css($api.dom('.next'), 'display:block;width:100%;');
+        }
+        if(index == length-1){
+          $api.css($api.dom('.previous'), 'display:block;width:100%;');
+          $api.css($api.dom('.next'), 'display:none;');
+        }
+      }
+      fnInitData(p)
+
+    }
+    function fnInitData(p){
+      _ajax('api/pt_Task/examineindex',function(ret){
+        console.log(JSON.stringify(ret))
+        if(ret.errCode==1){
+          data = ret.data
+          id = data.id
+          toaudited = data.toaudited
+          if(data.remark){
+            $api.html($api.dom('.remark'), data.remark);
+
+          }
+          $api.html($api.byId('audited'), '已审核'+data.audited);
+          $api.html($api.byId('toaudited'), '待审核'+data.toaudited);
+          $api.html($api.byId('nickname'), data.nickname+'(ID:'+data.uid+')');
+          $api.html($api.byId('submission_time'), '提交时间:'+data.submission_time);
+          $api.attr($api.byId('avatar'), 'src', imgurl+data.avatar);
+          var list =  data.tasksteps
+          var listhtml = ``
+          for(var i=0;i<list.length;i++){
+            // listhtml +=`<div class='imgyz'>
+            //   <p>${list[i].checkimg.title}</p>
+            //   <img src="${list[i].checkimg.s_checkimg}" alt="">
+            // </div>`
+            if(list[i].type==='checkimg'){
+              listhtml += `<div class="imgyz"><p>${list[i].checkimg.title}</p><img src="${imgurl}${list[i].checkimg.s_checkimg}" alt="" /></div>`
+            }
+            if(list[i].type==='getinfo'){
+              $api.html($api.byId('title'),list[i].getinfo.title);
+              $api.html($api.byId('info'),list[i].getinfo.info );
+
+            }
+          }
+          $api.html($api.dom('.title_'),listhtml)
+          api.hideProgress();
+
+        }else if(ret.errCode==0){
+          $api.css($api.dom('.head'), 'display:none');
+          $api.css($api.dom('header'), 'display:none');
+          $api.css($api.dom('section'), 'display:none');
+          $api.css($api.dom('footer'), 'display:none');
+          $api.css($api.dom('.foot'), 'display:block');
+
+          api.hideProgress();
+        }
+      },{
+        id:api.pageParam.id,
+        p:p,
+        rid:rid,
+        type:type
+      })
+    }
+    function tongguo(){
+      api.showProgress({
+          style: 'default',
+          animationType: 'fade',
+          title: '加载中...',
+          text: '',
+          modal: false
+      });
+      _ajax('api/pt_Task/DoReceive',function(ret){
+        console.log(JSON.stringify(ret))
+        if(ret.errCode==1){
+          fnInitData(p)
+        }else{
+          api.hideProgress();
+        }
+      },{
+        rid:id,
+      })
+    }
+    function next(){
+      p+=1
+      if(type){
+        api.showProgress({
+            style: 'default',
+            animationType: 'fade',
+            title: '加载中...',
+            text: '',
+            modal: false
+        });
+        if(p==length){
+          $api.css($api.dom('.previous'), 'display:block;width:100%;border:none');
+          $api.css($api.dom('.next'), 'display:none;');
+        }else{
+          $api.css($api.dom('.previous'), 'display:block;width:50%;border-right:0.1px solid #f2f2f2');
+          $api.css($api.dom('.next'), 'display:block;width:50%;');
+        }
+        fnInitData(p)
+      }else{
+        if(p>Number(data.toaudited)){
+          p = 1
+        }
+        if(Number(data.toaudited)==1 ){
+          _msg('已经是最后一个了')
+        }else{
+          api.showProgress({
+              style: 'default',
+              animationType: 'fade',
+              title: '加载中...',
+              text: '',
+              modal: false
+          });
+        }
+        fnInitData(p)
+      }
+
+    }
+    function previous(){
+      p-=1
+      api.showProgress({
+          style: 'default',
+          animationType: 'fade',
+          title: '加载中...',
+          text: '',
+          modal: false
+      });
+      if(p==1){
+        $api.css($api.dom('.next'), 'display:block;width:100%;');
+        $api.css($api.dom('.previous'), 'display:none;');
+      }else{
+        $api.css($api.dom('.previous'), 'display:block;width:50%;border-right:0.1px solid #f2f2f2 ');
+        $api.css($api.dom('.next'), 'display:block;width:50%;');
+      }
+      fnInitData(p)
+    }
+    function bohui(){
+      _openWin('fbbohui',{data:data,p:p})
+    }
+</script>
+
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>消息类型</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <style>
+        body,html{
+          background: #f2f2f2;
+        }
+        header{
+            height: 65px;
+            background: #fff;
+            border-bottom: 1px solid #f2f2f2;
+        }
+        header div{
+            position: absolute;
+            bottom: 0px;
+            box-sizing: border-box;
+            padding: 8px;
+            width: 60px;
+            height: 40px;
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-pack:center;
+            -webkit-justify-content:center;
+            justify-content: center;
+            -webkit-box-align:center;
+            -webkit-align-items:center;
+            align-items: center;
+        }
+        header div img{
+            height: 1.9rem;
+        }
+        header p{
+            font-size: 1.7rem;
+            font-weight: bold;
+            color: #333;
+            position: absolute;
+            bottom: 6px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div tapmode onclick="closeWin()">
+            <img src="../image/return.png" alt="">
+        </div>
+        <p id="type">系统消息</p>
+    </header>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/app.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+      var type = api.pageParam.type
+      if(type==1){
+        $api.html($api.byId('type'), '任务公告');
+      }
+      if(type==2){
+        $api.html($api.byId('type'), '系统公告');
+      }
+      if(type==3){
+        $api.html($api.byId('type'), '系统消息');
+      }
+      OpenMsgtype_list()
+    }
+    function OpenMsgtype_list(){
+        api.openFrame({
+            name: 'msgtypelist_frame',
+            url: './msgtypelist_frame.html',
+            vScrollBarEnabled: false,
+            hScrollBarEnabled: false,
+            rect: {
+                x: 0,
+                y: 65,
+                w: 'auto',
+                h: 'auto'
+            },
+            pageParam:{
+              type:api.pageParam.type
+            },
+            bounces: true,
+        });
+    }
+    function closeWin(){
+        api.closeWin();
+    }
+</script>
+
+</html>

@@ -1,0 +1,303 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>底部导航栏</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <style>
+        body,
+        html {
+            background-color: #F2F2F2;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+
+    </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/app.js"></script>
+<script type="text/javascript" src="../script/md5.min.js"></script>
+<script type="text/javascript" src="../script/sha1.min.js"></script>
+<script type="text/javascript" src="../script/vue.min.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+
+        NVTabBar_open(); //初始化底部模块
+        funIniGroup(); //初始化framegroup
+
+        //这里设置一次底部模块在最顶就行，防止被其他frame阻挡。
+        var NVTabBar = api.require('NVTabBar');
+        NVTabBar.bringToFront();
+
+        api.setStatusBarStyle({
+            style: 'light',
+            color: '#2c2c2c',
+        });
+    };
+
+    function NVTabBar_open() {
+        var NVTabBar = api.require('NVTabBar');
+        // alert(NVTabBar)
+        NVTabBar.open({
+            styles: {
+                bg: '#fff',
+                h: 55,
+                dividingLine: {
+                    width: 0,
+                    color: '#ddd',
+                },
+                badge: {
+                    bgColor: '#FF4841',
+                    numColor: '#fff',
+                    size: 6.0,
+                }
+            },
+            items: [{
+                w: api.winWidth / 5.0,
+                bg: {
+                    marginB: -3.0,
+                    image: 'rgba(0,0,0,0)'
+                },
+                iconRect: {
+                    w: 25.0,
+                    h: 25.0,
+                },
+                icon: {
+                    normal: '../image/1.png',
+                    highlight: '',
+                    selected: '../image/5.png'
+                },
+                title: {
+                    text: '首页',
+                    size: 12.0,
+                    normal: '#696969',
+                    selected: '#FF4841',
+                    marginB: 6.0
+                }
+            }, {
+                w: api.winWidth / 5.0,
+                bg: {
+                    marginB: -3.0,
+                    image: 'rgba(0,0,0,0)'
+                },
+                iconRect: {
+                    w: 25.0,
+                    h: 25.0,
+                },
+                icon: {
+                    normal: '../image/25.png',
+                    highlight: '',
+                    selected: '../image/26.png'
+                },
+                title: {
+                    text: '分类',
+                    size: 12.0,
+                    normal: '#696969',
+                    selected: '#FF4841',
+                    marginB: 6.0
+                }
+            }, {
+                w: api.winWidth / 5.0,
+                bg: {
+                    marginB: 8.0,
+                    image: 'rgba(0,0,0,0)',
+                },
+                iconRect: {
+                    w: 52,
+                    h: 52,
+                },
+                icon: {
+                    normal: '../image/24.png',
+                    highlight: '',
+                    selected: '../image/24.png'
+                },
+                title: {
+                    text: '发布',
+                    size: 12.0,
+                    normal: '#696969',
+                    selected: '#696969',
+                    marginB: 6.0
+                }
+            }, {
+                w: api.winWidth / 5.0,
+                bg: {
+                    marginB: -3,
+                    image: 'rgba(0,0,0,0)'
+                },
+                iconRect: {
+                    w: 25.0,
+                    h: 25.0,
+                },
+                icon: {
+                    normal: '../image/6.png',
+                    highlight: '',
+                    selected: '../image/3.png'
+                },
+                title: {
+                    text: '消息',
+                    size: 12.0,
+                    normal: '#696969',
+                    selected: '#FF4841',
+                    marginB: 6.0
+                },
+            }, {
+                w: api.winWidth / 5.0,
+                bg: {
+                    marginB: -3,
+                    image: 'rgba(0,0,0,0)'
+                },
+                iconRect: {
+                    w: 25.0,
+                    h: 25.0,
+                },
+                icon: {
+                    normal: '../image/4.png',
+                    highlight: '',
+                    selected: '../image/8.png'
+                },
+                title: {
+                    text: '我的',
+                    size: 12.0,
+                    normal: '#696969',
+                    selected: '#FF4841',
+                    marginB: 6.0
+                },
+
+            }, ],
+            selectedIndex: 0
+        }, function(ret, err) {
+            if (ret) {
+
+                if (ret.eventType == "click") {
+                    //在这里调用切换framegruop函数即可，函数在下方。这类ret.index对应的就是 比如首页就是0 ，分类就是1 。 所以点击首页就是frame0.html了
+                    randomSwitchBtn(ret.index);
+                }
+
+
+            }
+        });
+
+    }
+
+    //初始化framegruop
+    function funIniGroup() {
+        frames = [{
+            name: 'main_frame',
+            url: './main_frame.html',
+            // bgColor : 'rgba(0,0,0,0)',
+            bgColor: '#f2f2f2',
+            bounces: false,
+            // scrollEnabled:false,
+            vScrollBarEnabled: false,
+            overScrollMode: false,
+        }, {
+            name: 'putongtask1_frame',
+            url: './putongtask1_frame.html',
+            // bgColor : 'rgba(0,0,0,0)',
+            bgColor: '#f2f2f2',
+            bounces: false,
+            // scrollEnabled:false,
+            vScrollBarEnabled: false,
+            overScrollMode: 'always',
+        }, {
+            name: 'messageList_frame',
+            url: './messageList_frame.html',
+            // bgColor : 'rgba(0,0,0,0)',
+            bgColor: '#f2f2f2',
+            bounces: false,
+            // scrollEnabled:false,
+            vScrollBarEnabled: false,
+            overScrollMode: 'always',
+        }, {
+            name: 'messageList_frame',
+            url: './messageList_frame.html',
+            // bgColor : 'rgba(0,0,0,0)',
+            bgColor: '#f2f2f2',
+            bounces: false,
+            // scrollEnabled:false,
+            vScrollBarEnabled: false,
+            overScrollMode: 'always',
+        }, {
+            name: 'user_frame',
+            url: './user_frame.html',
+            // bgColor : 'rgba(0,0,0,0)',
+            bgColor: '#f2f2f2',
+            bounces: false,
+            // scrollEnabled:false,
+            vScrollBarEnabled: false,
+            overScrollMode: 'always',
+        }];
+
+        // for (var i = 0,len = 5; i < len; i++) {
+        //         frames.push( {
+        //             name: 'frame'+i,
+        //             url: './html/frame'+i+'.html',
+        //             // bgColor : 'rgba(0,0,0,0)',
+        //             bgColor:'transparent',
+        //             bounces:false,
+        //             // scrollEnabled:false,
+        //             vScrollBarEnabled:false,
+        //             overScrollMode:'always',
+        //         } )
+        // }
+        api.openFrameGroup({
+            name: 'group',
+            scrollEnabled: false,
+            rect: {
+                x: 0,
+                y: 0,
+                w: api.winWidth,
+                h: 'auto',
+                marginBottom: 55 //这里看模块文档,inphonex还要减多34px的意思，现在先不管
+            },
+            index: 0,
+            frames: frames
+        }, function(ret, err) {
+            var index = ret.index;
+            if (index == 0) {
+                api.closeFrame({
+                    name: 'putongtask1_frame'
+                });
+            }
+        });
+
+    }
+
+
+    //根据index切换framegruop里面的frame页面,比如frame1.html  1就是index
+    function randomSwitchBtn(index) {
+
+        setStatusBarStylemoren()
+        if (index == 2) {
+            // alert(1)
+            _openWintoken('fabutask')
+            return
+        } else if (index != 1) {
+            closeFrame_main()
+
+        } else if (index == 1) {
+            api.execScript({
+                name: 'main',
+                frameName: 'task_frame',
+                script: 'task(2);'
+            });
+            api.execScript({
+                name: 'main',
+                frameName: 'putong_frame',
+                script: "openPutongtask_frame(1,'all');"
+            });
+        }
+        api.setFrameGroupIndex({
+            name: 'group',
+            index: index
+        });
+    }
+</script>
+
+</html>

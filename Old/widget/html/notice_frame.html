@@ -1,0 +1,84 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <style>
+      body,html{
+        box-sizing: border-box;
+        padding: .5rem;
+      }
+      header{
+        font-weight: bold;
+        font-size: 1.6rem;
+        margin-bottom: 1.5rem;
+      }
+      section{
+        font-size: 1.4rem;
+      }
+    </style>
+</head>
+
+<body>
+  <header>
+
+  </header>
+  <section>
+
+  </section>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/app.js"></script>
+<script type="text/javascript" src="../script/md5.min.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+      fnInitData()
+    }
+    function fnInitData(){
+      var id1 = api.pageParam.id
+      var id2 = api.pageParam.l_id
+      var id3 = api.pageParam.r_id
+      var id4 = api.pageParam.s_id
+      if(id1){
+        _ajax('api/index/noticeInfo',function(ret){
+          console.log(JSON.stringify(ret))
+          $api.prepend($api.dom('header'), ret.data.notice_title);
+          $api.prepend($api.dom('section'), ret.data.site_notice);
+        },{
+          id:id1
+        })
+      }
+      if(id2){
+        console.log(id2)
+        _ajax('api/index/lunbo',function(ret){
+          console.log(JSON.stringify(ret))
+          $api.prepend($api.dom('header'), ret.data.title);
+          $api.prepend($api.dom('section'), ret.data.content);
+        },{
+          id:id2
+        })
+      }
+      if(id3){
+        _ajax('api/index/article',function(ret){
+            console.log(JSON.stringify(ret))
+            $api.prepend($api.dom('section'), ret.data.content);
+        },{
+          cid:id3
+        })
+      }
+      if(id4){
+        _ajax('api/index/article',function(ret){
+            console.log(JSON.stringify(ret))
+            $api.prepend($api.dom('section'), ret.data.content);
+        },{
+          cid:8
+        })
+      }
+    }
+</script>
+
+</html>

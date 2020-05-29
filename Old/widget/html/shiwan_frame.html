@@ -1,0 +1,170 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>试玩任务</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <style>
+      body,html{
+        background: #fff;
+      }
+      header,header>div{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 45px;
+        border-bottom: 1px solid #f2f2f2;
+        background: #fff;
+      }
+      header>div{
+        justify-content: center;
+      }
+      header>p,header>div{
+        flex: 1;
+        text-align: center;
+        text-align: center;
+        color: #FF4841;
+        font-size: 1.5rem;
+        color: #333;
+
+      }
+      header>div>img{
+        margin-left: 5px;
+        width: .9rem
+      }
+      .active{
+          -webkit-transform:  rotateX(180deg)
+      }
+      .selected{
+        color: #FF4841;
+      }
+      .selected_{
+        color: #333;
+      }
+      .scroll-msg {
+          display: flex;
+          align-items: center;
+          background: #fff;
+          width: 100%;
+          padding: 0px 15px;
+          box-sizing: border-box;
+          height: 45px;
+      }
+
+      .scroll-msg>img {
+          width: 40px;
+          height: 20px;
+      }
+
+      .scroll-msg>div {
+          margin-left: 1rem;
+          font-size: 1.5rem;
+          color: #FF4841;
+          height: 3rem;
+          overflow: hidden;
+          width: 100%;
+      }
+
+      .scroll-msg>div>div>p{
+          display: block;
+          height: 3rem;
+          line-height: 3rem;
+          display: flex;
+          justify-content: space-between;
+          width: 100%;
+          box-sizing: border-box;
+          padding-right: 15px;
+      }
+      .scroll_active{
+        transition:all .5s
+      }
+
+      [v-cloack]{
+        display: none;
+      }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloack>
+      <header>
+
+        <p :class="color=='shiwanNew'? 'selected' : 'selected_'"@click = "selected('shiwanNew')">最新</p>
+        <p :class="color=='shiwanPrice'? 'selected' : 'selected_'"@click = "selected('shiwanPrice')">价格</p>
+      </header>
+      <section>
+        <div class="scroll-msg">
+            <img src="../image/task/2.png" alt="">
+            <div class="scroll-div">
+              <div>
+                  <p v-for="(item,index) of textList">
+                      <!-- <span>用户ID:{{item.user_id}}</span> -->
+                      <span>{{item.notes}}</span>
+                  </p>
+              </div>
+            </div>
+        </div>
+      </section>
+    </div>
+
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/app.js"></script>
+<script type="text/javascript" src="../script/fastclick.js"></script>
+<script type="text/javascript" src="../script/vue.min.js"></script>
+<script type="text/javascript" src="../script/md5.min.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+        window.FastClick && FastClick.attach(document.body);
+        vm = new Vue({
+          el:'#app',
+          data:{
+            color: 'shiwanNew',
+            textList: []
+          },
+          methods:{
+            selected(n){
+              vm.color = n
+              openshiwantype_frame(n)
+            }
+          }
+        })
+      text_slide() //公告上下轮播
+      openshiwantype_frame('shiwanNew')
+      fnInitData()
+    }
+    function fnInitData(){
+      _ajax('api/index/taskMoneyLog',function(ret){
+        //alert(JSON.stringify(ret))
+        if(ret.errCode==1){
+          vm.textList =  ret.data.data
+          vm.textList.push(ret.data.data[0])
+        }
+      })
+    }
+    function openshiwantype_frame(n){
+      marginBottom()
+      console.log(n)
+      api.openFrame({
+          name: './'+n+'_frame',
+          url: './'+n+'_frame.html',
+          rect: {
+            marginTop: 165,
+            marginBottom: margin_bottom,
+            w: 'auto',
+          },
+          pageParam: {
+              type: n
+          },
+          bounces: true,
+          bgColor: 'rgba(255,255,255,1)',
+          vScrollBarEnabled: false,
+          hScrollBarEnabled: false,
+      });
+    }
+</script>
+
+</html>

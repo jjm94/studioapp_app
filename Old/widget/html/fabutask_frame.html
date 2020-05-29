@@ -1,0 +1,1317 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>发布任务头部</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <style>
+        body,
+        html {
+            box-sizing: border-box;
+            background: #f6f6f6;
+            font-size: 1.5rem;
+            color: #333;
+        }
+
+        body {
+            position: relative;
+        }
+
+        .title,
+        .title>div,
+        .type,
+        .name,
+        .time,
+        .time_,
+        .time_>div,
+        .count,
+        .count>div,
+        .count>div>p {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header .title {
+            width: 100%;
+            background: #fff;
+            box-sizing: border-box;
+            padding: 1rem 1.8rem 0;
+        }
+
+        .title>div>span {
+            color: #999;
+        }
+
+        .title>div {
+            width: 8rem;
+        }
+
+        .title img {
+            width: 1.6rem;
+        }
+
+        .type {
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            background: #fff;
+            box-sizing: border-box;
+            padding: 1rem 1.8rem 0;
+        }
+
+        .type span {
+            padding: .2rem 1rem;
+            margin-bottom: 1.8rem;
+            margin-right: 2rem;
+            background: #F6F6F6;
+            color: #666666;
+            box-sizing: border-box;
+            border: 1px solid #F6F6F6;
+        }
+
+        .type .selectactive,
+        .device .deviceactive {
+            background: #FFB4B1;
+            box-sizing: border-box;
+            border: 1px solid #FF4841;
+            color: #FF4841;
+        }
+
+        .device {
+            margin-top: 1rem;
+            background: #fff;
+            box-sizing: border-box;
+            padding: 1.8rem;
+        }
+
+        .device>p {
+            margin-bottom: 1rem;
+        }
+
+        .device>div>span {
+            display: inline-block;
+            padding: .2rem 1rem;
+            text-align: center;
+            margin-right: 3.2rem;
+            background: #F6F6F6;
+            color: #666666;
+            border: 1px solid #F6F6F6;
+        }
+
+        section {
+            margin-top: 1rem;
+            background: #fff;
+            box-sizing: border-box;
+            padding: 0 1.8rem;
+        }
+
+        section>.name {
+            width: 100%;
+            border-bottom: 1px solid #f2f2f2;
+            justify-content: flex-start;
+            height: 5rem;
+        }
+
+        .name>span {
+            width: 8rem;
+        }
+
+        .name>input {
+            border: none;
+            outline: none;
+            width: 25rem;
+            font-size: 1.3rem;
+            /*background: red;*/
+            height: 4rem;
+            line-height: 4rem;
+        }
+
+        input::-webkit-input-placeholder {
+            /* WebKit browsers */
+            color: #999;
+            height: 4rem;
+            line-height: 4rem;
+        }
+
+        .time {
+            height: 5rem;
+            border-bottom: 1px solid #f2f2f2;
+        }
+
+        .time>span {
+            width: 8rem;
+            justify-content: flex-start;
+        }
+
+        .time>span:nth-child(2) {
+            width: 25rem;
+            text-align: left;
+        }
+
+        .time img {
+            width: 1rem;
+            height: 1.7rem;
+        }
+
+        .count {
+            border-bottom: 1px solid #f2f2f2;
+        }
+
+        .count>p {
+            width: 8rem;
+        }
+
+        .count>div {
+            justify-content: flex-start;
+            width: 9rem;
+            font-size: 1.3rem;
+            height: 5rem;
+        }
+
+        .count>div>p {
+            width: 1.5rem;
+            height: 1.5rem;
+            border-radius: 50%;
+            border: 1px solid #999;
+            margin-right: .2rem;
+            justify-content: center;
+        }
+
+        .count>div>p>span {
+            width: 1.1rem;
+            height: 1.1rem;
+            border-radius: 50%;
+            background: #FF4841;
+        }
+
+        .price {
+            margin-top: 1rem;
+        }
+
+        .time_ {
+            justify-content: flex-start;
+            height: 5rem;
+        }
+
+        .time_>div {
+            justify-content: flex-start;
+            align-items: center;
+            font-size: 1.4rem;
+            color: #999;
+            width: 10rem;
+        }
+
+        .time_>.text {
+            width: 8rem;
+        }
+
+        .time_ img {
+            width: 1.6rem;
+            margin-right: .5rem;
+        }
+
+        #yufu_money {
+            width: 16rem;
+            text-align: left;
+        }
+
+        .buzhou>p {
+            display: inline-block;
+            height: 5rem;
+            line-height: 5rem;
+        }
+
+        .buzhou>p:last-child {
+            color: #FF4841;
+        }
+
+        .addbuzhou {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 5rem;
+        }
+
+        .addbuzhou>img {
+            width: 2rem;
+            height: 2rem;
+        }
+
+        nav {
+            width: 12rem;
+            background: #fff;
+            border-radius: 5px;
+            box-sizing: border-box;
+            padding: .8rem 0 0.8rem 1.8rem;
+            border: 1px solid #f2f2f2;
+            position: fixed;
+            z-index: 999;
+            right: 10px;
+            top: 400px;
+            transition: 150ms;
+            transform: scale(0.0);
+            opacity: 0.0
+        }
+
+        .active {
+            transform: scale(1);
+            opacity: 1
+        }
+
+        nav>div {
+            display: flex;
+            height: 35px;
+            align-items: center;
+        }
+
+        nav img {
+            width: 1.7rem;
+            height: 1.7rem;
+            margin-right: .5rem;
+        }
+
+        .tishi {
+            box-sizing: border-box;
+            padding: 0.6rem 1.8rem;
+            padding-bottom: 5rem;
+        }
+
+        .tishi>p {
+            color: #FF4841;
+            font-size: 1.3rem;
+            line-height: 20px;
+        }
+
+        .agree {
+            display: flex;
+            align-items: center;
+            height: 5rem;
+            color: #999;
+        }
+
+        .agree>div {
+            width: 1.7rem;
+            height: 1.7rem;
+            border-radius: 50%;
+            background: #FF4841;
+            margin-right: .5rem;
+        }
+
+        .agree>div>img {
+            width: 1.7rem;
+            height: 1.7rem;
+        }
+
+        .bzmask>div {
+            width: 33rem;
+            background: #fff;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        ul {
+            width: 36rem;
+            box-sizing: border-box;
+            background: #fff;
+            margin: 1rem auto 0;
+        }
+
+        li {
+            box-sizing: border-box;
+            padding: 1rem;
+        }
+
+        li p {
+            font-size: 1.5rem;
+            color: #333
+        }
+
+        li>p {
+            background: #FF4841;
+            border-radius: 50%;
+            width: 2rem;
+            height: 2rem;
+            text-align: center;
+            line-height: 2rem;
+            color: #fff;
+            font-size: 1.5rem;
+            margin-right: .7rem;
+        }
+
+        li {
+            display: flex;
+            margin: 1rem 0;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #f2f2f2;
+        }
+
+        li>div {
+            width: 30rem;
+        }
+
+        .index {
+            width: 100%;
+            line-height: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .urls>.conrent,
+        .qrcode .contet,
+        .checkimg .content {
+            display: flex;
+        }
+
+        .content>span {
+            font-size: 1.5rem;
+            padding: .2rem .5rem;
+            height: 2rem;
+            line-height: 2rem;
+            background: -webkit-linear-gradient(right, #FDA96D 0%, #FF435B 100%);
+            color: #fff;
+            border-radius: 4px;
+            margin-right: 3rem;
+        }
+
+        .content>span:last-child {
+            color: #FF435B;
+            background: -webkit-linear-gradient(right, #FFE4E1 0%, #FFAEB9 100%);
+        }
+
+        .checkimg .content>div {
+            width: 46%;
+        }
+
+        .checkimg .leftimg {
+            width: 100%;
+        }
+
+
+
+        .getinfo>input {
+            border-radius: 4px;
+            outline: none;
+            border: .5px solid #FF435B;
+            width: 100%;
+            color: #333;
+            box-sizing: border-box;
+            padding: 1rem .3rem;
+            font-size: 1.4rem;
+        }
+
+        .graphicexplanation img {
+            width: 14rem;
+        }
+
+        .copydata input {
+            width: 16rem;
+            padding: .6rem;
+            font-size: 1.4rem;
+            color: #999;
+            border-radius: 4px;
+            outline: none;
+            border: .5px solid #FF435B;
+            margin-right: 1rem;
+        }
+
+        .qrcode .content {
+            display: flex;
+            align-items: center;
+        }
+
+        .qrcode .content img {
+            width: 100%;
+        }
+
+        .mask_div {
+            position: relative;
+            width: 15rem;
+            margin: 2rem 2rem 2rem 0rem;
+        }
+
+        .mask {
+            position: absolute;
+            width: 10rem;
+            text-align: center;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.3rem;
+            color: #F8E6B8;
+        }
+
+        .edit {
+            width: 100%;
+            display: flex;
+            margin-top: 1.5rem;
+        }
+
+        .edit>div {
+            width: 25%;
+            display: flex;
+            align-items: center;
+        }
+
+        .edit>div>img {
+            width: 2rem;
+            margin-right: 1rem;
+        }
+
+        .foot {
+            position: fixed;
+            z-index: 999;
+            bottom: 0;
+            width: 36rem;
+            height: 4.7rem;
+            background: #fff;
+            display: flex;
+            align-items: center;
+        }
+
+        .foot>p {
+            width: 100%;
+            text-align: center;
+            color: #fff;
+            height: 4.7rem;
+            line-height: 4.7rem;
+            font-size: 1.6rem;
+            background: -webkit-linear-gradient(right, #FDA96D 0%, #FF435B 100%);
+        }
+        input, textarea{
+
+        -webkit-user-select: auto!important;
+
+        -khtml-user-select: auto!important;
+
+        -moz-user-select: auto!important;
+
+        -ms-user-select: auto!important;
+
+        -o-user-select: auto!important;
+
+        user-select: auto!important;
+
+        }
+        #type1,
+        #type2,
+        #type3,
+        #type4 {
+            color: #666
+        }
+
+        #disn {
+            visibility: hidden;
+        }
+        [v-cloak]{
+          display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <header>
+            <div class="title">
+                <span>请选择类型</span>
+                <div tapmode onclick="_openWin('notice',{r_id:12})">
+                    <img src="../image/fabu/4.png" alt="">
+                    <span>类型说明</span>
+                </div>
+            </div>
+            <div class="type">
+                <span v-for="(item,index) of typeList" :class="selecttype==index ?'selectactive' : '' " @click="selectindex(index,item.id)">{{item.cate_name}}</span>
+            </div>
+            <div class="device">
+                <p>支持设备</p>
+                <div>
+                    <span :class="selectdevice==1 ?'deviceactive' : '' " @click="deviceindex(1)">全部</span>
+                    <span :class="selectdevice==2 ?'deviceactive' : '' " @click="deviceindex(2)">安卓</span>
+                    <span :class="selectdevice==3 ?'deviceactive' : '' " @click="deviceindex(3)">苹果</span>
+                </div>
+            </div>
+        </header>
+        <section>
+            <!-- <div class="name">
+                <span>项目名称</span>
+                <input type="text" placeholder="必须填写真实项目名，否则不通过">
+            </div> -->
+            <div class="name">
+                <span>标题</span>
+                <input type="text" placeholder="项目名称 + 关键要点，10个字以内" v-model="title" maxlength="10" >
+            </div>
+            <div class="name">
+                <span>任务说明</span>
+                <input type="text" v-model="more" placeholder="任务备注">
+            </div>
+            <div class="time" tapmode onclick="select(1)">
+                <span>接单限时</span>
+                <span id="type1">请填写接单限时</span>
+                <img src="../image/fabu/6.png" alt="">
+            </div>
+            <div class="time" tapmode onclick="select(2)">
+                <span>审核时间</span>
+                <span id="type2">请填写审核时间</span>
+                <img src="../image/fabu/6.png" alt="">
+            </div>
+            <div class="count">
+                <p>做单次数</p>
+                <div tapmode onclick="selectcount(1)">
+                    <p id="count1">
+                    </p>
+                    <span>无限制</span>
+                </div>
+                <div tapmode onclick="selectcount(2)">
+                    <p id="count2"></p>
+                    <span>每人一次</span>
+                </div>
+                <div tapmode onclick="selectcount(3)">
+                    <p id="count3"></p>
+                    <span>每人三次</span>
+                </div>
+            </div>
+            <div class="count">
+                <p>&nbsp;</p>
+                <div tapmode onclick="selectcount(4)">
+                    <p id="count4">
+                    </p>
+                    <span>每日一次</span>
+                </div>
+                <div id="disn">
+                    <p></p>
+                    <span>···</span>
+                </div>
+                <div id="disn">
+                    <p></p>
+                    <span>···</span>
+                </div>
+            </div>
+            <!-- <div v-if = "time==3" class="time" tapmode onclick="select(3)">
+                <span>重复次数</span>
+                <span id="type3">3次</span>
+                <img src="../image/fabu/6.png" alt="">
+            </div>
+            <div v-if = "time==4" class="time" tapmode onclick="select(4)">
+                <span>重复次数</span>
+                <span id="type4">3次</span>
+                <img src="../image/fabu/6.png" alt="">
+            </div> -->
+        </section>
+        <section>
+            <div class="name">
+                <span>悬赏单价</span>
+                <input type="number" v-model="price" placeholder="最低出价0.25元" :readonly="isedit">
+            </div>
+            <div class="name">
+                <span>悬赏数量</span>
+                <input type="number" v-model='num' placeholder="最少5单" :readonly="isedit">
+            </div>
+            <div class="time_">
+                <span class="text">预付赏金</span>
+                <span id="yufu_money">{{allnum}}</span>
+                <div tapmode onclick="_openWin('huiyuan')">
+                    <img src="../image/fabu/4.png" alt="">
+                    <span>降低服务费</span>
+                </div>
+            </div>
+        </section>
+        <section class="buzhou">
+            <p>做单步骤</p>
+            <p>(建议网址和二维码放在第一步)</p>
+        </section>
+
+        <nav id='stop_'>
+            <div tapmode onclick="openbz_frame(event,1)">
+                <img src="../image/fabu/13.png" alt="">
+                <span>输入网址</span>
+            </div>
+            <div tapmode onclick="openbz_frame(event,2)">
+                <img src="../image/fabu/13.png" alt="">
+                <span>二维码</span>
+            </div>
+            <div tapmode onclick="openbz_frame(event,3)">
+                <img src="../image/fabu/13.png" alt="">
+                <span>复制数据</span>
+            </div>
+            <div tapmode onclick="openbz_frame(event,4)">
+                <img src="../image/fabu/13.png" alt="">
+                <span>图文说明</span>
+            </div>
+            <div tapmode onclick="openbz_frame(event,5)">
+                <img src="../image/fabu/13.png" alt="">
+                <span>验证图</span>
+            </div>
+            <div tapmode onclick="openbz_frame(event,6)">
+                <img src="../image/fabu/13.png" alt="">
+                <span>收集信息</span>
+            </div>
+        </nav>
+        <ul class="opa1">
+            <li v-for="(item,index) of tasksteps">
+                <p>{{index+1}}</p>
+                <div v-if="item.type=='urls'" class="urls">
+                    <p class="index">{{item.urls.title}}</p>
+                    <div class="content">
+                        <span @click="openUrl(item.urls.e_url)">打开链接</span>
+                        <span @click="copyUrl(item.urls.e_url)">复制链接</span>
+                    </div>
+                </div>
+                <div v-else-if="item.type=='copydata'" class="copydata">
+                    <p class="index">{{item.copydata.title}}</p>
+                    <div class="content">
+                        <input v-model="item.copydata.e_copydata" readonly="true"></input>
+                        <span @click="copyUrl(item.copydata.e_copydata)">复制数据</span>
+                    </div>
+                </div>
+                <div v-else-if="item.type=='checkimg'" class="checkimg">
+                    <p class="index">{{item.checkimg.title}}</p>
+                    <div class="content">
+                        <div>
+                            <img :src="imgurl+item.checkimg.e_checkimg" alt="" class="leftimg">
+                        </div>
+                    </div>
+                </div>
+                <div v-else-if="item.type=='qrcode'" class="qrcode">
+                    <p class="index">{{item.qrcode.title}}</p>
+                    <div class="content">
+                        <div class="mask_div">
+                            <img :src="imgurl+item.qrcode.e_qrcode" alt="" class="leftimg">
+                        </div>
+                    </div>
+                </div>
+                <div v-else-if="item.type=='getinfo'" class="getinfo">
+                    <p class="index">{{item.getinfo.title}}</p>
+                    <input type="text" placeholder="请按要求输入文字内容" readonly="true">
+                </div>
+                <div v-else-if="item.type=='graphicexplanation'" class="graphicexplanation">
+                    <p class="index">{{item.graphicexplanation.title}}</p>
+                    <div class="content">
+                        <img :src="imgurl+item.graphicexplanation.e_graphicexplanation" alt="">
+                    </div>
+                </div>
+                <div class="edit">
+                    <div @click="fndelete(index)">
+                        <img src="../image/fabu/9.png" alt="">
+                        <span>删除</span>
+                    </div>
+                    <div @click="move(0,index)">
+                        <img src="../image/fabu/10.png" alt="">
+                        <span>下移</span>
+                    </div>
+                    <div @click="move(1,index)">
+                        <img src="../image/fabu/11.png" alt="">
+                        <span>上移</span>
+                    </div>
+                    <div @click="edit(index)">
+                        <img src="../image/fabu/12.png" alt="">
+                        <span>编辑</span>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <section class="addbuzhou" tapmode onclick="addbuzhou(1)">
+            <p>添加步骤</p>
+            <img src="../image/fabu/13.png" alt="">
+        </section>
+        <div class="tishi">
+            <div class="agree" @click="fnagree()">
+                <div><img v-if="agree == 'yes'" src="../image/user/dh.png" alt=""></div>
+                <p>已阅读并同意遵守<span style="color :#5585ff" @click.stop="opengz()">《发布规则》</span>的全部内容</p>
+            </div>
+            <p id="fbexplain"></p>
+            <!-- <p>发布提示</p>
+            <p>1.任务赏金已托管到平台，赚钱有保障。</p>
+            <p>2.请先报名再做任务，否则无赏金。</p>
+            <p>3.需要打钱、投资的悬赏请谨慎，否则后果自负。</p>
+            <p>4.有奖举报：发现同类平台任务单、拉人、线下交易者找客服举报重奖。</p> -->
+        </div>
+        <footer class="foot" tapmode onclick="fubu()">
+            <p>{{fb_type}}</p>
+        </footer>
+
+    </div>
+
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/app.js"></script>
+<script type="text/javascript" src="../script/vue.min.js"></script>
+<script type="text/javascript" src="../script/fastclick.js"></script>
+<script type="text/javascript" src="../script/md5.min.js"></script>
+<script type="text/javascript">
+    var type
+    var servicecharge
+    apiready = function() {
+        window.FastClick && FastClick.attach(document.body);
+
+        load()
+        servicecharge = $api.getStorage('user').servicecharge
+        vm = new Vue({
+            el: '#app',
+            data: {
+                fb_type:'申请发布',
+                typeList: [],
+                time: 0,
+                agree: 'yes',
+                addbuzhou: 1,
+                tasksteps: [],
+                selecttype: -1,
+                selectdevice: -1,
+                allnum: null,
+                num: null,
+                price: null,
+                status: null,
+                title: null,
+                more: null,
+                dosingletimes: 0,
+                editiontype: null,
+                isedit:false
+
+            },
+            watch: {
+                price: function(val) {
+                    if (Number(val) >= 0.25 && Number(this.num)>=5) {
+                        var user_money = $api.getStorage('user').user_money;
+
+                        this.allnum = ((Number(val) * Number(this.num)) * (Number(servicecharge) + 1)).toFixed(2)
+                        // if(this.allnum>Number(user_money)){
+                        //   _msg('余额不足，请充值')
+                        //   this.allnum = null
+                        // }
+                    } else {
+                        this.allnum = null
+                    }
+                },
+                num: function(val) {
+                    // var regular = /^[0-9]+$/ ;
+                    // if(!regular.test(val)){
+                    //   // _msg('请输入5以上整数')
+                    //   this.allnum = null
+                    //   return
+                    // }
+                    if (Number(val) >= 5 && Number(this.price)>=0.25) {
+                        this.allnum = ((Number(val) * Number(this.price)) * (Number(servicecharge) + 1)).toFixed(2)
+                        var user_money = $api.getStorage('user').user_money;
+                        console.log(this.allnum)
+                        console.log(user_money)
+                        // if(this.allnum>Number(user_money)){
+                        //   _msg('余额不足，请充值')
+                        //   this.allnum = null
+                        // }
+                    } else {
+                        this.allnum = null
+                    }
+                }
+            },
+            methods: {
+                opengz(){
+                  _openWin('notice',{r_id:11})
+                },
+                fnagree() {
+                    if (vm.agree == 'no') {
+                        vm.agree = 'yes'
+                    } else {
+                        vm.agree = 'no'
+                    }
+                },
+                fndelete(index) {
+                    function fngiveup_() {
+                        vm.tasksteps.splice(index, 1)
+                    }
+                    dialogBox('友情提示', '是否删除此步骤', fngiveup_)
+                },
+                move(n, index) {
+                    if (n == 1) {
+                        if (index != 0) {
+                            vm.tasksteps[index] = vm.tasksteps.splice(index - 1, 1, vm.tasksteps[index])[0];
+                        } else {
+                            vm.tasksteps.push(vm.tasksteps.shift());
+                        }
+                    } else {
+                        if (index != vm.tasksteps.length - 1) {
+                            vm.tasksteps[index] = vm.tasksteps.splice(index + 1, 1, vm.tasksteps[index])[0];
+                        } else {
+                            vm.tasksteps.unshift(vm.tasksteps.splice(index, 1)[0]);
+                        }
+                    }
+                },
+                selectindex(index, status) {
+                    vm.selecttype = index
+                    vm.status = status
+                },
+                deviceindex(index) {
+                    vm.selectdevice = index
+                    vm.editiontype = index - 1
+                },
+                edit(index) {
+                    var n
+                    if (vm.tasksteps[index].type == 'urls') {
+                        n = 1
+                    }
+                    if (vm.tasksteps[index].type == 'qrcode') {
+                        n = 2
+                    }
+                    if (vm.tasksteps[index].type == 'copydata') {
+                        n = 3
+                    }
+                    if (vm.tasksteps[index].type == 'graphicexplanation') {
+                        n = 4
+                    }
+                    if (vm.tasksteps[index].type == 'checkimg') {
+                        n = 5
+                    }
+                    if (vm.tasksteps[index].type == 'getinfo') {
+                        n = 6
+                    }
+                    var info = vm.tasksteps[index]
+                    openbz_frame(event,n, 2, info, index)
+                },
+                openUrl(url) {
+                    api.openFrame({
+                        name: 'banner_title',
+                        url: './banner_title.html',
+                        vScrollBarEnabled: false,
+                        hScrollBarEnabled: false,
+                        rect: {
+                            x: 0,
+                            y: 0,
+                            w: 'auto',
+                            h: 75
+                        },
+                        pageParam: {
+                            url: url
+                        }
+                    });
+                },
+                copyUrl(url) {
+                    usercopy(url, '复制成功')
+                },
+            }
+        })
+        var type = api.pageParam.type
+        if(type=='edit'){
+          vm.isedit = 'readonly'
+        }
+        initTypeList()
+        fnInitData()
+        var userInfo = $api.getStorage('user');
+        var fbexplain = userInfo.fbexplain
+        $api.html($api.byId('fbexplain'), fbexplain);
+    };
+
+    function fnInitData() {
+        var id = api.pageParam.id
+        if (String(id)!='undefined') {
+            vm.fb_type = '重新发布'
+            _ajax('api/pt_task/getSelfTaskInfo', function(ret) {
+                console.log(JSON.stringify(ret))
+                if (ret.errCode == -1) {
+                    setTimeout(function() {
+                        _openWin('login')
+                    }, 300)
+                }
+                if (ret.errCode == 1) {
+                  var data = ret.data
+                  vm.title = data.title
+                  vm.more = data.more
+                  var status = data.tasktypename
+                  for(var i=0;i<vm.typeList.length;i++){
+                    if(vm.typeList[i].cate_name==status){
+                      vm.selecttype = i
+                      vm.status = vm.typeList[i].id
+                    }
+                  }
+
+                  vm.tasksteps = JSON.parse(data.tasksteps)
+                  vm.editiontype = data.editiontype
+                  vm.selectdevice = data.editiontype +1
+                  // limitedtime: type1,
+                  // audittime: type2,
+                  var type1 = data.limitedtime
+                  var type2 = data.audittime
+                  var type1_text
+                  switch (type1) {
+                    case 0.5:
+                      type1_text = '30分钟'
+                      break;
+                    case 1:
+                      type1_text = '1小时'
+                      break;
+                    case 6:
+                      type1_text = '6小时'
+                      break;
+                    case 24:
+                      type1_text = '1天'
+                      break;
+                    case 72:
+                      type1_text = '3天'
+                      break;
+                    case 120:
+                      type1_text = '5天'
+                      break;
+                    case 168:
+                      type1_text = '7天'
+                      break;
+                  }
+                  $api.html($api.byId(`type1`),type1_text);
+                  $api.html($api.byId(`type2`),type2+'天');
+                  vm.dosingletimes = data.dosingletimes
+                  selectcount(vm.dosingletimes+1)
+                  vm.num = data.num
+                  vm.price = data.task_money
+                  vm.allnum = ((vm.num * vm.price ) * (Number(servicecharge) + 1)).toFixed(2)
+                  //console.log(JSON.stringify(vm.tasksteps))
+                }
+                //console.log(JSON.stringify(ret))
+            }, {
+                tid: api.pageParam.id,
+            })
+        }
+    }
+
+    function selectcount(n) {
+        vm.dosingletimes = n - 1
+            //alert(JSON.stringify(vm.dosingletimes))
+        var item = $api.domAll('.count>div>p');
+        for (var i = 0; i < 4; i++) {
+            $api.css(item[i], 'border:1px solid #999');
+            $api.html(item[i], '');
+        }
+        $api.css($api.dom('.count>div>p'), 'border:1px solid #999');
+
+        $api.css($api.byId(`count${n}`), 'border:1px solid #FF4841');
+        $api.html($api.byId(`count${n}`), '<span></span>');
+
+    }
+
+    function initTypeList() { //获得类型列表
+        $api.css($api.byId(`count1`), 'border:1px solid #FF4841');
+        $api.html($api.byId(`count1`), '<span></span>');
+        _ajax('api/pt_task/getTypes', function(ret) {
+            console.log(JSON.stringify(ret))
+            if (ret.errCode == -1) {
+                _openWin('login')
+
+            }
+            if (ret.errCode == 1) {
+                vm.typeList = ret.data.data
+            }
+        })
+    }
+
+    function select(n) {
+        type = n
+        api.openFrame({
+            name: 'fbselect_frame',
+            url: './fbselect_frame.html',
+            vScrollBarEnabled: false,
+            hScrollBarEnabled: false,
+            rect: {
+                x: 0,
+                y: 0,
+                w: 'auto',
+                h: 'auto'
+            },
+            pageParam: {
+                n: n
+            },
+            reload: true,
+            bounces: false,
+            animation: {
+                type: "fade", //动画类型（详见动画类型常量）
+                subType: "from_right", //动画子类型（详见动画子类型常量）
+                duration: 300 //动画过渡时间，默认300毫秒
+            },
+            bgColor: 'rgba(0,0,0,0)',
+        });
+
+    }
+
+    function addbuzhou(n) {
+        if (n == vm.addbuzhou) {
+            vm.addbuzhou = 2
+            var offset = $api.offset($api.dom('nav'));
+            var h1 = offset.h
+            var h = offset.h + 200;
+            var t1 = api.winHeight
+            var odiv = $api.dom('.addbuzhou')
+            var a = odiv.getBoundingClientRect().top; //当前距离窗口的位置
+            // var b = document.documentElement.scrollTop || document.body.scrollTop; //滚动的距离
+            // var c = a+b
+            if ((t1 - a) < h) {
+                $api.css($api.dom('nav'), `top:${a-h1}px`);
+                $api.addCls($api.dom('nav'), 'active');
+            } else {
+                $api.css($api.dom('nav'), `top:${a+40}px`);
+                $api.addCls($api.dom('nav'), 'active');
+            }
+        } else {
+
+            closebuzhou()
+        }
+    }
+
+    function closebuzhou() {
+        vm.addbuzhou = 1
+        $api.removeCls($api.dom('nav'), 'active');
+
+    }
+
+    function openbz_frame(event,n, isedit, info, length) {
+        event.preventDefault();
+        event.stopPropagation();
+        if (n == 1 && !isedit) {
+            var list = vm.tasksteps
+            for (var i = 0; i < list.length; i++) {
+                if (list[i].type == 'urls') {
+                    _msg('输入网址步骤最多添加一条')
+                    return
+                }
+            }
+        }
+        if (n == 6 && !isedit) {
+            var list = vm.tasksteps
+            for (var i = 0; i < list.length; i++) {
+                if (list[i].type == 'getinfo') {
+                    _msg('收集信息只能添加一条')
+                    return
+                }
+            }
+        }
+        vm.addbuzhou = 1
+
+        api.openFrame({
+            name: 'fbbz_frame',
+            url: './fbbz_frame.html',
+            vScrollBarEnabled: false,
+            hScrollBarEnabled: false,
+            allowEdit:true,
+            rect: {
+                x: 0,
+                y: 0,
+                w: 'auto',
+                h: 'auto'
+            },
+            pageParam: {
+                type: n,
+                isedit:isedit,
+                info: info,
+                length: vm.tasksteps.length
+            },
+            bounces: false,
+            bgColor: 'rgba(0,0,0,0.6)',
+            animation: {
+                type: "fade", //动画类型（详见动画类型常量）
+                subType: "from_right", //动画子类型（详见动画子类型常量）
+                duration: 300 //动画过渡时间，默认300毫秒
+            },
+        });
+        closebuzhou()
+
+    }
+
+
+
+    function selectvalue(value) {
+      // alert(1)
+        $api.html($api.byId(`type${type}`), value);
+        api.closeFrame({
+                  name: 'fbselect_frame'
+              });
+    }
+
+    function fubu() {
+        var url
+        var id = api.pageParam.id
+        if (String(id)!='undefined') {
+          url = 'api/pt_Task/edittask'
+        }else{
+          url = 'api/pt_Task/addtask'
+        }
+        if (vm.agree == 'no') {
+            _msg('请阅读并同意协议内容')
+            return
+        }
+        if (vm.status === null) {
+            _msg('请选择类型')
+            return
+        }
+        if (vm.editiontype === null) {
+            _msg('请选择支持设备')
+            return
+        }
+        if (!vm.title) {
+            _msg('请填写标题')
+            return
+        }
+        if (!vm.more) {
+            _msg('请填写任务说明')
+            return
+        }
+        var type1 = $api.html($api.byId(`type1`));
+        var type2 = $api.html($api.byId(`type2`));
+        if (type1 == '请填写接单限时') {
+            _msg('请填写接单限时')
+            return
+        }
+        if (type2 == '请填写审核时间') {
+            _msg('请填写审核时间')
+            return
+        }
+        switch (type1) {
+            case "30分钟":
+                type1 = 0.5
+                break;
+            case "1小时":
+                type1 = 1
+                break;
+            case "6小时":
+                type1 = 6
+                break;
+            case "1天":
+                type1 = 24
+                break;
+            case "3天":
+                type1 = 72
+                break;
+            case "5天":
+                type1 = 120
+                break;
+            case "7天":
+                type1 = 168
+                break;
+        }
+        switch (type2) {
+            case "12小时":
+                type2 = 12
+                break;
+            case "1天":
+                type2 = 1
+                break;
+            case "2天":
+                type2 = 2
+                break;
+            case "3天":
+                type2 = 3
+                break;
+            case "4天":
+                type2 = 4
+                break;
+            case "5天":
+                type2 = 5
+                break;
+            case "6天":
+                type2 = 6
+                break;
+            case "7天":
+                type2 = 7
+                break;
+        }
+        if (vm.dosingletimes < 0) {
+            _msg('请选择做单次数')
+            return
+        }
+        if (!vm.price) {
+            _msg('请填写悬赏单价')
+            return
+        }
+        if (!vm.num) {
+            _msg('请填写悬赏数量')
+            return
+        }
+        if (!vm.allnum) {
+            _msg('悬赏单价或数量不符合')
+            return
+        }
+        var list = vm.tasksteps
+        if (list.length == 0) {
+            _msg('请添加任务步骤')
+        }
+        //alert(list.some(el=> el.type=='getinfo'))
+        if (!(list.some(function(el) {
+                return el.type == "getinfo"
+            }))) {
+            _msg('收集信息步骤为必填项')
+            return
+        }
+        for(var i=0;i<vm.tasksteps.length;i++){
+          vm.tasksteps[i].hao = i
+        }
+        console.log(JSON.stringify(vm.tasksteps))
+        _ajax(url, function(ret) {
+            console.log(JSON.stringify(ret))
+              _msg(ret.msg)
+            if (ret.errCode == -1) {
+                _openWin('login')
+            }
+            if (ret.errCode == 1) {
+                api.execScript({
+                    name: 'main',
+                    frameName: 'user_frame',
+                    script: 'fnInitData();'
+                });
+                setTimeout(function() {
+                    api.closeWin();
+                }, 1000)
+            }
+            if (ret.errCode == 2) {
+               _openWintoken('deposit');
+            }
+        }, {
+            title: vm.title,
+            more: vm.more,
+            tasktype: vm.status,
+            task_money: vm.price,
+            tasksteps: JSON.stringify(vm.tasksteps),
+            editiontype: vm.editiontype,
+            limitedtime: type1,
+            audittime: type2,
+            dosingletimes: vm.dosingletimes,
+            num: vm.num,
+            id:id,
+            shouxu_money:vm.allnum
+        })
+    }
+
+    function load() {
+        document.addEventListener('touchstart', closebuzhou, false);
+        document.addEventListener('touchstart', closeFrame_rule, false);
+    }
+    function closeFrame_rule() {
+        $api.setStorage('frule_s', 'close');
+        api.closeFrame({
+            name: 'fbrule_frame'
+        });
+    }
+    function addfbinfo(obj) {
+        // alert(2)
+        if (obj.isedit == 2) {
+            for(var i=0;i<vm.tasksteps.length;i++){
+              if(vm.tasksteps[i].hao == obj.hao){
+                vm.tasksteps.splice(i, 1, obj)
+                console.log(JSON.stringify(vm.tasksteps))
+              }
+            }
+
+        } else {
+            vm.tasksteps.push(obj)
+              console.log(JSON.stringify(vm.tasksteps))
+        }
+
+    }
+    // function fnfo(){
+    //   $api.css($api.dom('footer'), 'position:absolute');
+    // }
+    // function fnbl(){
+    //   setTimeout(function(){
+    //     $api.css($api.dom('footer'), 'position:fixed');
+    //   },100)
+    //
+    // }
+</script>
+
+</html>

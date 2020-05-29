@@ -1,0 +1,305 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>投诉列表</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <style>
+        .tab {
+            /*height: 200px;*/
+            width: 100%;
+            background-color: #FF435B;
+            overflow: hidden;
+            padding-bottom: 20px;
+        }
+
+        .tab .tab-title {
+            width: calc(100% - 34px);
+            margin: 0 auto;
+            height: 40px;
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .tab-title li {
+            /* color: #FF7A21; */
+            width: 40%;
+            height: 40px;
+            margin: 0 10px;
+            text-align: center;
+            line-height: 40px;
+            border-radius: 5px;
+            background-color: #ffffff;
+            /* border: 1px solid #FF7A21; */
+        }
+
+        .tab-title li:nth-child(2) {
+            border-radius: 5px;
+        }
+
+        .tab-title .active {
+            height: 38px;
+            color: #FF7A21;
+            border: 1px solid #FF7A21;
+            background-color: #ffffff;
+        }
+    </style>
+    <style>
+        .tab1 {
+            /*height: 200px;*/
+            width: 100%;
+            background-color: white;
+            overflow: hidden;
+            /* padding-bottom: 20px; */
+        }
+
+        .tab1 .tab-title1 {
+            width: calc(100% - 34px);
+            /*width: 100%;*/
+            margin: 0 auto;
+            height: 40px;
+            padding: 0 17px;
+            display: flex;
+            justify-content: space-between;
+            ;
+            align-items: center;
+            font-size: 18px;
+            background-color: white;
+        }
+
+        .tab-title1 li {
+            height: 40px;
+            width: 20%;
+            text-align: center;
+            line-height: 40px;
+            color: black;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .content {
+            width: 100%;
+        }
+
+        ._ul {
+            width: 100%
+            /*margin: 0 auto;*/
+            /*padding-left: 17px;
+        padding-right: 17px;*/
+            text-align: center;
+            background-color: white;
+        }
+
+        ._li {
+            width: 100%;
+            height: 40px;
+            display: flex;
+            justify-content: space-between;
+            text-align: center;
+            align-items: center;
+        }
+
+        .on {
+            width: 100%;
+            height: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #eeeeee;
+            text-align: center;
+        }
+
+        ._li span {
+            width: 20%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .on span {
+            width: 20%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .he {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .content {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloack>
+        <!-- <header tapmode onclick="openCode()">
+        </header> -->
+        <div class="tab">
+            <div class="mt10">
+                <ul class="tab-title">
+                    <li v-for="(title,index) in tabTitle" v-cloak @click="hadleTab(index)" :key="index" :class="{active:cur==index}">{{title}}
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="tab1">
+            <div class="mt101">
+                <ul class="tab-title1">
+                    <li v-for="(title,index) in tabTitle1" :key="index">
+                        {{ title }}
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div v-if='cur==0'>
+            <div class="content">
+                <ul class="_ul">
+                    <li v-for="(item,index) of taskList" class="_li" :class="{on:index%2==0,off:index%2!=0}">
+                        <span style="margin-left:17px;height:20px;line-height:20px;color:white;background-color:#999;text-align:center;">{{ item.title }}</span>
+                        <span class="he">{{ item.ctime }}</span>
+                        <span class="content"  @click="cont(item.content)" style="color:red">{{ item.content }}</span>
+                        <span style="margin-right:17px;" v-if="item.status==0">未处理</span>
+                        <span style="margin-right:17px;" v-else-if="item.status==0">处理中</span>
+                        <span style="margin-right:17px;" v-else="item.status==1">处理完成</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div v-if='cur==1'>
+            <div class="content">
+                <ul class="_ul">
+                    <li v-for="(item,index) of taskList" class="_li" :class="{on:index%2==0,off:index%2!=0}">
+                        <span style="margin-left:17px;height:20px;line-height:20px;color:white;background-color:#999;text-align:center;">{{ item.title }}</span>
+                        <span class="he">{{ item.ctime }}</span>
+                        <span class="content" @click="cont(item.content)" style="color:red">{{ item.content }}</span>
+                        <span style="margin-right:17px;" v-if="item.status==0">未处理</span>
+                        <span style="margin-right:17px;" v-else-if="item.status==0">处理中</span>
+                        <span style="margin-right:17px;" v-else="item.status==1">处理完成</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <footer style="width:7rem;margin:7rem auto;height: 7rem;" v-show='isShow'>
+            <img src="../image/kong.png" style="width:7rem;margin:0 auto;height: 7rem;" alt="">
+        </footer>
+    </div>
+
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/app.js"></script>
+<script type="text/javascript" src="../script/fastclick.js"></script>
+<script type="text/javascript" src="../script/vue.min.js"></script>
+<script type="text/javascript" src="../script/md5.min.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+        window.FastClick && FastClick.attach(document.body);
+        vm = new Vue({
+            el: '#app',
+
+            data() {
+                return {
+                    tabTitle1: ['标题', '时间', '内容', '处理'],
+                    cur: 0,
+                    tabTitle: ['我做的单', '我派的单'],
+                    type: 1,
+                    taskList: [],
+                    isShow: false,
+                }
+
+            },
+            methods: {
+                hadleTab(i) {
+                    if (i == 1) {
+                        this.type = 2;
+                        this.cur = 1;
+                        var that = this;
+                        UILoading();
+                        _ajax('api/pt_task/reporttasklist', function(ret) {
+                            if (ret.errCode == 1) {
+                                that.taskList = ret.data;
+                                if (ret.data.length == 0) {
+                                    that.isShow = true
+                                } else {
+                                    that.isShow = false
+                                }
+                            } else {
+                                that.taskList = ret.data;
+                                if (ret.data.length == 0) {
+                                    that.isShow = true
+                                }
+                            }
+                            UILoading_Close();
+                        }, {
+                            type: that.type
+                        })
+
+                        return;
+                    } else {
+                        this.type = 1;
+                        this.cur = 0;
+                        var that = this;
+                        UILoading();
+                        _ajax('api/pt_task/reporttasklist', function(ret) {
+                            if (ret.errCode == 1) {
+                                that.taskList = ret.data;
+                                if (ret.data.length == 0) {
+                                    that.isShow = true
+                                } else {
+                                    that.isShow = false
+                                }
+                            } else {
+                                that.taskList = ret.data;
+                                if (ret.data.length == 0) {
+                                    that.isShow = true
+                                }
+                            }
+                            UILoading_Close();
+                        }, {
+                            type: that.type
+                        })
+                    }
+                },
+                cont(e){
+                  alert(e)
+                }
+            }
+        })
+        init();
+    }
+
+    function init() {
+        UILoading();
+        _ajax('api/pt_task/reporttasklist', function(ret) {
+            if (ret.errCode == 1) {
+                vm.taskList = ret.data;
+                if (ret.data.length == 0) {
+                    vm.isShow = true
+                }
+            } else {
+                vm.taskList = ret.data;
+                if (ret.data.length == 0) {
+                    vm.isShow = true
+                }
+            }
+            UILoading_Close();
+        }, {
+            type: vm.type
+        })
+    }
+</script>
+
+</html>

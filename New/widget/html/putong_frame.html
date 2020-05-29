@@ -1,0 +1,317 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>普通任务</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <style>
+      body,html{
+        background: #f2f2f2;
+      }
+      header{
+        box-sizing: border-box;
+        padding: 0 1.5rem;
+      }
+      header,header>div{
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        height: 30px;
+        border-bottom: 1px solid #f2f2f2;
+        background: #fff;
+      }
+      header>div{
+        justify-content: center;
+      }
+      header>p,header>div{
+        text-align: center;
+        text-align: center;
+        color: #FF4841;
+        font-size: 1.5rem;
+        color: #333;
+        height:3.5rem;
+        line-height: 3.5rem
+      }
+      header>div{
+        align-items: center;
+      }
+      header>p{
+        width: 3.5rem;
+        height:3.5rem;
+        line-height: 3.5rem
+      }
+      header>div>img{
+        margin-left: 5px;
+        width: .9rem;
+      }
+      .active{
+          -webkit-transform:  rotateX(180deg)
+      }
+      .selected{
+        color: #FF4841;
+        border-bottom: 1.5px solid #FF4841;
+      }
+      .selected_{
+        color: #333;
+      }
+      .scroll-msg {
+          display: flex;
+          align-items: center;
+          background: #fff;
+          width: 100%;
+          padding: 0px 15px;
+          /*box-sizing: border-box;*/
+          height: 48px;
+          line-height: 48px;
+          /*margin-top: 1px;*/
+      }
+
+      .scroll-msg>img {
+          width: 35px;
+          height: 18px;
+          box-sizing: border-box;
+          padding-bottom: 3px
+      }
+
+      .scroll-msg>div {
+          margin-left: 1rem;
+          font-size: 1.3rem;
+          color: #FF4841;
+          height: 3rem;
+          overflow: hidden;
+          width: 100%;
+      }
+
+      .scroll-msg>div>div>p{
+          display: block;
+          height: 3rem;
+          line-height: 3rem;
+          display: flex;
+          justify-content: space-between;
+          width: 100%;
+          box-sizing: border-box;
+          padding-right: 15px;
+      }
+      .scroll_active{
+        transition:all .3s
+      }
+
+      [v-cloak]{
+        display: none;
+      }
+
+      #header {
+          height: 65px;
+          background: #fff;
+          text-align: center;
+          box-sizing: border-box;
+          padding-top: 12px;
+          line-height: 65px;
+      }
+
+      #header p {
+          font-size: 1.6rem;
+          color: #333;
+          font-weight: bold;
+      }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+      <div id="header">
+          <p class="putong" tapmode onclick="task(2)">任务大厅</p>
+          <!-- <p class="shiwan" tapmode onclick="task(1)">试玩任务</p> -->
+      </div>
+      <header>
+        <div>
+          <p @click = "change()">{{type}}</p>
+          <img :class="num==1? 'active' : '' " src="../image/task/1.png" alt="">
+        </div>
+        <p :class="color==1? 'selected' : 'selected_'"@click = "selected(1)">综合</p>
+        <p :class="color==2? 'selected' : 'selected_'"@click = "selected(2)">最新</p>
+        <p :class="color==3? 'selected' : 'selected_'"@click = "selected(3)">价格</p>
+        <p :class="color==4? 'selected' : 'selected_'"@click = "selected(4)">人气</p>
+      </header>
+      <section>
+        <div class="scroll-msg">
+            <img src="../image/task/2.png" alt="">
+            <div class="scroll-div">
+                <div>
+                    <p v-for="(item,index) of textList">
+                        <!-- <span>用户ID:{{item.user_id}}</span> -->
+                        <span>{{item.notes}}</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+      </section>
+    </div>
+
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/app.js"></script>
+<script type="text/javascript" src="../script/md5.min.js"></script>
+<script type="text/javascript" src="../script/fastclick.js"></script>
+<script type="text/javascript" src="../script/vue.min.js"></script>
+
+<script type="text/javascript">
+    var typeList=[]
+    apiready = function() {
+        window.FastClick && FastClick.attach(document.body);
+        initTypeList()
+        vm = new Vue({
+          el:'#app',
+          data:{
+            type:"类型",
+            num:0,
+            color:1,
+            textList: []
+          },
+          methods:{
+            change(){
+              // return
+              api.closeFrame({
+                  name: 'type_frame'
+              });
+              if(vm.num==0){
+                api.openFrame({
+                    name: 'type_frame',
+                    url: './type_frame.html',
+                    rect: {
+                        x: 0,
+                        y: 100,
+                        w: 'auto',
+                    },
+                    pageParam: {
+                        typeList: typeList
+                    },
+                    bounces: false,
+                    bgColor: 'rgba(0,0,0,0)',
+                    vScrollBarEnabled: false,
+                    hScrollBarEnabled: false,
+                });
+                vm.num=1
+              }else{
+                api.closeFrame({
+                    name: 'type_frame'
+                });
+                vm.num=0
+              }
+            },
+            selected(n){
+              api.closeFrame({
+                  name: 'type_frame'
+              });
+              vm.color = n
+              openPutongtask_frame(n,'all')
+            }
+          }
+        })
+      fnInitData()
+      text_slide() //公告上下轮播
+      openPutongtask_frame(1,"all")
+      api.setRefreshHeaderInfo({
+          loadingImg: 'widget://image/xiala.png',
+          bgColor: "#ff6b70",
+          textColor: "#fff",
+          textDown: '下拉刷新...',
+          textUp: '松开刷新...'
+      }, function(ret, err) {
+          api.refreshHeaderLoadDone()
+      });
+    }
+    function fnInitData(){
+      //alert(123)
+      _ajax('api/index/taskMoneyLog',function(ret){
+        // alert(JSON.stringify(ret))
+        if(ret.errCode==1){
+          vm.textList =  ret.data.data
+          vm.textList.push(ret.data.data[0])
+        }
+      })
+    }
+    function selected_type(data){   //选择类型
+      var data  = data
+      if(data.cate_name=='close'){
+        vm.num=0
+        api.closeFrame({
+            name: 'type_frame'
+        });
+      }else{
+        vm.type = data.cate_name
+        api.closeFrame({
+            name: 'type_frame'
+        });
+
+
+        vm.num=0
+        var type = 1;//vm.color
+        var id = data.id;
+        vm.color = 1;
+        $api.setStorage('selecttaskid',id)
+        marginBottom()
+
+        api.openFrame({
+            name: 'putongtask'+type+'_frame',
+            url: './putongtask'+type+'_frame.html',
+            rect: {
+              marginTop: 145,
+              marginBottom: margin_bottom,
+              w: 'auto',
+            },
+            pageParam: {
+                type: type,
+                taskId:id
+            },
+            bounces: true,
+            bgColor: 'rgba(0,0,0,0)',
+            vScrollBarEnabled: false,
+            hScrollBarEnabled: false,
+            reload:true
+        });
+      }
+
+
+    }
+    function initTypeList(){  //获得类型列表
+      _ajax('api/pt_task/getTypes',function(ret){
+        //console.log(JSON.stringify(ret))
+        if(ret.errCode==-1){
+          _openWin('login')
+        }
+        if(ret.errCode==1){
+          typeList = ret.data.data
+        }
+      })
+    }
+    function openPutongtask_frame(n,id){
+      console.log(n+'--'+id)
+
+      return
+      marginBottom()
+      api.openFrame({
+          name: 'putongtask'+n+'_frame',
+          url: './putongtask'+n+'_frame.html',
+          rect: {
+            marginTop: 145,
+            marginBottom: margin_bottom,
+            w: 'auto',
+          },
+          pageParam: {
+              type: n,
+              taskId:id
+          },
+          bounces: true,
+          bgColor: '#f2f2f2',
+          vScrollBarEnabled: false,
+          hScrollBarEnabled: false,
+          overScrollMode:'scrolls'
+      });
+    }
+</script>
+
+</html>

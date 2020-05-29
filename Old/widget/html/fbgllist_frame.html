@@ -1,0 +1,164 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>发布管理任务列表</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <style>
+    ul{
+      width: 34rem;
+      margin-top: 1rem;
+      margin: 1rem auto;
+    }
+    li,.bot{
+      display:flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    li{
+      border-bottom: 1px solid #f2f2f2;
+      box-sizing: border-box;
+      padding: 1rem 0;
+    }
+    li>img{
+      width: 4.5rem;
+      border-radius: 50%;
+      margin-right: 1rem;
+    }
+    li>div{
+      width: 31rem;
+      font-size: 16px;
+      color: #333;
+
+    }
+    .bot{
+      color: #999;
+      font-size: 13px;
+      height: 25px;
+    }
+    .bot>span:last-child{
+      color: #79CDCD;
+    }
+    footer{
+      display: none;
+    }
+    [v-cloak]{
+      display: none
+    }
+    </style>
+</head>
+
+<body>
+  <ul id="app" v-cloak>
+    <li v-for="(item,index) of taskList" @click="openshenhe(item.rid,item.tid,index)">
+      <img :src="imgurl+item.avatar" alt="">
+      <div>
+        <span>{{item.nickname}}</span>
+        <div class="bot">
+          <span v-if="status=='0'">时间：{{item.receive_time | formatData}}</span>
+          <span v-else-if="status=='5'">驳回时间{{item.receive_time | formatData}}</span>
+          <span v-else-if="status=='1'">审核时间{{item.receive_time | formatData}}</span>
+          <span v-if="status=='0'">进行中</span>
+          <span v-else-if="status=='1'">已通过</span>
+          <span v-else-if="status=='5'">已驳回</span>
+        </div>
+      </div>
+    </li>
+  </ul>
+  <footer>
+    <img src="../image/kong.png" style="display:block;width:7rem;margin:10rem auto;" alt="">
+  </footer>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/app.js"></script>
+<script type="text/javascript" src="../script/md5.min.js"></script>
+<script type="text/javascript" src="../script/fastclick.js"></script>
+<script type="text/javascript" src="../script/vue.min.js"></script>
+<script type="text/javascript">
+    var U_id;
+    apiready = function() {
+        window.FastClick && FastClick.attach(document.body);
+        UILoading(U_id)
+        vm = new Vue({
+            el: '#app',
+            data: {
+                page: 1,
+                current_page:1,
+                taskList: [],
+                status:api.pageParam.status
+            },
+            methods:{
+              openshenhe(rid,tid,index){
+                var type = api.pageParam.status
+                if(type==0){
+                  return
+                }
+                var length = vm.taskList.length
+                _openWin('fbshenhe',{rid:rid,id:tid,type:type,index:index,length:length})
+              }
+            }
+        })
+        fnInitData()
+        initEventListenter(fnInitData)
+        api.setRefreshHeaderInfo({
+            loadingImg: 'widget://image/xiala.png',
+            bgColor: "#f2f2f2",
+            textColor: "#333",
+            textDown: '下拉刷新...',
+            textUp: '松开刷新...'
+        }, function(ret, err) {
+            fnInitData(1)
+            api.refreshHeaderLoadDone()
+        });
+    }
+    function fnInitData(n) {
+        if(n){
+          vm.page = 1
+        }
+
+        _ajax('api/pt_task/getTaskReList', function(ret) {
+          // alert(JSON.stringify(ret))
+            if (ret.errCode == -1) {
+                _openWin('login')
+            }
+            if(ret.errCode==0 && vm.page==1){
+              UILoading_Close(U_id)
+              vm.taskList = ret.data;
+              vm.current_page = 2
+              vm.page = 2
+              if(vm.taskList.length==0){
+                $api.css($api.dom('footer'), 'display:block');
+              }
+            }
+            if (ret.errCode == 1) {
+                $api.css($api.dom('footer'), 'display:none');
+                if(n){
+                  vm.taskList = ret.data
+                  vm.page = 2
+                }else{
+                  vm.taskList = vm.taskList.concat(ret.data)
+                  //console.log(JSON.stringify(vm.taskList))
+                  var taskListLength = vm.taskList.length + ''
+                  //alert(vm.taskList.length)
+                  vm.current_page = vm.taskList.length < 10 ? 1 : parseInt(taskListLength.substr(0, taskListLength.length - 1))+1;
+                  if(vm.taskList.length%10 == 0){
+                    vm.current_page -= 1
+                  }
+                  vm.page = vm.current_page += 1
+                  UILoading_Close(U_id)
+                }
+
+            }
+        }, {
+            p:vm.page,
+            status: api.pageParam.status,
+            tid:api.pageParam.id
+        })
+    }
+
+</script>
+
+</html>

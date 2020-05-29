@@ -1,0 +1,531 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>个人资料</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <style>
+        body,
+        html {
+            background: #f2f2f2;
+        }
+
+        header {
+            height: 65px;
+            background: #fff;
+            border-bottom: 1px solid #f2f2f2;
+        }
+
+        header div {
+            position: absolute;
+            bottom: 0px;
+            box-sizing: border-box;
+            padding: 8px;
+            width: 60px;
+            height: 40px;
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-pack: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            -webkit-box-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+        }
+
+        header div img {
+            height: 1.9rem;
+        }
+
+        header p {
+            font-size: 1.7rem;
+            font-weight: bold;
+            color: #333;
+            position: absolute;
+            bottom: 6px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        section {
+            margin-top: 10px;
+        }
+
+        section>div {
+            width: 100%;
+            height: 4.5rem;
+            box-sizing: border-box;
+            background: #fff;
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-pack: justify;
+            -webkit-justify-content: space-between;
+            justify-content: space-between;
+            -webkit-box-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+            padding: 12px 8px 12px 15px;
+            border-bottom: 1px solid #F2F2F2;
+            color: #333333;
+            font-size: 1.4rem;
+        }
+
+        section .first-child {
+            height: 5.5rem;
+        }
+
+        section>div>div {
+            -webkit-box-flex: 1;
+            -webkit-flex: 1;
+            flex: 1;
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-pack: justify;
+            -webkit-justify-content: space-between;
+            justify-content: space-between;
+            -webkit-box-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+        }
+
+        section>div>div img {
+            height: 4.5rem;
+            width: 4.5rem;
+            border-radius: 50%;
+        }
+
+        .lastSpan {
+            color: #666666;
+            font-size: 1.3rem;
+        }
+
+        section>div>img {
+            height: 1.6rem;
+            margin-left: 10px;
+        }
+
+        footer p {
+            margin: auto;
+            margin-top: 60px;
+            width: 27rem;
+            height: 4.5;
+            font-size: 1.6rem;
+            line-height: 4.5rem;
+            text-align: center;
+            color: #fff;
+            background: -webkit-linear-gradient(right, #FDA96D 0%, #FF435B 100%);
+            border-radius: 4.5rem;
+        }
+
+        #foot {
+            width: 36rem;
+            height: 50px;
+            background: #000;
+            position: absolute;
+            bottom: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-sizing: border-box;
+            padding: 0 2rem;
+            display: none;
+        }
+
+        #foot>img {
+            display: inline-block;
+            width: 2.6rem;
+        }
+    </style>
+</head>
+
+<body>
+  <div id="app">
+    <header>
+        <div tapmode onclick="closeWin()">
+            <img src="../image/return.png" alt="">
+        </div>
+        <p>设置</p>
+    </header>
+    <section>
+        <div class="first-child" tapmode onclick="shangchuan()">
+            <div>
+                <span>头像</span>
+                <img src="../image/user/1.png" alt="" id="avatar" />
+                <!-- <img src="../image/user/1.png" alt="" id="avatar" /> -->
+
+            </div>
+            <img src="../image/user/25.png" alt="">
+        </div>
+        <div>
+            <div>
+                <span>用户ID</span>
+                <span id="u_id" class="lastSpan"></span>
+            </div>
+            <img src="../image/user/25.png" alt="">
+        </div>
+        <div tapmode onclick="_openWin('nickname')">
+            <div>
+                <span>用户昵称</span>
+                <span id="nickname" class="lastSpan"></span>
+            </div>
+            <img src="../image/user/25.png" alt="">
+        </div>
+        <div tapmode onclick="_openWin('alipay')">
+            <div>
+                <span>绑定支付宝</span>
+                <span id="u_id" class="lastSpan"></span>
+            </div>
+            <img src="../image/user/25.png" alt="">
+        </div>
+        <!-- 新加绑定微信,绑定手机号 -->
+        <div tapmode onclick="bindWx()">
+            <div>
+                <span>绑定微信</span>
+                <span id="u_id" class="lastSpan"></span>
+            </div>
+            <img src="../image/user/25.png" alt="">
+        </div>
+        <div tapmode onclick="_openWin('bindphone')">
+            <div>
+                <span>绑定手机号</span>
+                <span id="u_id" class="lastSpan"></span>
+            </div>
+            <img src="../image/user/25.png" alt="">
+        </div>
+        <!--  -->
+
+
+        <div tapmode onclick="_openWin('notice',{r_id:6})">
+            <div>
+                <span>关于我们</span>
+                <span id="u_id" class="lastSpan"></span>
+            </div>
+            <img src="../image/user/25.png" alt="">
+        </div>
+        <div tapmode onclick="cacheSize()">
+            <div>
+                <span>清理缓存</span>
+                <span id="cacheSize" class="lastSpan"></span>
+            </div>
+            <img src="../image/user/25.png" alt="">
+        </div>
+    </section>
+    <footer>
+        <p onclick="outlogin()">退出登录</p>
+    </footer>
+    <div id="foot">
+        <!-- <div tapmode onclick="save()">
+            完成
+        </div> -->
+        <img src="../image/user/close.png" alt="" tapmode onclick="cancel()">
+        <img src="../image/user/sure.png" alt="" tapmode onclick="save()">
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/app.js"></script>
+<script type="text/javascript" src="../script/md5.min.js"></script>
+<script type="text/javascript" src="../script/vue.min.js"></script>
+<script type="text/javascript">
+    var image;
+    var FNImageClip;
+    var vm;
+    apiready = function() {
+
+        _setStatusBarStyle()
+        fnGetData()
+        api.getCacheSize(function(ret) {
+            var clearCache = ret.size / 1024 / 1024;
+            $api.html($api.byId('cacheSize'), clearCache.toFixed(2) + "MB")
+        });
+        api.parseTapmode();
+        api.addEventListener({
+            name: 'viewappear'
+        }, function(ret, err) {
+            fnGetData();
+        });
+        vm = new Vue({
+          el:'#app',
+          data(){
+            return{
+                headImg:''
+            }
+          },
+          created(){
+            var user = $api.getStorage('user');
+            if(user){
+                  this.headImg = user.headimgurl;
+            }
+
+          },
+          methods:{
+
+          }
+        })
+    }
+    function weixinLog() {
+      console.log(111111111)
+            var wxPlus = api.require('wxPlus');
+            wxPlus.auth({
+                apiKey: 'wx6023252283df0eb4'
+            }, function (ret, err) {
+              var code = ret.code;
+                if (ret.status) {
+                    _ajax("api/wx_login/reg", function (ret, err) {
+                        console.log(JSON.stringify(ret));
+                        if (ret.errCode == 1) {
+                            $api.setStorage('user', ret.data);
+                            _msg(ret.msg)
+                            api.closeWin({
+                                name: 'main'
+                            });
+                            setTimeout(function(){
+                              _openWin('main')
+                            },500)
+                        }
+                    }, {
+                        devicecode: code,
+                        code:code
+                    })
+                } else {
+                    alert(JSON.stringify(err));
+                }
+            });
+}
+    //绑定微信
+    function bindWx(){
+      var wxPlus = api.require('wxPlus');
+            // var token = $api.getStorage('token');
+            wxPlus.auth({
+                apiKey: 'wx6023252283df0eb4'
+            }, function (ret, err) {
+                var code = ret.code;
+                // alert(JSON.stringify(ret))
+                // return;
+                if (ret.status) {
+                    _ajax("api/wx_login/bindwx", function (ret, err) {
+                        console.log(JSON.stringify(ret));
+                        console.log(JSON.stringify(err));
+                        if (ret.errCode == 1) {
+                            $api.setStorage('user', ret.data);
+                            _msg(ret.msg)
+                            // api.closeWin({
+                            //     name: 'personal'
+                            // });
+                            // setTimeout(function(){
+                            //   _openWin('personal')
+                            // },500)
+                        }else{
+                            _msg(ret.msg)
+                        }
+                    }, {
+                        code:code
+                    })
+                } else {
+                    alert(JSON.stringify(err));
+                }
+            });
+    }
+    function cacheSize() { //清除缓存
+        api.clearCache(function() {
+            api.toast({
+                msg: '清除完成'
+            });
+        });
+        api.getCacheSize(function(ret, err) {
+            var clearCache = ret.size / 1024 / 1024;
+            $api.html($api.byId('cacheSize'), clearCache.toFixed(2) + "MB")
+        });
+    }
+
+    function fnGetData() {
+        user = $api.getStorage('user');
+        if (user) {
+            var avatar = user.avatar;
+            var nickname = user.nickname
+            $api.html($api.byId('nickname'), user.nickname);
+
+            if (avatar) {
+                $api.attr($api.dom('.first-child>div img'), 'src', imgurl + user.avatar);
+            };
+            $api.html($api.byId('u_id'), user.id);
+        } else {
+            _openWin('login')
+        }
+    }
+
+    function shangchuan() { //上传照片
+        api.actionSheet({
+            title: '上传头像',
+            cancelTitle: '取消',
+            buttons: ['拍照', '相册']
+        }, function(ret, err) {
+            var index = ret.buttonIndex;
+            if (index != 3) {
+                var sourceType = 'album'
+                if (index == 1) {
+                    sourceType = 'camera'
+                }
+                api.getPicture({
+                    sourceType: sourceType,
+                    encodingType: 'jpg',
+                    mediaValue: 'pic',
+                    destinationType: 'url',
+                    allowEdit: true,
+                    quality: 50,
+                    targetWidth: 800,
+                    targetHeight: 800,
+                }, function(ret, err) {
+                    if (ret) {
+                        if (ret.data) {
+                            img = ret.data;
+                            Clip(img);
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    function Clip(msg) { //裁剪图片
+        var w = api.winWidth
+        var r = w - 230
+        var h = api.winHeight - 50
+        var x = (w - (2 * r)) / 2
+        var y = (h - (2 * r)) / 2
+        FNImageClip = api.require('FNImageClip');
+        FNImageClip.open({
+            rect: {
+                x: 0,
+                y: 0,
+                w: w,
+                h: h
+            },
+            srcPath: msg,
+            isMinHeight: true,
+            isMinWidth: true,
+            highDefinition: true,
+            isHideGrid: true,
+            style: {
+                mask: 'rgba(0,0,0,0.8)',
+                clip: {
+                    w: r,
+                    h: r,
+                    x: x,
+                    y: y,
+                    borderColor: 'rgba(0,0,0,0)',
+                    borderWidth: 1,
+                    appearance: 'circular'
+                }
+            },
+            mode: 'image',
+            fixedOn: api.frameName
+        }, function(ret, err) {
+            if (ret) {
+                //alert(JSON.stringify(ret));
+                $api.css($api.dom('#foot'), 'display:flex');
+            } else {
+                //alert(JSON.stringify(err));
+            }
+        });
+    }
+
+    function cancel() {
+        fnClose()
+        $api.css($api.dom('#foot'), 'display:none');
+    }
+
+    function save() {
+        var timestamp = new Date().getTime();
+        FNImageClip.save({
+            destPath: 'fs://image/' + timestamp + '.png',
+            copyToAlbum: false,
+            quality: 1
+        }, function(ret, err) {
+            if (ret) {
+                //alert(JSON.stringify(ret))
+                //$api.attr($api.byId('avatar'), 'src', img);
+                uploadImg(ret.destPath)
+                fnClose();
+                $api.css($api.dom('#foot'), 'display:none');
+            } else {
+                //alert(JSON.stringify(err));
+            }
+        });
+    }
+
+    function fnClose() {
+        FNImageClip.close();
+    }
+
+    function uploadImg(image) {
+        if (!image) {
+            api.toast({
+                msg: '图片出错',
+                duration: 2000,
+                location: 'bottom'
+            });
+            return;
+        }
+        _ajax('api/index/upload', function(ret) {
+            console.log(JSON.stringify(ret))
+            if (ret.errCode == 1) {
+                avatarSet(ret.data)
+            }
+        }, {}, {
+            file: image
+        })
+    }
+
+
+
+    function closeWin() {
+        closeWinL()
+    }
+
+    function outlogin() {
+      console.log(222222)
+        dialogBox('退出确认', '确定要退出登录吗', out)
+    }
+
+    function out() {
+      console.log(222222)
+
+        $api.rmStorage('token')
+        $api.rmStorage('user')
+        _msg('退出成功')
+        setTimeout(function() {
+            api.closeWin({
+                name: 'main'
+            });
+            api.openWin({
+                name: 'main',
+                url: 'widget://html/main.html',
+            });
+        }, 1000)
+    }
+
+    function avatarSet(image) {
+        _ajax('api/index/avatarSet', function(ret) {
+            if (ret.errCode == 1) {
+                _msg('修改成功')
+                $api.attr($api.byId('avatar'), 'src', imgurl + image);
+                api.execScript({
+                    name: "main",
+                    frameName: 'user_frame',
+                    script: 'fnInitData()'
+                });
+            }
+        }, {
+            url: image
+        })
+    }
+</script>
+
+</html>

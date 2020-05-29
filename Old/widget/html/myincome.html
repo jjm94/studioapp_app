@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>我的收益</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+  <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+  <!-- Link Swiper's CSS -->
+  <link rel="stylesheet" href="../css/swiper.min.css">
+  <link rel="stylesheet" type="text/css" href="../css/api.css" />
+
+  <!-- Demo styles -->
+  <style>
+    header{
+        position: fixed;
+        top: 0;
+        z-index: 999;
+        height: 23rem; width: 36rem;
+        background-image: url('../image/user/26.png');
+        background-size: 36rem 23rem;
+        background-repeat: no-repeat;
+        box-sizing: border-box;
+        padding-top: 8rem;
+    }
+    header .head{
+        position: absolute;
+        top: 26px;
+        box-sizing: border-box;
+        padding: .8rem;
+        width: 5rem;
+        height: 4rem;
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-box-pack:center;
+        -webkit-justify-content:center;
+        justify-content: center;
+        -webkit-box-align:center;
+        -webkit-align-items:center;
+        align-items: center;
+    }
+    header div img{
+        height: 2rem;
+    }
+    header .title{
+        font-size: 1.7rem;
+        font-weight: bold;
+        color: #fff;
+        position: absolute;
+        top: 35px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    header p{
+      color: #fff;
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+    }
+    header span{
+      font-weight: bold;
+      color: #fff;
+      font-size: 2.3rem;
+    }
+    .today{
+      box-sizing: border-box;
+      padding-left: 3rem;
+    }
+    .bot{
+      box-sizing: border-box;
+      padding-left: 3rem;
+      margin-top: 2rem;
+      display: flex;
+      justify-content: flex-start;
+      width: 100%;
+    }
+    .bot>div{
+      width: 50%;
+    }
+    section{
+      position: fixed;
+      background: #fff;
+      top: 23rem;
+      z-index: 999;
+      height: 6rem;
+      width: 100%;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      box-sizing: border-box;
+      padding-left: 1rem;
+      border-bottom: .6rem solid #f2f2f2;
+    }
+    section>span:nth-child(1){
+      font-size: 1.4rem;
+      color: #707070;
+      margin-right: .5rem;
+    }
+    section>span:nth-child(2){
+      font-size: 2rem;
+      color: #333;
+      font-weight: bold;
+      width: 12rem;
+    }
+    section>span:nth-child(3){
+      width: 5rem;
+      height: 2.5rem;
+      line-height: 2.5rem;
+      border-radius: 2.5rem;
+      text-align: center;
+      color: #FF4841;
+      font-size: 1.4rem;
+      border: 1px solid #FF4841;
+      box-sizing: border-box;
+
+    }
+    section>span:nth-child(4){
+      width: 7rem;
+      height: 2.5rem;
+      line-height: 2.5rem;
+      border-radius: 2.5rem;
+      margin-left: 8px;
+      text-align: center;
+      color: #76EEC6;
+      font-size: 1.4rem;
+      border: 1px solid #76EEC6;
+      box-sizing: border-box;
+
+    }
+    footer{
+      margin-top: 29rem;
+    }
+    footer>p{
+      width: 36rem;
+      height: 4rem;
+      line-height: 4rem;
+      margin: auto;
+      text-align: left;
+      font-weight: bold;
+      color: #333;
+      font-size: 1.5rem;
+      border-bottom: 1px solid #f2f2f2;
+      position: fixed;
+      top:29rem;
+      z-index: 999;
+      background: #fff;
+      box-sizing: border-box;
+      padding-left: 1rem;
+    }
+    footer>p>span{
+      display: inline-block;
+      margin-right: 1.5rem;
+
+    }
+    .active{
+      border-bottom: 2px solid #333;
+    }
+    ul{
+      width: 34rem;
+      margin: auto;
+      padding-top: 4rem;
+    }
+    li{
+      border-bottom: 1px solid #f2f2f2;
+    }
+    .top,.bot_{
+      width: 100%;
+      display: flex;
+      justify-content:space-between;
+      align-items: center;
+    }
+    .top{
+      padding: 1rem 0;
+    }
+    .bot_{
+      padding-bottom: 1rem;
+    }
+    .top>span:first-child,.mid>span:first-child{
+      font-size: 1.6rem;
+      color: #333;
+    }
+    .top>span:last-child,li>p{
+      font-size: 1.5rem;
+      color: #FF4841
+    }
+    .bot_>span:first-child,.mid>span:last-child{
+      font-size: 1.2rem;
+      color: #999;
+    }
+    .bot_>span:last-child{
+      font-size: 1.2rem;
+      color: #FF4841
+    }
+    .active1{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: .6rem 0;
+    }
+    li>img{
+      width: 5rem;
+      height: 5rem;
+      border-radius: 50%;
+    }
+    li .mid{
+      width: 55%;
+    }
+    li p{
+      width: 25%;
+      text-align: right;
+    }
+    li .mid>span{
+      display: block;
+      padding: .6rem 0;
+    }
+    [v-cloak]{
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div id="app" v-cloak>
+    <header>
+        <div class="head" tapmode onclick="api.closeWin()">
+            <img src="../image/main/16.png" alt="">
+        </div>
+        <p class="title">我的收益</p>
+        <div class="today">
+          <p>今日收益(元)</p>
+          <span>{{todat_money}}</span>
+        </div>
+        <div class="bot">
+          <div class="sum">
+            <p>累计收益(元)</p>
+            <span>{{sum_money}}</span>
+          </div>
+          <div class="cash">
+            <p>可提现金额(元)</p>
+            <span>{{user_money}}</span>
+          </div>
+        </div>
+    </header>
+    <section>
+      <span>可提金额(元)</span>
+      <span>{{user_money}}</span>
+      <span tapmode onclick="openCashWin()">提现</span>
+      <span tapmode onclick="openDeposithWin()">退保证金</span>
+    </section>
+    <footer>
+      <p>
+        <span :class="type=='shouru'?'active':''" @click="change('shouru')">收益明细 </span >
+        <span :class="type=='tixian'?'active':''" @click="change('tixian')">提现明细</span></p>
+      <ul  v-if="type == 'tixian'">
+        <li v-for = "(item,index) of tixianList" >
+          <div class="top">
+            <span>申请提现</span>
+            <span>￥{{item.cash_money}}</span>
+          </div>
+          <div class="bot_">
+            <span>{{item.create_time}}</span>
+            <span v-if="item.cash_status==1">提现成功</span>
+            <span v-else-if="item.cash_status==2">提现驳回</span>
+            <span v-else-if="item.cash_status==3">提现失败</span>
+            <span v-else>提现中</span>
+          </div>
+        </li>
+        <div  v-if="tixianList.length==0">
+          <img src="../image/kong.png" style="display:block;width:7rem;margin:10rem auto;" alt="">
+        </div>
+      </ul>
+      <ul  v-if="type == 'shouru'">
+        <li :class="type=='shouru'? 'active1' :''"  v-for="(item,index) of shouruList">
+          <img v-if="item.title!='签到奖励'" :src="imgurl+item.img" alt="">
+          <img v-else src="../image/qiandao.png" alt="">
+          <div class="mid">
+            <span>{{item.title}}</span>
+            <span >{{item.create_time}}</span>
+          </div>
+          <p>+{{item.coin}}元</p>
+        </li>
+        <div v-if="shouruList.length==0">
+          <img src="../image/kong.png" style="display:block;width:7rem;margin:10rem auto;" alt="">
+        </div>
+      </ul>
+
+
+    </footer>
+  </div>
+
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/app.js"></script>
+<script type="text/javascript" src="../script/fastclick.js"></script>
+<script type="text/javascript" src="../script/vue.min.js"></script>
+<script type="text/javascript" src="../script/md5.min.js"></script>
+<script type="text/javascript">
+    var U_id
+    apiready = function() {
+        window.FastClick && FastClick.attach(document.body);
+        UILoading(U_id)
+        vm = new Vue({
+          el:"#app",
+          data:{
+            shouruList:[],
+            tixianList:[],
+            page:1,
+            page1:1,
+            current_page:1,
+            current_page1:1,
+            todat_money:'',
+            sum_money:'',
+            user_money:'',
+            type:'shouru'
+          },
+          methods:{
+            change(n){
+              vm.type = n
+              if(n=='shouru'){
+                getShouRuList()
+              }else{
+                getTiXianList()
+              }
+            }
+
+          }
+        })
+        fnInitData()
+        initEventListenter(fnInitData)
+    }
+    function fnInitData(){
+      _ajax('api/index/income',function(ret){
+        //console.log(JSON.stringify(ret))
+        if(ret.errCode==-1){
+          setTimeout(function(){
+            _openWin('login')
+          },300)
+        }
+        if(ret.errCode==1){
+          vm.user_money = ret.data.user_money
+          vm.todat_money = ret.data.todat_money
+          vm.sum_money = ret.data.sum_money
+        }
+
+      })
+      getShouRuList()//进入页面显示收入列表
+
+    }
+    function getShouRuList(){
+      _ajax('api/index/incomList',function(ret){
+        console.log(JSON.stringify(ret))
+        if(ret.errCode==-1){
+          _openWin('login')
+        }
+        if(ret.errCode==1){
+          vm.shouruList = vm.shouruList.concat(ret.data)
+          console.log(JSON.stringify(vm.shouruList))
+          var shouruListLength = vm.shouruList.length + ''
+          vm.current_page = vm.shouruList.length<10 ? 1 : parseInt(shouruListLength.substr(0,shouruListLength.length-1))+1;
+          if(vm.shouruList.length%10==0){
+            vm.current_page-=1
+          }
+          vm.page = vm.current_page +=1
+          UILoading_Close(U_id)
+        }else{
+          UILoading_Close(U_id)
+        }
+      },{
+        p:vm.page
+      })
+    }
+    function getTiXianList(){
+    //  console.log(vm.page1)
+      _ajax('api/index/cashList',function(ret){
+        if(ret.errCode==-1){
+          _openWin('login')
+        }
+        if(ret.errCode==1){
+          vm.tixianList = vm.tixianList.concat(ret.data)
+          console.log(JSON.stringify(vm.tixianList))
+          var tixianListLength = vm.tixianList.length + ''
+          vm.current_page1 = vm.tixianList.length<10 ? 1 : parseInt(tixianListLength.substr(0,tixianListLength.length-1))+1;
+          if(vm.tixianList.length%10==0){
+            vm.current_page1-=1
+          }
+          vm.page1 = vm.current_page1 +=1
+        }
+
+      },{
+        p:vm.page1
+      })
+    }
+    function openCashWin(){
+      var userInfo = $api.getStorage('user');
+      if (!userInfo.apply_name || !userInfo.apply_account) {
+          _msg('请先绑定支付宝账号')
+          setTimeout(function(){
+              _openWin('alipay')
+          },500)
+      }else{
+        _openWin('cash')
+      }
+    }
+    function openDeposithWin(){
+      var userInfo = $api.getStorage('user');
+      if (!userInfo.apply_name || !userInfo.apply_account) {
+          _msg('请先绑定支付宝账号')
+          setTimeout(function(){
+              _openWin('alipay')
+          },500)
+      }else if (userInfo.isdeposit==0) {
+          _msg('未缴纳保证金')
+      }
+      else{
+        _openWin('tdeposit')
+      }
+    }
+</script>
+</html>

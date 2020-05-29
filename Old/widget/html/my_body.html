@@ -1,0 +1,368 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>个人信息</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <style>
+        body,
+        html {
+            background: #f2f2f2;
+        }
+
+        header {
+            height: 65px;
+            /*background:rgba(255,255,255,1);*/
+            background-image: url('../image/task/bgtitle.png');
+            background-size: 36rem 66px;
+            background-repeat: no-repeat;
+            /*border-bottom: 1px solid #f2f2f2;*/
+        }
+
+        header div {
+            position: absolute;
+            bottom: 0px;
+            box-sizing: border-box;
+            padding: 8px;
+            width: 60px;
+            height: 40px;
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-pack: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            -webkit-box-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+        }
+
+        header div img {
+            /*width: 1.1rem;*/
+            height: 1.9rem;
+        }
+
+        header p {
+            font-size: 1.6rem;
+            color: #333;
+            position: absolute;
+            bottom: 6px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-weight: bold;
+        }
+
+        header>img {
+            width: 2rem;
+            position: absolute;
+            bottom: 7px;
+            right: 1rem;
+        }
+
+        .header {
+            width: 36rem;
+            margin: auto;
+            height: 15rem;
+            background-image: url('../image/task/6.png');
+            background-size: 36rem 15rem;
+            background-repeat: no-repeat;
+        }
+
+        .top_img {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .top_img img {
+            width: 54px;
+            height: 54px;
+            /*background:rgba(0,0,0,1);*/
+            border-radius: 50%;
+            margin-right: 15px;
+        }
+
+        .top_body {
+            width: 34rem;
+            height: 140px;
+            background: rgba(255, 255, 255, 1);
+            border-radius: 5px;
+            margin: 0 auto;
+            position: relative;
+            top: 4rem;
+        }
+
+        .user_title>div:nth-child(1) {
+            font-size: 14px;
+            font-family: PingFang SC;
+            font-weight: bold;
+            color: #333333;
+            margin-top: 6px;
+        }
+
+        .user_title>div:nth-child(2) {
+            font-size: 14px;
+            font-family: PingFang SC;
+            font-weight: 500;
+            margin-left: 3px;
+            margin-top: 5px;
+            color: #666666;
+        }
+
+        .user {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 10px;
+            /*padding-top: 11px;*/
+            /*background:#fff;*/
+            margin: 0 auto;
+            /*border-bottom: 1px solid rgba(242,242,242,1);*/
+            /*border-top: 1px solid rgba(242,242,242,1);*/
+        }
+
+        .user_ygz {
+            width: 70px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            border: 1px solid #999;
+            border-radius: 15px;
+            font-size: 15px;
+            font-family: PingFang SC;
+            font-weight: 500;
+            color: #999;
+            margin-top: 7px;
+        }
+
+        .user_gz {
+            width: 70px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            border: 1px solid rgba(255, 72, 65, 1);
+            border-radius: 15px;
+            font-size: 15px;
+            font-family: PingFang SC;
+            font-weight: 500;
+            color: rgba(255, 72, 65, 1);
+            margin-top: 7px;
+        }
+
+        .top_list {
+            display: flex;
+            justify-content: space-between;
+            text-align: center;
+            padding: 0 15px;
+        }
+
+        .top_list>div>div:nth-child(1) {
+            font-family: PingFang SC;
+            font-weight: bold;
+            color: rgba(0, 0, 0, 1);
+            font-size: 15px;
+        }
+
+        .top_list>div>div:nth-child(2) {
+            font-size: 14px;
+            font-family: PingFang SC;
+            font-weight: 500;
+            color: rgba(102, 102, 102, 1);
+        }
+        .boot{
+          font-size:16px;
+          font-family:PingFang SC;
+          font-weight:bold;
+          color:rgba(0,0,0,1);
+          width: 34rem;
+          margin: 0 auto;
+          margin-top: 3.4rem;
+
+        }
+        [v-cloak] {
+              display: none;
+          }
+    </style>
+</head>
+
+<body>
+  <div id='app' v-cloak>
+    <header>
+        <div tapmode onclick="closeWinL()">
+            <img src="../image/main/16.png" alt="">
+        </div>
+        <p style="color:#fff">个人信息</p>
+        <img src="../image/main/dh.png" alt=""  @click="goKf()">
+    </header>
+    <div class="header">
+        <div class="top_body">
+            <div class="user">
+                <div class="top_img">
+                    <img :src="imgurl+list_data.avatar" alt="">
+
+                    <div class="user_title">
+                        <div>{{list_data.nickname}}</div>
+                        <div>ID:{{list_data.id}}</div>
+                    </div>
+                </div>
+                <!-- <div class="user_gz" v-show="list_data.fan_status==0">关注</div>
+                <div class="user_ygz" v-show="list_data.fan_status==1">已关注</div> -->
+
+                <div class="user_gz" @click="status_(list_data.id,1)" v-show="list_data.fan_status==0">关注</div>
+                <div class="user_ygz" @click="status_(list_data.id,0)" v-show="list_data.fan_status==1">已关注</div>
+            </div>
+            <div class="top_list">
+                <div>
+                    <div>{{list_data.fabunum}}</div>
+                    <div>发布任务</div>
+                </div>
+                <div>
+                    <div>{{list_data.receivenum}}</div>
+                    <div>接单任务</div>
+                </div>
+                <div>
+                    <div>{{list_data.fansfin}}</div>
+                    <div>粉丝</div>
+                </div>
+                <div>
+                    <div>{{list_data.finfans}}</div>
+                    <div>关注</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="boot">发布的任务</div>
+</div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/app.js"></script>
+<script type="text/javascript" src="../script/vue.min.js"></script>
+<script type="text/javascript" src="../script/md5.min.js"></script>
+<script type="text/javascript">
+  var U_id
+    apiready = function() {
+        _setStatusBarStyle()
+        UILoading(U_id)
+        vm = new Vue({
+            el: '#app',
+            data: {
+              list_data:[]
+            },
+            created: function () {
+            // `this` 指向 vm 实例
+                this.getDate()
+              },
+            methods: {  status_(a,b){
+                let that=this;
+                if(b==0){
+                //取消关注
+              api.confirm( {
+                // title: '确认取消关注？',
+                msg: '确认取消关注？',
+                buttons: [ '确定', '取消' ]
+              }, function ( ret, err ) {
+                var index = ret.buttonIndex;
+                if ( index == 1 ) {
+                   that.list_data.fan_status=b
+                   that.guanz(a,b)
+                }
+              } )
+            }else{
+               //关注
+                that.list_data.fan_status=b
+                 that.guanz(a,b)
+              }
+              },guanz(id,type){
+                    console.log(id+"_____________"+type)
+                    _ajax('api/user/dofans', function(ret,err) {
+                        console.log(JSON.stringify(ret))
+                            console.log(JSON.stringify(err))
+                        if (ret.errCode == 1) {
+
+                        }
+                    }, {
+                        type: type,
+                        fanid: id
+                    })
+                  },
+              //客服
+              goKf() {
+                let list_data=this.list_data
+                  if (list_data.channel == 1) {
+                      mq = api.require('meiQia');
+                      console.log(mq);
+                      initServer('75601692ba906279c843569eff823a2e', mq); //美洽客服
+                      console.log(i)
+                  } else {
+                    _msg('请先进行配置');
+                    return;
+                      var rong = api.require('UIRongCloud');
+                      rong.openConversation({
+                          conversationType: 'PRIVATE',
+                          targetId: list_data.id,
+                          title: list_data.nickname,
+                          navigationBar:{
+                              titleColor: '#fff',     //字符串类型；标题文字颜色；默认：#fff
+                              bgColor: '#0099ff',     //字符串类型；导航条背景色；默认：#0099ff
+                              backColor: '#fff',      //字符串类型；导航条返回按钮色；默认：#fff(android不支持)
+
+                          }
+                      }, function(ret) {
+                          _msg('退出聊天');
+                      });
+                  }
+              },
+              getDate(){
+                let that = this;
+                _ajax('api/user/myfansinfo', function(ret) {
+                    console.log(JSON.stringify(ret))
+                    if (ret.errCode == 1) {
+                       that.list_data=ret.data
+                    }
+                    UILoading_Close(U_id)
+                }, {
+                    fanid: api.pageParam.id
+                })
+              }
+            }
+        })
+            // alert(JSON.stringify(api.pageParam.id))
+            api.openFrame({
+                name: 'my_body_frame',
+                url: './my_body_frame.html',
+                rect: {
+                    x: 0,
+                    y: 285,
+                    w: 'auto',
+                },
+                pageParam: {
+                    id: api.pageParam.id
+                },
+                bounces: false,
+                bgColor: 'rgba(0,0,0,0)',
+                vScrollBarEnabled: false,
+                hScrollBarEnabled: false,
+            });
+
+
+    }
+
+    function openDate_frame() {
+        api.openFrame({
+            name: 'myteamDate_frame',
+            url: './myteamDate_frame.html',
+            rect: {
+                x: 0,
+                y: 0,
+                w: 'auto',
+            },
+            bounces: false,
+            bgColor: 'rgba(0,0,0,0)',
+            vScrollBarEnabled: false,
+            hScrollBarEnabled: false,
+        });
+    }
+</script>
+
+</html>

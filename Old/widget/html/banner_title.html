@@ -1,0 +1,96 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>轮播网页头部</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <style>
+        body,html{
+          background: #f2f2f2;
+        }
+        header{
+            height: 65px;
+            background: -webkit-linear-gradient(right,#FDA96D 0%,#FF435B 100%);
+            border-bottom: 1px solid #f2f2f2;
+        }
+        header div{
+            position: absolute;
+            top: 26px;
+            width: 60px;
+            height: 40px;
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-pack:center;
+            -webkit-justify-content:center;
+            justify-content: center;
+            -webkit-box-align:center;
+            -webkit-align-items:center;
+            align-items: center;
+        }
+        header div img{
+            height: 1.8rem;
+        }
+        header p{
+            font-size: 1.7rem;
+            font-weight: bold;
+            color: #fff;
+            position: absolute;
+            top: 32px;
+            left: 4rem;
+        }
+        .title{
+          position: absolute;
+          left: 50%;
+          top: 35px;
+          transform: translateX(-50%);
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div tapmode onclick="api.closeWin()">
+            <img src="../image/main/16.png" alt="">
+        </div>
+        <p  onclick="api.closeWin()">返回APP</p>
+        <!-- <p class="title"></p> -->
+    </header>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/app.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+      setStatusBarStylemoren()
+      var url = api.pageParam.url
+      var browser = api.require('webBrowser');
+      //alert(url)
+      browser.openView({
+          url: url,
+          rect: {
+              x: 0,
+              y: 65,
+              w: 'auto',
+              h: 'auto'
+          }
+      }, function(ret, err) {
+
+          if(ret.state==3){
+            // $api.html($api.dom('.title'),ret.title);
+          }
+      });
+    }
+    function closeView() {
+      var browser = api.require('webBrowser');
+      browser.closeView();
+      api.closeFrame({
+          name: 'banner_title'
+      });
+
+    }
+</script>
+
+</html>

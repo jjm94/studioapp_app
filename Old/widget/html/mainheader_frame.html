@@ -1,0 +1,102 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>首页头部</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <style>
+        header {
+            width: 36rem;
+            margin: auto;
+            height: 66px;
+            background-image: url('../image/task/bgtitle.png');
+            background-size: 36rem 66px;
+            background-repeat: no-repeat;
+        }
+
+        header>p {
+            text-align: center;
+            color: #fff;
+            font-size: 1.6rem;
+            font-weight: bold;
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        p>img{
+          width: 1.2rem;
+          vertical-align: middle;
+        }
+        p>span{
+          font-size:1.2rem;
+          font-family:PingFang SC;
+          font-weight:500;
+          color:rgba(255,229,231,1);
+          vertical-align: middle;
+          margin-left: 1rem;
+          margin-bottom: 0.1rem;
+        }
+        p{
+          background:rgba(255,255,255,0.1);
+          /*opacity:0.2;*/
+          border-radius:33px;
+          width: 27.5rem;
+          height: 3rem;
+          line-height: 3rem;
+          margin-top: 1rem;
+          margin-left: 2rem;
+        }
+        header>img {
+            width: 4rem;
+            position: absolute;
+            bottom: 15px;
+            left: 1rem;
+
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <!-- <p id='htitle'></p> -->
+        <!-- <img src="../image/main/2.png" alt="" tapmode onclick="_openWintoken('qiandao')"> -->
+        <p><img src="../image/main/main_ss.png" alt=""><span>请输入任务编号搜索</span></p>
+        <img src="../image/main/logo_top.png">
+    </header>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/app.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+        fnOpenmain_frame()
+    };
+
+    function fnOpenmain_frame() {
+        var config = getconfig();
+        $api.text($api.byId('htitle'), config.site_info.site_name);
+        marginBottom()
+        api.openFrame({
+            name: 'main_frame',
+            url: './main_frame.html',
+            rect: {
+                marginTop: 66,
+                marginBottom: margin_bottom,
+                w: 'auto',
+            },
+            pageParam: {
+                name: 'test'
+            },
+            bounces: true,
+            bgColor: '#f2f2f2',
+            vScrollBarEnabled: false,
+            hScrollBarEnabled: false,
+        });
+
+    }
+</script>
+
+</html>

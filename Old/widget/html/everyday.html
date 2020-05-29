@@ -1,0 +1,120 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>每日任务</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <style>
+        body,
+        html {
+            background: transparent;
+            width: 100%;
+            height: 100%;
+        }
+
+        .bz {
+            width: 80vw;
+            /*position: absolute;*/
+            height: 200px;
+            left: 10vw;
+            top: 70vw;
+            background: #fff;
+            /*background: blue !important;*/
+            border-radius: 10px;
+            box-sizing: border-box;
+            padding: 0rem 0rem;
+            position: relative;
+        }
+
+        .bz .url {
+            position: relative;
+            top: -150px;
+            left: 0;
+            width: 100%;
+            /*height: 230px;*/
+            height: 390px;
+            background-image: url("../image/renwu.png");
+            background-size: 100% 390px;
+            background-repeat: no-repeat;
+        }
+
+        .url p {
+            font-size: 1.6rem;
+            font-weight: bold;
+            text-align: center;
+            width: 100%;
+            height: 30px;
+            padding-top: 280px;
+        }
+
+        .foot {
+            width: 100%;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            border-top: 1px solid #E4E4E4;
+            display: flex;
+        }
+
+        .foot span {
+            display: block;
+            width: 50%;
+            box-sizing: border-box;
+            line-height: 50px;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .o {
+            border-right: 1px solid #E4E4E4;
+        }
+
+        .o2 {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bz">
+        <div class="url">
+            <p>请完成每日任务</p>
+            <div class="foot">
+                <span class="o" tapmode onclick="closebz_frame()">取消</span>
+                <span class="o2" tapmode onclick="addinfo()">确定</span>
+            </div>
+        </div>
+
+        <!-- <div class="two">
+
+        </div> -->
+        <!-- <textarea placeholder="输入内容，详细说明投诉内容" rows="5" id="getinfo" wrap="physical"></textarea> -->
+
+    </div>
+
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/app.js"></script>
+<script type="text/javascript" src="../script/md5.min.js"></script>
+<script type="text/javascript">
+    var info;
+    apiready = function() {
+        setStatusBarStylemoren()
+    }
+
+    function closebz_frame() {
+        api.closeFrame();
+    }
+
+    function addinfo() {
+        _openWin('putongDetail', {
+            id: api.pageParam.id
+        })
+        closebz_frame()
+    }
+</script>
+
+</html>

@@ -1,0 +1,301 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>首页头部</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <style>
+        html,body{
+          background: transparent;
+        }
+        .notice_mask{
+          width: 36rem;
+          height: 100%;
+          position: fixed;
+          z-index: 99999;
+          top: 0;
+          left: 0;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background: rgba(0, 0, 0, 0.6);
+          opacity:0.0;
+          transition: all .5s;
+        }
+        .bg{
+          width: 28rem;
+          height: 45rem;
+          background-image: url('../image/task/10.png');
+          background-size: 28rem 45rem;
+          background-repeat: no-repeat;
+          box-sizing: border-box;
+          padding: 0 2rem 2rem 2rem;
+        }
+      .notice_mask .active_{
+          opacity:1;
+        }
+      .title{
+        position: relative;
+        width: 100%;
+        height: 6rem;
+        line-height: 6rem;
+        text-align: center;
+      }
+      .title>span{
+
+        color: #fff;
+        font-weight: bold;
+        font-size: 1.8rem;
+      }
+      .title>img{
+        position: absolute;
+        top: 45%;
+        right: 0rem;
+        transform: translateY(-50%);
+        width: 2.4rem;
+      }
+      .content{
+        margin-top: 1rem;
+        width: 100%;
+        height: 29rem;
+        overflow: auto;
+        opacity:1;
+        transition: all .2s;
+      }
+      .content h5{
+        font-size: 1.4rem;
+        margin-bottom: .5rem;
+        color: #333;
+      }
+      .content>p{
+        font-size: 1.3rem;
+        line-height: 2rem;
+        color: #333;
+        margin-bottom: 1rem;
+      }
+      .close{
+        display: flex;
+        align-items: center;
+        font-size: 1.3rem;
+        color: #333;
+        margin-top: .5rem;
+      }
+      .close_{
+        position: relative;
+        width: 2rem;
+        height: 2rem;
+        margin-right: 1rem;
+      }
+      .close_>p{
+        width: 1.6rem;
+        height:1.6rem;
+        border-radius: 50%;
+        border: 1px solid #666666;
+      }
+      .close_>img{
+        width: 1.5rem;
+        position: absolute;
+        top: 8%;
+        left: 5%;
+
+      }
+      .bot{
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 2rem;
+      }
+      .bot>span{
+        width: 7.3rem;
+        height: 2.8rem;
+        border-radius: 6px;
+        text-align: center;
+        line-height: 3rem;
+        background: #FF9A96;
+        color: #FF4841;
+        font-size: 1.3rem;
+      }
+      .bot>span:last-child{
+        background: -webkit-linear-gradient(right, #FDA96D 0%, #FF435B 100%);
+        color: #fff;
+      }
+    </style>
+</head>
+
+<body>
+  <div class="notice_mask">
+    <div class="bg">
+      <div class="title">
+        <span>赚赏金, 三步走</span>
+        <img src="../image/task/9.png" alt="" tapmode onclick="closeFrame()">
+      </div>
+      <div class="content">
+        <h5>1 浏览悬赏</h5>
+        <p>请仔细阅读悬赏限制条件及要求，确保能完成后点击页面底部的“点击报名”按钮，先报名再做单，还可以查看做单视频，更加全面了解做单要求</p>
+        <h5>2 按步骤操作</h5>
+        <p>请根据步骤要求进行操作,上传任务所需的验证图或验证文字</p>
+        <h5>3 正确提交</h5>
+        <p>检查长传截图或者验证文字,确认无误后点击页面底部“提交任务”,提交成功后,等待审核通过,发放赏金</p>
+      </div>
+      <div class="close"  tapmode onclick="close_w()">
+        <div class="close_">
+          <p></p>
+          <img src="../image/user/select1.png" alt="">
+        </div>
+        <p>不在提示</p>
+      </div>
+      <div class="bot">
+        <span tapmode onclick="openRule(10)">新人须知</span>
+        <span tapmode onclick="openVideo()">做单视频</span>
+        <span tapmode onclick="closeFrame()">开始赚钱</span>
+      </div>
+    </div>
+  </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/app.js"></script>
+<script type="text/javascript" src="../script/md5.min.js"></script>
+<script type="text/javascript">
+    var windows_s = 0
+    apiready = function() {
+      $api.css($api.dom('.close_>img'), 'display:none;');
+      fnMask()
+    };
+    function fnMask(){
+      setTimeout(function(){
+        $api.css($api.dom('.notice_mask'), 'opacity:1;');
+      },600)
+    }
+    function openRule(n){
+        $api.setStorage('frule_s', 'close');
+        _openWin('notice',{r_id:n})
+    }
+    function close_w(){
+        if(windows_s == 0){
+          windows_s = 1
+          //alert(123)
+          $api.css($api.dom('.close_>img'), 'display:block;');
+        }else{
+          windows_s = 0
+          $api.css($api.dom('.close_>img'), 'display:none;');
+        }
+    }
+
+    function closeFrame(){
+      if(windows_s==0){
+        api.closeFrame();
+      }else{
+        ajax_closeFrame()
+      }
+    }
+    function ajax_closeFrame(){
+      _ajax('api/index/windows',function(ret){
+            console.log(JSON.stringify(ret))
+          if(ret.errCode==1){
+            api.execScript({
+                name: 'main',
+                frameName: 'user_frame',
+                script: 'fnInitData();'
+            });
+            api.closeFrame();
+
+          }
+      },{
+        status:1
+      })
+    }
+    function openVideo() {
+        _ajax('api/index/VideoList', function(ret) {
+            console.log(JSON.stringify(ret))
+            if (ret.errCode == 1) {
+                var moviePlayer = api.require('moviePlayer');
+                moviePlayer.open({
+                    rect: {
+                        x: 0,
+                        y: 0,
+                        w: api.winWidth,
+                        h: api.winHeight,
+                    },
+                    styles: {
+                        head: {
+                            bg: 'rgba(0,0,0,0.6)',
+                            height: 44,
+                            y: 33,
+                            title: {
+                                size: 20,
+                                color: '#fff',
+                                width: 40,
+                                leftMargin: 10
+                            },
+                            backSize: 20,
+                            backImg: 'widget://image/main/16.png',
+                        },
+                        foot: {
+                            bg: 'rgba(0,0,0,0.5)',
+                            height: 44,
+                            palyBtn: {
+                                size: 20,
+                                playImg: 'widget://image/play.png',
+                                pauseImg: 'widget://image/pause.png',
+                                marginLeft: 5
+                            },
+                            currentTimeLabel: {
+                                textSize: 14,
+                                textColor: "#FFF",
+                                textWidth: 43,
+                                marginLeft: 5
+                            },
+                            seekBar: {
+                                sliderImg: 'widget://image/circle.png',
+                                sliderW: 20,
+                                sliderH: 20,
+                                progressColor: '#696969',
+                                progressSelected: '#FF435B',
+                                marginLeft: 10,
+                                marginRight: 10
+                            },
+                            totalTimeLabel: {
+                                textSize: 14,
+                                textColor: "#FFF",
+                                textWidth: 43,
+                                marginRight: 5
+                            },
+                            fullscreenBtn: {
+                                size: 20,
+                                verticalImg: 'widget://image/vertical.png',
+                                horizontalImg: 'widget://image/horizontal.png',
+                            }
+                        }
+                    },
+                    path: imgurl+ret.data.url,
+                    showBack:true,
+                    autoPlay: true
+                }, function(ret, err) {
+                    if (ret) {
+                        //alert(JSON.stringify(ret));
+                    } else {
+                        //  alert(JSON.stringify(err));
+                    }
+
+                });
+                var moviePlayer = api.require('moviePlayer');
+                moviePlayer.addEventListener(function(ret){
+                    if(ret && ret.eventType == 'back'){
+                        moviePlayer.close();
+                    }
+                });
+                // var browser = api.require('webBrowser');
+                // browser.open({
+                //     url: ret.data.url
+                // });
+
+            }
+        })
+    }
+</script>
+
+</html>

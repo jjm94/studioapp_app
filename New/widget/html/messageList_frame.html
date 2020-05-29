@@ -1,0 +1,259 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>消息</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <style>
+        body,
+        html {
+            background: #f2f2f2;
+        }
+
+        ul {
+            width: 34rem;
+            margin: auto;
+        }
+
+        ul>li,
+        .right>div {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        li {
+            box-sizing: border-box;
+            padding: 1rem;
+            background: #fff;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+
+        li>img {
+            width: 18%;
+            margin-right: 5px;
+        }
+
+        .right {
+            width: 82%;
+        }
+
+        .top>span {
+            font-size: 1.5rem;
+            color: #333;
+        }
+
+        .top>span:last-child {
+            color: #999;
+            font-size: 1.3rem;
+        }
+
+        .bot {
+            margin-top: .8rem;
+        }
+
+        .bot>span {
+            font-size: 1.3rem;
+            color: #666；
+        }
+
+        .bot>span:last-child {
+            font-size: 1.2rem;
+            color: #fff;
+            display: inline-block;
+            background: #FF4841;
+            text-align: center;
+            height: 2rem;
+            width: 2rem;
+            line-height: 2rem;
+            border-radius: 50%;
+        }
+
+        [v-cloack] {
+            display: none;
+        }
+
+        #app {
+            visibility: hidden;
+        }
+
+                header {
+                    height: 65px;
+                    background: #fff;
+                    text-align: center;
+                    box-sizing: border-box;
+                    padding-top: 14px;
+                    line-height: 65px;
+                }
+
+                header p {
+                    font-size: 1.6rem;
+                    color: #333;
+                    font-weight: bold;
+                }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloack>
+      <header id="header">
+          <p class="shiwan">消息</p>
+      </header>
+        <ul>
+            <li @click="openMessageType(1)">
+                <img src="../image/message/1.png" alt="">
+                <div class="right">
+                    <div class="top">
+                        <span>任务公告</span>
+                        <span v-if="data_.count!=0">{{count1.create_time}}</span>
+                    </div>
+                    <div class="bot">
+                        <span v-if="data_.count!=0">{{count1.content}}</span>
+                        <span v-else>暂无新消息！</span>
+                        <span>{{data_.count}}</span>
+                    </div>
+                </div>
+            </li>
+            <li @click="openMessageType(2)">
+                <img src="../image/message/2.png" alt="">
+                <div class="right">
+                    <div class="top">
+                        <span>系统公告</span>
+                        <span v-if="data_.count2!=0">{{count2.create_time}}</span>
+                    </div>
+                    <div class="bot">
+                        <span v-if="data_.count2!=0">{{count2.content}}</span>
+                        <span v-else>暂无新消息！</span>
+                        <span>{{data_.count2}}</span>
+                    </div>
+                </div>
+            </li>
+            <li @click="openMessageType(3)">
+                <img src="../image/message/3.png" alt="">
+                <div class="right">
+                    <div class="top">
+                        <span>系统消息</span>
+                        <span v-if="data_.count3!=0">{{count3.create_time}}</span>
+                    </div>
+                    <div class="bot">
+                        <span v-if="data_.count3!=0">{{count3.content}}</span>
+                        <span v-else>暂无新消息！</span>
+                        <span>{{data_.count3}}</span>
+                    </div>
+                </div>
+            </li>
+            <li @click="openMessageType(4)">
+                <img src="../image/message/4.png" alt="">
+                <div class="right">
+                    <div class="top">
+                        <span>用户消息</span>
+                        <span v-if="data_.count3!=0">{{count3.create_time}}</span>
+                    </div>
+                    <div class="bot">
+                        <span v-if="data_.count3!=0">{{count3.content}}</span>
+                        <span v-else>暂无新消息！</span>
+                        <span>{{data_.count3}}</span>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/app.js"></script>
+<script type="text/javascript" src="../script/fastclick.js"></script>
+<script type="text/javascript" src="../script/vue.min.js"></script>
+<script type="text/javascript" src="../script/md5.min.js"></script>
+<script type="text/javascript">
+    var U_id
+    apiready = function() {
+        UILoading(U_id)
+        window.FastClick && FastClick.attach(document.body);
+        vm = new Vue({
+            el: '#app',
+            data () {
+                return {
+                    data_: '',
+                count1: '',
+                count2: '',
+                count3: ''
+                }
+            },
+            created () {
+            },
+            methods: {
+                openMessageType(n) {
+                    if (n == 1) {
+                        _openWin('messagetype', {
+                            type: n
+                        })
+                    }
+                    if (n == 2) {
+                        _openWin('messagetype', {
+                            type: n
+                        })
+                    }
+                    if (n == 3) {
+                        _openWin('messagetype', {
+                            type: n
+                        })
+                    }
+                    if (n == 4) {
+                        _msg('请先进行配置');
+                        var rong = api.require('UIRongCloud');
+                        rong.openConversationList({
+                            avatarSize: {
+                                width: 46,
+                                height: 46
+                            },
+                            avatarStyle: 'cycle',
+                            isEnteredToCollectionWindow: false,
+                            showConnectingStatus: true,
+                            title: '会话列表'
+                        });
+                    }
+
+                }
+            }
+        })
+        fnInitData()
+        api.setRefreshHeaderInfo({
+          loadingImg: 'widget://image/xiala.png',
+          bgColor: "#ff6b70",
+          textColor: "#fff",
+          textDown: '下拉刷新...',
+          textUp: '松开刷新...'
+        }, function(ret, err) {
+            fnInitData()
+            api.refreshHeaderLoadDone()
+        });
+    }
+
+    function fnInitData() {
+        _ajax('api/index/NewsLog', function(ret) {
+            // console.log(JSON.stringify(ret))
+            if (ret.errCode == -1) {
+                _openWin('login')
+            }
+            if (ret.errCode == 1) {
+                vm.data_ = ret.data
+                vm.count3 = ret.data.data3
+                vm.count2 = ret.data.data2
+                vm.count1 = ret.data.data
+                setTimeout(function() {
+                    $api.css($api.byId('app'), 'visibility: visible;');
+
+                    UILoading_Close(U_id)
+                }, 200)
+
+            }
+        })
+    }
+</script>
+
+</html>

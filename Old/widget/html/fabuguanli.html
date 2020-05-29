@@ -1,0 +1,607 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>发布管理</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <style>
+    header{
+        height: 65px;
+        background: #fff;
+        border-bottom: 1px solid #f2f2f2;
+    }
+    header div{
+        position: absolute;
+        bottom: 0px;
+        box-sizing: border-box;
+        padding: 8px;
+        width: 60px;
+        height: 40px;
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-box-pack:center;
+        -webkit-justify-content:center;
+        justify-content: center;
+        -webkit-box-align:center;
+        -webkit-align-items:center;
+        align-items: center;
+    }
+    header div img{
+        height: 1.9rem;
+    }
+    header p{
+        font-size: 1.7rem;
+        font-weight: bold;
+        color: #333;
+        position: absolute;
+        bottom: 6px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+        li {
+            border-bottom: 5px solid #f2f2f2;
+            padding: 0 1.8rem;
+        }
+
+        .topdiv,
+        .botdiv,
+        .botdiv>div,
+        .top,
+        .bot {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .topdiv{
+          padding: 1rem 0;
+          border-bottom: 1px solid #f2f2f2;
+        }
+        .topdiv>img {
+            width: 5rem;
+            height: 5rem;
+            border-radius: 50%;
+            margin-right: 1rem;
+            box-sizing: border-box;
+        }
+
+        .topdiv>div {
+            width: 25rem;
+        }
+        .left{
+          display: flex;
+          align-items: center;
+        }
+        .left>img {
+            width: 1.4rem;
+            margin-left: .5rem;
+        }
+
+        .top {
+            box-sizing: border-box;
+            padding-right: 1rem;
+        }
+
+        .top>.left>span {
+            color: #333;
+            font-size: 1.5rem;
+        }
+
+        .top>.right {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #FF4841;
+        }
+
+        .bot {
+            margin-top: 1.3rem;
+            box-sizing: border-box;
+            padding-right: 1rem;
+        }
+
+        .bot>.left>span {
+            display: inline-block;
+            padding: 0rem .5rem;
+            height: 2rem;
+            line-height: 2rem;
+            background: #f2f2f2;
+            color: #999;
+            font-size: 1.2rem;
+            text-align: center;
+            border-radius: 5px;
+            vertical-align: middle;
+            margin-right: .5rem;
+        }
+
+        .bot>.right>span {
+            color: #999;
+            font-size: 1.2rem;
+        }
+
+        .bot>.right>span:nth-child(2) {
+            display: inline;
+            margin: 0 .3rem;
+        }
+        .botdiv{
+          justify-content: space-between;;
+          font-size: 1.5rem;
+          color: #333;
+          height: 4rem;
+          box-sizing: border-box;
+          padding: 0 2rem;
+          margin-top: 5px;
+        }
+        .botdiv>div{
+          justify-content: center;
+        }
+        .botdiv>div>img{
+          width: 1.6rem;
+          margin-right: .3rem;
+        }
+        .botdiv>span{
+          width: 1px;height: 10px;
+          background: #999;
+        }
+        .topdiv .go{
+          width: 1rem;
+          height: 2rem;
+          margin: 0;
+        }
+        .middiv{
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          font-size: 1.4rem;
+          margin-top: 20px;
+        }
+        .middiv>span{
+          width: 25%;
+          color: #999;
+        }
+        .middiv>p{
+          width: 25%;
+
+          text-align: center;
+        }
+        .middiv>p>span{
+          display: inline-block;
+          width: 55px;
+          text-align: center;
+          background: #FF4841;
+          color: #fff;
+          height: 20px;
+          line-height: 20px;
+        }
+        footer>div{
+          width: 100%;
+          border-bottom: 1px solid #f2f2f2;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          height: 50px;
+          box-sizing: border-box;
+          padding: 0 15px;
+        }
+        footer>div>span{
+          font-size: 1.4rem;
+          color: #333;
+
+        }
+        footer>div>img{
+          width: 10px;
+          height: 15px;
+        }
+        #mask{
+          width: 100%;
+          height: 100%;
+          background: rgba(0, 0, 0, 0.0);
+          position: fixed;
+          z-index: 9999;
+          transition: all 300ms;
+          top:0;
+          left: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .active{
+          background: rgba(0, 0, 0, 0.4) !important;
+          transition: all 200ms;
+        }
+        .content{
+          width: 32rem;
+          height: 23rem;
+          background: #fff;
+          border-radius: 10px;
+          opacity: 0.0;
+          transition: all 200ms;
+          box-sizing: border-box;
+          padding: 10px 15px;
+        }
+        .active_{
+          opacity: 1;
+          transition: all 200ms;
+
+        }
+        .title{
+          font-size: 17px;
+          margin-bottom: 20px;
+          margin-top: 5px;
+        }
+        .price{
+          font-size: 15px;
+
+        }
+        .price>span{
+          color: #FF4841
+        }
+        .content input{
+          display: block;
+          margin-top: 10px;
+          outline: none;
+          border: none;
+          background: #f2f2f2;
+          width: 100%;
+          height: 35px;
+          border-radius: 5px;
+          font-size: 14px;
+          box-sizing: border-box;
+          padding-left: 5px;
+        }
+        .sevicemoney{
+          font-size: 14px;
+          margin-top: 15px;
+        }
+        .content>div{
+          margin-top: 15px;
+          display: flex;
+          justify-content: space-around;
+          align-items: center;
+          height: 50px;
+        }
+        .content>div>span{
+          width: 1px ;height: 15px;
+          background: #f2f2f2;
+        }
+        .content>div>p{
+          width: 100px;
+          text-align: center;
+          font-size: 16px;
+        }
+        .content>div>p:last-child{
+          color: #FF4841;
+        }
+    </style>
+</head>
+
+<body>
+  <div id="app"  v-cloack>
+    <header id="header">
+        <div class="left_" tapmode onclick="api.closeWin()">
+            <img src="../image/return.png" alt="">
+        </div>
+        <p>发布管理</p>
+    </header>
+    <section>
+      <ul>
+        <li  >
+          <div class="topdiv"   >
+            <img :src="imgurl+item.img" alt="">
+            <div>
+                <div class="top">
+                    <div class="left">
+                        <span>{{item.title}}</span>
+                        <img v-if="item.roofplacement == 1" src="../image/main/10.png" alt="">
+                    </div>
+                    <div class="right">
+                        +{{item.task_money}}元
+                    </div>
+                </div>
+                <div class="bot">
+                    <div class="left">
+                        <span>{{item.tasktypename}}</span>
+                    </div>
+                    <div class="right">
+                        <span>&nbsp;</span>
+                    </div>
+                </div>
+            </div>
+            <img src="../image/fabu/6.png" class="go" @click="openDetail(item.id)" alt="">
+          </div>
+          <div class="middiv">
+            <span>剩余数量:{{item.num}}</span>
+            <p @click="adddata(1)"><span>加量</span></p>
+            <span>佣金:{{item.task_money}}</span>
+            <p @click="adddata(2)"><span>加价</span></p>
+          </div>
+          <div class="botdiv">
+            <div @click = "changetaskstatus()">
+              <img v-if="status=='上架'" src="../image/fabu/29.png" alt="">
+              <img v-else-if="status=='暂停'" src="../image/fabu/26.png" alt="">
+              <span >{{status}}</span>
+            </div>
+            <span></span>
+            <div @click = "edit()">
+              <img src="../image/fabu/27.png" alt="">
+              <span >修改</span>
+            </div>
+            <span></span>
+            <div @click = "changetaskstatus('xiajia')">
+              <img src="../image/fabu/28.png" alt="">
+              <span>下架</span>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </section>
+    <footer>
+      <div @click="openList(item.id,'1')">
+        <span>已完成:&nbsp;&nbsp;  {{item.completed}}</span>
+        <img src="../image/fabu/6.png" alt="">
+      </div>
+      <div @click="openList(item.id,'0')">
+        <span>进行中:&nbsp;&nbsp;  {{item.have}}</span>
+        <img src="../image/fabu/6.png" alt="">
+      </div>
+      <div @click="openList(item.id,'5')">
+        <span>已驳回:&nbsp;&nbsp;  {{item.rejected}}</span>
+        <img src="../image/fabu/6.png" alt="">
+      </div>
+    </footer>
+    <div v-if="win=='ok'"  id="mask">
+      <div v-if="content == 'num'" class="content">
+        <p class="title">增加数量</p>
+        <p class="price">当前价格:&nbsp;&nbsp; <span>{{item.task_money}}元</span></p>
+        <input Oninput="value=value.replace(/[^\d]/g,'')" type="number" placeholder="请输入增加数量" v-model="addcount">
+        <p class="sevicemoney">本次调整所需金额(包含服务费):&nbsp;&nbsp;{{endnum}}元</p>
+        <div>
+          <p @click="cancel()">取消</p>
+          <span></span>
+          <p @click="sure(1)">确定</p>
+        </div>
+      </div>
+      <div v-if="content == 'price'" class="content">
+        <p class="title">增加价格</p>
+        <p class="price">当前剩余数:&nbsp;&nbsp; <span>{{item.num}}个</span></p>
+        <input type="number" placeholder="请输入调整后的价格 *只能涨价" v-model="addprice">
+        <p class="sevicemoney">本次调整所需金额(包含服务费):&nbsp;&nbsp;{{showendprice}}元</p>
+        <div>
+          <p @click="cancel()">取消</p>
+          <span></span>
+          <p @click="sure(2)">确定</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/app.js"></script>
+<script type="text/javascript" src="../script/md5.min.js"></script>
+<script type="text/javascript" src="../script/fastclick.js"></script>
+<script type="text/javascript" src="../script/vue.min.js"></script>
+<script type="text/javascript">
+    var servicecharge
+    apiready = function() {
+        window.FastClick && FastClick.attach(document.body);
+        servicecharge = $api.getStorage('user').servicecharge
+        vm = new Vue({
+          el:'#app',
+          data:{
+            item:"",
+            win:'no',
+            addcount:null,
+            addprice:null,
+            endnum:null,
+            content:'',
+            endprice:null,
+            showendprice:null,
+            status:''
+          },
+          watch:{
+            addcount:function(val){
+              vm.endnum = ((val * vm.item.task_money) * (Number(servicecharge) + 1)).toFixed(2)
+
+            },
+            addprice:function(val){
+              if(val<Number(vm.item.task_money)){
+                vm.endprice = null;
+                vm.showendprice=null;
+                return
+              }
+              vm.endprice = ((val * vm.item.num) * (Number(servicecharge) + 1)).toFixed(2);
+              vm.showendprice = (((val-vm.item.task_money) * vm.item.num) * (Number(servicecharge) + 1)).toFixed(2);
+            },
+
+          },
+          methods:{
+            openList(id,status){
+              _openWin('fbgllist',{status:status,id:id})
+            },
+            openDetail(id) {
+                _openWin('putongDetail', {
+                    id: id
+                })
+            },
+            edit(){
+              if(vm.status=='暂停'){
+                _msg('任务需要先暂停才能修改')
+                return
+              }
+              if(Number(vm.item.have==0)&&Number(vm.item.completed==0)&&Number(vm.item.rejected==0)){
+                _openWin('fabutask',{id:vm.item.id,type:'edit'})
+              }else{
+                _msg(`任务已经开始，不可以修改`)
+              }
+            },
+            cancel(){
+
+              $api.removeCls($api.byId('mask'), 'active');
+              $api.removeCls($api.dom('.content'), 'active_');
+              setTimeout(function(){
+                vm.win = 'no'
+              },200)
+            },
+            sure(n){
+              if(n==1){
+                if(!vm.endnum){
+                  _msg('请输入需要增加的数量')
+                }else {
+                  _ajax('api/pt_Task/addnum',function(ret){
+                    console.log(JSON.stringify(ret))
+                    _msg(ret.msg)
+                    if(ret.errCode==1){
+
+                      $api.removeCls($api.byId('mask'), 'active');
+                      $api.removeCls($api.dom('.content'), 'active_');
+                      api.execScript({
+                          name: 'main',
+                          frameName: 'user_frame',
+                          script: 'fnInitData();'
+                      });
+                      fnInitData()
+                      setTimeout(function(){
+                        vm.win = 'no'
+                      },200)
+
+                    }
+                  },{
+                    tid:vm.item.id,
+                    num:vm.addcount,
+                    addnum:vm.endnum
+                  })
+                }
+              }else {
+                if(vm.item.num==0){
+                  _msg('剩余数为0，请先增加数量')
+                  return
+                }
+                if(vm.addprice<Number(vm.item.task_money)){
+                  _msg('不允许降价')
+                  return
+                }
+                if(!vm.endprice){
+                  _msg('请输入调整后的价格')
+                }else {
+                  _ajax('api/pt_Task/addprice',function(ret){
+                    console.log(JSON.stringify(ret))
+                    _msg(ret.msg)
+                    if(ret.errCode==1){
+
+                      $api.removeCls($api.byId('mask'), 'active');
+                      $api.removeCls($api.dom('.content'), 'active_');
+                      fnInitData()
+                      api.execScript({
+                          name: 'main',
+                          frameName: 'user_frame',
+                          script: 'fnInitData();'
+                      });
+                      setTimeout(function(){
+                        vm.win = 'no'
+                      },200)
+
+                    }
+                  },{
+                    tid:vm.item.id,
+                    price:vm.addprice,
+                    addprice:vm.endprice
+                  })
+                }
+              }
+
+            },
+            changetaskstatus(n){
+              var status,msg
+              if(n=='xiajia'){
+                if(Number(vm.item.have)>0){
+                  _msg(`还有${vm.item.have}个任务进行中，暂时不可以下架`)
+                  return
+                }
+                msg = '是否下架该任务'
+                status = 0
+              }else{
+                if(vm.item.status==1){
+                  status=2
+                  msg='是否暂停该任务'
+                }
+                if(vm.item.status==2){
+                  status=1
+                  msg='是否上架该任务'
+                }
+              }
+              function stop_ (){
+                _ajax('api/pt_Task/doTaskStatus',function(ret){
+                  console.log(JSON.stringify(ret))
+                  if(ret.errCode==1){
+                    fnInitData()
+                    api.execScript({
+                        name: 'fabu',
+                        frameName: 'fabu_frame1',
+                        script: 'fnInitData(1);'
+                    });
+                    api.execScript({
+                        name: 'fabu',
+                        frameName: 'fabu_frame2',
+                        script: 'fnInitData(1);'
+                    });
+                    api.execScript({
+                        name: 'fabu',
+                        frameName: 'fabu_frame3',
+                        script: 'fnInitData(1);'
+                    });
+                    if(n=='xiajia'){
+                      api.closeWin();
+                    }
+                  }
+
+                },{
+                  tid:vm.item.id,
+                  status:status
+                })
+              }
+              dialogBox('友情提示',msg, stop_)
+            },
+            adddata(n){
+              vm.win = 'ok'
+              setTimeout(function(){
+                $api.addCls($api.byId('mask'), 'active');
+                $api.addCls($api.dom('.content'), 'active_');
+              },50)
+              if(n==1){
+                vm.content = 'num'
+              }else {
+                vm.content = 'price'
+              }
+            },
+          }
+        })
+        var id = api.pageParam.id
+        fnInitData()
+    };
+    function fnInitData(){
+      _ajax('api/pt_Task/getSelfTaskInfo',function(ret){
+        console.log(JSON.stringify(ret))
+        if(ret.errCode==-1){
+          _openWin('login')
+        }
+        if(ret.errCode==1){
+          vm.item = ret.data
+          var status = ret.data.status
+          if(status==1){
+            vm.status='暂停'
+          }
+          if(status==2){
+            vm.status='上架'
+          }
+        }
+      },{
+        tid:api.pageParam.id
+      })
+    }
+
+</script>
+
+</html>

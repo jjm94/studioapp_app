@@ -1,0 +1,153 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>个人资料</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <style>
+    body,html{
+      background: #f2f2f2;
+    }
+    header{
+        height: 65px;
+        background: #fff;
+        border-bottom: 1px solid #f2f2f2;
+    }
+    header div{
+        position: absolute;
+        bottom: 0px;
+        box-sizing: border-box;
+        padding: 8px;
+        width: 60px;
+        height: 40px;
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-box-pack:center;
+        -webkit-justify-content:center;
+        justify-content: center;
+        -webkit-box-align:center;
+        -webkit-align-items:center;
+        align-items: center;
+    }
+    header div img{
+        height: 1.9rem;
+    }
+    header p{
+        font-size: 1.7rem;
+        font-weight: bold;
+        color: #333;
+        position: absolute;
+        bottom: 6px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    section{
+      margin-top: 1rem;
+    }
+
+    footer p{
+        margin: auto;
+        margin-top:6rem;
+        width: 27rem;
+        height: 4.5rem;
+        font-size: 1.6rem;
+        line-height: 4.5rem;
+        text-align: center;
+        color: #fff;
+        background: -webkit-linear-gradient(right,#FDA96D 0%,#FF435B 100%);
+        border-radius: 4.5rem;
+    }
+    section{
+      margin-top: .8rem;
+      box-sizing: border-box;
+      padding: 0 1rem;
+      background: #fff;
+    }
+    section>div{
+      display: flex;
+      border-bottom: 1px solid #f2f2f2;
+      height: 5rem;
+      line-height: 5rem;
+    }
+    section div span{
+      font-size: 1.6rem;
+      color: #333;
+      width: 30%;
+    }
+    input{
+      width: 70%;
+      text-align: left;
+      border: none;
+      outline: none;
+      font-size: 1.5rem;
+      color: #666;
+    }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div tapmode onclick="api.closeWin()">
+            <img src="../image/return.png" alt="">
+        </div>
+        <p>绑定支付宝</p>
+    </header>
+    <section>
+      <div>
+        <span>真实姓名</span>
+        <input id="apply_name" type="text" placeholder="请输入真实姓名">
+      </div>
+      <div>
+        <span>支付宝账号</span>
+        <input id="apply_account" type="number" placeholder="请输入支付宝账号">
+      </div>
+    </section>
+    <footer>
+        <p tapmpde onclick="sure()">绑定</p>
+    </footer>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/app.js"></script>
+<script type="text/javascript" src="../script/md5.min.js"></script>
+<script type="text/javascript">
+    var userInfo;
+    apiready = function() {
+      userInfo = $api.getStorage('user');
+      if (userInfo.apply_name) {
+          $api.val($api.byId('apply_name'),userInfo.apply_name);
+      }
+      if (userInfo.apply_account) {
+          $api.val($api.byId('apply_account'),userInfo.apply_account);
+      }
+    }
+    function sure(){
+      var apply_name = $api.val($api.byId('apply_name'));
+      var apply_account  = $api.val($api.byId('apply_account'));
+      _ajax('api/user/bindAlipay',function(ret){
+          //console.log(JSON.stringify(ret))
+          if(ret.errCode==-1){
+            _openWin('login')
+          }
+          if(ret.errCode==1){
+            _msg('绑定成功')
+            api.execScript({
+                name: 'main',
+                frameName: 'user_frame',
+                script: 'fnInitData();'
+            });
+            setTimeout(function(){
+              api.closeWin();
+            },600)
+          }
+      },{
+        apply_name:apply_name,
+        apply_account:apply_account,
+      })
+    }
+</script>
+
+</html>

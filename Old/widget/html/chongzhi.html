@@ -1,0 +1,343 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>充值</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <style>
+        header {
+            height: 65px;
+            background: #fff;
+            border-bottom: 1px solid #f2f2f2;
+        }
+
+        header div {
+            position: absolute;
+            bottom: 0px;
+            box-sizing: border-box;
+            padding: 8px;
+            width: 60px;
+            height: 40px;
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-pack: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            -webkit-box-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+        }
+
+        header div img {
+            height: 1.9rem;
+        }
+
+        header p {
+            font-size: 1.7rem;
+            font-weight: bold;
+            color: #333;
+            position: absolute;
+            bottom: 6px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        section {
+            width: 31rem;
+            background: #fff;
+            margin: 2.5rem auto;
+            box-shadow: 0 0 .1px .2px #ddd;
+            box-sizing: border-box;
+            padding: 1.5rem;
+        }
+
+        section>p {
+            font-size: 1.6rem;
+            color: #333;
+        }
+
+        .type {
+            margin: 1rem 0 1.5rem;
+            ;
+            width: 23rem;
+        }
+
+        .type>div {
+            width: 15rem;
+            justify-content: space-around;
+        }
+
+        .type,
+        .type>div {
+            display: flex;
+            align-items: center;
+        }
+
+        .type .weixin {
+            margin-right: 3rem;
+        }
+
+        .type img {
+            width: 2.5rem;
+        }
+
+        .type p {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            border: 1px solid #f2f2f2;
+            box-sizing: border-box;
+            background-size: 2.3rem 2.3rem;
+        }
+
+        .type span {
+            font-size: 1.4rem;
+            color: #666;
+        }
+
+        .money {
+            height: 4rem;
+            line-height: 4rem;
+            border-bottom: 1px solid #f2f2f2;
+            margin-bottom: 2rem;
+        }
+
+        .money>span {
+            font-size: 2rem;
+            color: #FF4841;
+            display: inline-block;
+            margin-right: .5rem;
+        }
+
+        .money>input {
+            display: inline-block;
+            width: 20rem;
+            border: none;
+            outline: none;
+            font-size: 3rem;
+            font-weight: bold;
+            color: #FF4841;
+        }
+
+        .money input::-webkit-input-placeholder,
+        textarea::-webkit-input-placeholder {
+            color: #FF4841;
+        }
+
+        .yu_e {
+            margin-top: 1rem;
+        }
+
+        .yu_e>span:first-child {
+            display: inline-block;
+            margin-right: 1rem;
+            font-size: 1.3rem;
+            color: #999;
+        }
+
+        .yu_e>span:last-child {
+            font-size: 1.3rem;
+            color: #FF4841;
+        }
+
+        footer {
+            margin: 4rem auto;
+            height: 4rem;
+            border-radius: 8px;
+            width: 27rem;
+            line-height: 4rem;
+            text-align: center;
+            color: #fff;
+            font-size: 1.5rem;
+            background: -webkit-linear-gradient(right, #FDA96D 0%, #FF435B 100%);
+        }
+
+        .active {
+            background: #FF8870;
+        }
+
+        .alipayInfo>input {
+            display: block;
+            outline: none;
+            border-bottom: 1px solid #f2f2f2;
+            height: 3rem;
+            line-height: 3rem;
+            width: 100%;
+            font-size: 1.5rem;
+            margin: 1rem 0;
+            color: #666;
+        }
+
+        .alipayInfo>input::-webkit-input-placeholder,
+        textarea::-webkit-input-placeholder {
+            color: #666;
+        }
+
+        .inputMoney {
+            margin: 2rem 0;
+        }
+
+        .txmark {
+            font-size: 1.2rem;
+            color: #FF4841;
+            width: 33rem;
+            margin: auto;
+            text-align: justify;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div tapmode onclick="closeWinL()">
+            <img src="../image/return.png" alt="">
+        </div>
+        <p>充值</p>
+    </header>
+    <section>
+
+        <p class="inputMoney">输入充值金额</p>
+        <div class="money">
+            <span>￥</span>
+            <input type="number" id="cashmoney" placeholder="0.00">
+        </div>
+        <p>选择支付方式</p>
+        <div class="type">
+            <div class="weixin" tapmode onclick="select(2)">
+                <p id="zhifu2"></p>
+                <img src="../image/user/27.png" alt="">
+                <span>微信</span>
+            </div>
+            <div class="alipay" tapmode onclick="select(1)">
+                <p id="zhifu1"></p>
+                <img src="../image/user/28.png" alt="">
+                <span>支付宝</span>
+            </div>
+        </div>
+    </section>
+    <footer tapmode onclick="chongzhi()">
+        充值
+    </footer>
+    <p class="txmark"></p>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/app.js"></script>
+<script type="text/javascript" src="../script/md5.min.js"></script>
+<script type="text/javascript">
+    var type
+    apiready = function() {
+        _setStatusBarStyle()
+        _ajax('api/index/article', function(ret) {
+            console.log(JSON.stringify(ret))
+            $api.html($api.dom('.txmark'), ret.data.content);
+
+        }, {
+            cid: 13
+        })
+        var pay_way = $api.getStorage('config').pay_way;
+        // alert(JSON.stringify(pay_way))
+        if (pay_way.wx == 0) {
+            $api.css($api.dom('.weixin'), 'display:none');
+
+        }
+        if (pay_way.ali == 0) {
+            $api.css($api.dom('.alipay'), 'display:none');
+        }
+
+    }
+
+    function closeWin() {
+        api.closeWin();
+    }
+
+    function select(n) {
+        var zhifu = $api.domAll('.type p');
+        for (var i = 0; i < 2; i++) {
+            $api.css(zhifu[i], 'background-image: url("");');
+        }
+
+        $api.css($api.byId(`zhifu${n}`), 'background-image: url("../image/user/select1.png");');
+        type = n
+    }
+
+    function chongzhi() {
+        var cash_money = $api.val($api.byId('cashmoney'));
+        if (!cash_money) {
+            _msg('请输入充值金额')
+        } else {
+            if (type == 2 || type == 1) {
+                UILoading();
+                _ajax('api/user/chongzhi', function(ret) {
+                    UILoading_Close();
+                    console.log(JSON.stringify(ret))
+                    if (ret.code == 1) {
+                        var aliPayPlus = api.require('aliPayPlus');
+                        if (type == 1) {
+                            aliPayPlus.payOrder({
+                                orderInfo: ret.data
+                            }, function(ret, err) {
+                              console.log(JSON.stringify(ret))
+                                if (ret) {
+                                    if (ret.code == 9000) {
+                                        api.execScript({
+                                            name: 'main',
+                                            frameName: 'user_frame',
+                                            script: 'fnInitData();'
+                                        });
+                                        setTimeout(function() {
+                                            api.closeWin();
+                                        }, 500)
+                                    }
+                                } else {
+                                    _msg('服务器连接超时，请稍后再试')
+                                }
+
+                            });
+                        } else {
+                            var wxPay = api.require('wxPayPlus');
+                            var data = ret.data
+                            wxPay.payOrder({
+                                apiKey: data.apiKey,
+                                orderId: data.orderId,
+                                mchId: data.mchId,
+                                nonceStr: data.nonceStr,
+                                timeStamp: data.timeStamp,
+                                package: data.package,
+                                sign: data.sign
+                            }, function(ret, err) {
+                                // alert(JSON.stringify(ret));
+                                if (ret.status) {
+                                    if (ret.status == true) {
+                                        api.execScript({
+                                            name: 'main',
+                                            frameName: 'user_frame',
+                                            script: 'fnInitData();'
+                                        });
+                                        setTimeout(function() {
+                                            api.closeWin();
+                                        }, 500)
+                                    }
+                                } else {
+                                    alert(JSON.stringify(err));
+                                }
+                            });
+                        }
+
+                    }
+                }, {
+                    money: cash_money,
+                    type: type,
+                    ptype: 1
+                })
+            } else {
+                _msg('请选择支付方式')
+            }
+        }
+    }
+</script>
+
+</html>

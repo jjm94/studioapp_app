@@ -1,0 +1,165 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>我的团队</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/renwu.css" />
+    <style>
+        body,html{
+            background: #f2f2f2;
+           /*background:red;*/
+        }
+        header{
+            height: 65px;
+            background: #fff;
+            border-bottom: 1px solid #f2f2f2;
+        }
+        header div{
+            position: absolute;
+            bottom: 0px;
+            box-sizing: border-box;
+            padding: 8px;
+            width: 60px;
+            height: 40px;
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-pack:center;
+            -webkit-justify-content:center;
+            justify-content: center;
+            -webkit-box-align:center;
+            -webkit-align-items:center;
+            align-items: center;
+        }
+        header div img{
+            /*width: 1.1rem;*/
+            height: 1.9rem;
+        }
+        header p{
+            font-size: 1.6rem;
+            color: #333;
+            position: absolute;
+            bottom: 6px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        [v-cloak] {
+            display: none;
+        }
+        footer{
+          position: relative;;
+          top:150px
+          /*bottom: 15px;*/
+        }
+    </style>
+</head>
+
+<body>
+<div id="app" v-cloak>
+  <div class="list" style="padding-bottom:30px; margin-top:0px;">
+      <div class="list_body" v-for="(item,index) of list_data" @click="openDetail(item.id)">
+          <div>
+              <div class="top_img"><img :src="item.img" alt=""></div>
+              <div class="list_title">
+                  <div>{{item.title}}</div>
+                  <div>+{{item.task_money}}元</div>
+              </div>
+          </div>
+          <div class="list_fu_title">
+              <div>{{item.tasktypename}}</div>
+              <div><img v-if="item.roofplacement == 1" src="../image/main/10.png" alt=""></div>
+          </div>
+          <div class="case">
+              <div>
+                  <div><img src="../image/main/xs_q.png" alt=""></div>
+                  <div>{{item.receive_num}}人已赚</div>
+              </div>
+              <div>
+                  <div><img src="../image/main/xs_r.png" alt=""></div>
+                  <div>剩余{{item.num}}</div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/app.js"></script>
+<script type="text/javascript" src="../script/vue.min.js"></script>
+<script type="text/javascript" src="../script/md5.min.js"></script>
+<script type="text/javascript">
+  var U_id
+    apiready = function() {
+        _setStatusBarStyle()
+        UILoading(U_id)
+        vm = new Vue({
+            el: '#app',
+            data: {
+              list_data:[],
+              page:1
+            },
+            created: function () {
+
+            // `this` 指向 vm 实例
+                this.getDate()
+              },
+            methods: {
+              openDetail(id) {
+                    _openWin('putongDetail', {
+                        id: id
+                    })
+                },
+              getDate(){
+                let that=this;
+                _ajax('api/user/myfansinfo', function(ret,err) {
+                   console.log(JSON.stringify(ret))
+                    console.log(JSON.stringify(err))
+                    if (ret.errCode == -1) {
+                        _openWin('login')
+                    }
+                    if (ret.errCode == 1) {
+                      if(that.page==1){
+                            that.list_data=ret.data.fabutask
+                      }else{
+                        let list_data=that.list_data
+                        that.list_data=list_data.concat(ret.data.fabutask)
+
+                      }
+                    }
+                    UILoading_Close(U_id)
+                }, {
+                    p: that.page,
+                    fanid: api.pageParam.id
+                })
+              }
+            }
+        })
+        api.setRefreshHeaderInfo({
+              loadingImg: 'widget://image/xiala.png',
+              bgColor: "#f2f2f2",
+              textColor: "#999",
+              textDown: '下拉刷新...',
+              textUp: '松开刷新...'
+          }, function(ret, err) {
+              vm.page=1
+              vm.getDate()
+              api.refreshHeaderLoadDone()
+          });
+
+          api.addEventListener({
+              name: 'scrolltobottom',
+              extra: {
+                  threshold: 0
+              }
+          }, function(ret, err) {
+            vm.page++
+            vm.getDate()
+          });
+    }
+</script>
+
+</html>
